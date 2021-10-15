@@ -13,6 +13,10 @@
 		3DB44B57271911A900DACF0E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DB44B56271911A900DACF0E /* Preview Assets.xcassets */; };
 		3DB44B62271911A900DACF0E /* MyKitchenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB44B61271911A900DACF0E /* MyKitchenTests.swift */; };
 		3DB44B6D271911A900DACF0E /* MyKitchenUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB44B6C271911A900DACF0E /* MyKitchenUITests.swift */; };
+		3DB44B7C271918B400DACF0E /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB44B7B271918B400DACF0E /* HomeView.swift */; };
+		3DB44B7E27191E2100DACF0E /* PlanningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB44B7D27191E2100DACF0E /* PlanningView.swift */; };
+		3DB44B812719203900DACF0E /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB44B802719203900DACF0E /* Recipe.swift */; };
+		3DB44B842719284500DACF0E /* RecipeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB44B832719284500DACF0E /* RecipeCardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +49,10 @@
 		3DB44B68271911A900DACF0E /* MyKitchenUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyKitchenUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DB44B6C271911A900DACF0E /* MyKitchenUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyKitchenUITests.swift; sourceTree = "<group>"; };
 		3DB44B6E271911A900DACF0E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3DB44B7B271918B400DACF0E /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		3DB44B7D27191E2100DACF0E /* PlanningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanningView.swift; sourceTree = "<group>"; };
+		3DB44B802719203900DACF0E /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
+		3DB44B832719284500DACF0E /* RecipeCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RecipeCardView.swift; path = ../../../../../../../RecipeCardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +103,8 @@
 		3DB44B4E271911A600DACF0E /* MyKitchen */ = {
 			isa = PBXGroup;
 			children = (
+				3DB44B7F2719200900DACF0E /* Models */,
+				3DB44B7A2719188600DACF0E /* Views */,
 				3DB44B4F271911A600DACF0E /* MyKitchenApp.swift */,
 				3DB44B51271911A600DACF0E /* ContentView.swift */,
 				3DB44B53271911A900DACF0E /* Assets.xcassets */,
@@ -128,6 +138,32 @@
 				3DB44B6E271911A900DACF0E /* Info.plist */,
 			);
 			path = MyKitchenUITests;
+			sourceTree = "<group>";
+		};
+		3DB44B7A2719188600DACF0E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3DB44B822719282B00DACF0E /* CardViews */,
+				3DB44B7B271918B400DACF0E /* HomeView.swift */,
+				3DB44B7D27191E2100DACF0E /* PlanningView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		3DB44B7F2719200900DACF0E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				3DB44B802719203900DACF0E /* Recipe.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		3DB44B822719282B00DACF0E /* CardViews */ = {
+			isa = PBXGroup;
+			children = (
+				3DB44B832719284500DACF0E /* RecipeCardView.swift */,
+			);
+			path = CardViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -259,8 +295,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DB44B7C271918B400DACF0E /* HomeView.swift in Sources */,
 				3DB44B52271911A600DACF0E /* ContentView.swift in Sources */,
+				3DB44B842719284500DACF0E /* RecipeCardView.swift in Sources */,
 				3DB44B50271911A600DACF0E /* MyKitchenApp.swift in Sources */,
+				3DB44B7E27191E2100DACF0E /* PlanningView.swift in Sources */,
+				3DB44B812719203900DACF0E /* Recipe.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,23 +8,28 @@
 import SwiftUI
 
 struct RecipeView: View {
-    let recipe: Recipe
+    let recipes: [Recipe]
     var body: some View {
-        
-//        List(Recipe, id: \.name) {
-//            Recipe in
-//            RecipeCardView(recipe: Recipe)
-//        }
-        List(recipes){ recipe in
-            RecipeCardView(recipe: recipe)
+        VStack {
+            NavigationView {
+                List (recipes) { recipe in
+                    NavigationLink(
+                        destination: RecipeDetailsView(recipe: recipe)) {
+                        RecipeCardView(recipe: recipe)
+                    }
+                    .background(Color(red: 0.47058823529411764, green: 0.6313725490196078, blue: 0.7333333333333333))
+                }
+                .navigationTitle("Recipes")
+            }
         }
-        RecipeCardView(recipe: recipe)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.red)
     }
 }
 
 struct RecipeView_Previews: PreviewProvider {
-    static var recipe = Recipe.data[1]
+    static var recipes = Recipe.data
     static var previews: some View {
-        RecipeView(recipe: recipe)
+        RecipeView(recipes: recipes)
     }
 }

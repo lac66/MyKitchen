@@ -13,14 +13,14 @@ struct RecipeCardView: View {
         VStack() {
             Text(recipe.name)
                 .font(.system(size: 24, weight: .bold, design: .default))
-            Spacer()
+                .padding(.bottom, 1)
             Text(recipe.cookTime)
                 .font(.system(size: 16, weight: .regular, design: .default))
-            Spacer()
             Text(recipe.difficulty)
                 .font(.system(size: 16, weight: .regular, design: .default))
+//                .padding(-10)
         }
-        .frame(width: 400, height: 80)
+        .frame(width: 300, height: 80)
         .background(Color(red: 0.47058823529411764, green: 0.6313725490196078, blue: 0.7333333333333333))
     }
 }

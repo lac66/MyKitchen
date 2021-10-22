@@ -7,29 +7,50 @@
 
 import SwiftUI
 
+let coloredNavAppearance = UINavigationBarAppearance()
+
 struct RecipeView: View {
     let recipes: [Recipe]
+    
+    init(recipeList: [Recipe]) {
+        recipes = recipeList
+        
+        coloredNavAppearance.backgroundColor = UIColor(named: "OxfordBlue")
+        
+        UINavigationBar.appearance().standardAppearance = coloredNavAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = coloredNavAppearance
+    }
+    
     var body: some View {
-        VStack {
-            NavigationView {
-                List (recipes) { recipe in
-                    NavigationLink(
-                        destination: RecipeDetailsView(recipe: recipe)) {
-                        RecipeCardView(recipe: recipe)
+        NavigationView {
+            ZStack {
+                Color("OxfordBlue").edgesIgnoringSafeArea(.all)
+                
+                ScrollView {
+                    VStack (spacing: 10) {
+                        ForEach(recipes, id: \.id) { recipe in
+                            NavigationLink(
+                                destination: RecipeDetailsView(recipe: recipe),
+                                label: {
+                                    RecipeCardView(recipe: recipe)
+                                })
+                        }
+                        //                    List (recipes) { recipe in
+                        //                        NavigationLink(
+                        //                            destination: RecipeDetailsView(recipe: recipe)) {
+                        //                            RecipeCardView(recipe: recipe)
+                        //                        }
+                        //                    }.background(Color("OxfordBlue"))
                     }
-                    .background(Color(red: 0.47058823529411764, green: 0.6313725490196078, blue: 0.7333333333333333))
                 }
-                .navigationTitle("Recipes")
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.red)
     }
 }
 
 struct RecipeView_Previews: PreviewProvider {
     static var recipes = Recipe.data
     static var previews: some View {
-        RecipeView(recipes: recipes)
+        RecipeView(recipeList: recipes)
     }
 }

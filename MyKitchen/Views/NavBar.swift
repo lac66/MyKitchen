@@ -1,13 +1,13 @@
 //
-//  ContentView.swift
+//  NavBar.swift
 //  MyKitchen
 //
-//  Created by Levi Carpenter on 10/14/21.
+//  Created by Levi Carpenter on 10/21/21.
 //
 
 import SwiftUI
 
-struct ContentView: View {
+struct NavBar: View {
     init() {
         UITabBar.appearance().barTintColor = UIColor(Color("AirBlue"))
         UITabBar.appearance().unselectedItemTintColor = UIColor(Color("MintCream"))
@@ -26,6 +26,9 @@ struct ContentView: View {
                 }
             Text("HomeView()")
                 .tabItem {
+                    Circle()
+                        .foregroundColor(Color("Camel"))
+                        
                     Label("Home", systemImage: "house.fill")
                 }
             Text("MealViewerView()")
@@ -40,8 +43,8 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct NavBar_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        NavBar()
     }
 }

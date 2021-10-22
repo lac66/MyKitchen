@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D4EB768272318340049CAF1 /* MealViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4EB767272318340049CAF1 /* MealViewer.swift */; };
+		3D4EB76A272355F80049CAF1 /* Searchbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4EB769272355F80049CAF1 /* Searchbar.swift */; };
 		3D5557CD2719E355009D5E7D /* RecipeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5557CC2719E355009D5E7D /* RecipeCardView.swift */; };
 		3DB44B50271911A600DACF0E /* MyKitchenApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB44B4F271911A600DACF0E /* MyKitchenApp.swift */; };
 		3DB44B52271911A600DACF0E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB44B51271911A600DACF0E /* ContentView.swift */; };
@@ -43,6 +45,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3D4EB767272318340049CAF1 /* MealViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealViewer.swift; sourceTree = "<group>"; };
+		3D4EB769272355F80049CAF1 /* Searchbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Searchbar.swift; sourceTree = "<group>"; };
 		3D5557CC2719E355009D5E7D /* RecipeCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeCardView.swift; sourceTree = "<group>"; };
 		3DB44B4C271911A600DACF0E /* MyKitchen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyKitchen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DB44B4F271911A600DACF0E /* MyKitchenApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyKitchenApp.swift; sourceTree = "<group>"; };
@@ -161,6 +165,7 @@
 				3DB44B7D27191E2100DACF0E /* PlanningView.swift */,
 				3DD93C3227220048005AE1CC /* RecipeDetailsView.swift */,
 				3DD93C3427222CA6005AE1CC /* NavBar.swift */,
+				3D4EB767272318340049CAF1 /* MealViewer.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -180,6 +185,7 @@
 			children = (
 				3D5557CC2719E355009D5E7D /* RecipeCardView.swift */,
 				3DD93C2E2721F31B005AE1CC /* IngredientEditCardView.swift */,
+				3D4EB769272355F80049CAF1 /* Searchbar.swift */,
 			);
 			path = CardViews;
 			sourceTree = "<group>";
@@ -317,10 +323,12 @@
 				3DD93C2F2721F31B005AE1CC /* IngredientEditCardView.swift in Sources */,
 				3DD93C312721F430005AE1CC /* Ingredient.swift in Sources */,
 				3DB44B7C271918B400DACF0E /* HomeView.swift in Sources */,
+				3D4EB76A272355F80049CAF1 /* Searchbar.swift in Sources */,
 				3DB44B52271911A600DACF0E /* ContentView.swift in Sources */,
 				3DD93C3527222CA6005AE1CC /* NavBar.swift in Sources */,
 				9B99FDB52721CA59009E6B62 /* RecipeView.swift in Sources */,
 				3DB44B50271911A600DACF0E /* MyKitchenApp.swift in Sources */,
+				3D4EB768272318340049CAF1 /* MealViewer.swift in Sources */,
 				9B99FDEF2721D573009E6B62 /* modelData.swift in Sources */,
 				3DB44B7E27191E2100DACF0E /* PlanningView.swift in Sources */,
 				3DD93C3327220048005AE1CC /* RecipeDetailsView.swift in Sources */,

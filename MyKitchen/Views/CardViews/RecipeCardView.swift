@@ -17,7 +17,7 @@ struct RecipeCardView: View {
                     .foregroundColor(Color("Camel"))
                     .cornerRadius(10)
                 
-                Image("food")
+                recipe.img!
                     .resizable()
                     .frame(width: 65, height: 65)
                     .cornerRadius(6)
@@ -37,32 +37,34 @@ struct RecipeCardView: View {
             
             Spacer()
             
-            VStack () {
+            VStack (spacing: 4) {
                 Spacer()
                 
-                ZStack {
-                    Rectangle()
-                        .frame(width: 20, height: 20)
-                        .foregroundColor(Color("Camel"))
-                        .cornerRadius(4)
+                Button {
                     
+                } label: {
                     Image(systemName: "heart.fill")
-                }
-                ZStack {
-                    Rectangle()
                         .frame(width: 20, height: 20)
-                        .foregroundColor(Color("Camel"))
+                        .background(Color("Camel"))
                         .cornerRadius(4)
+                }
+                
+                Button {
                     
+                } label: {
                     Image(systemName: "plus")
+                        .frame(width: 20, height: 20)
+                        .background(Color("Camel"))
+                        .cornerRadius(4)
                 }
             }
             .padding(.trailing, 10)
-            .padding(.bottom, 10)
+            .padding(.bottom, 8)
         }
         .frame(width: 350, height: 90)
         .background(Color("AirBlue"))
         .foregroundColor(Color("MintCream"))
+        .cornerRadius(8)
     }
 }
 

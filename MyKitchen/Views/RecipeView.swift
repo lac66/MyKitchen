@@ -35,15 +35,10 @@ struct RecipeView: View {
                                     RecipeCardView(recipe: recipe)
                                 })
                         }
-                        //                    List (recipes) { recipe in
-                        //                        NavigationLink(
-                        //                            destination: RecipeDetailsView(recipe: recipe)) {
-                        //                            RecipeCardView(recipe: recipe)
-                        //                        }
-                        //                    }.background(Color("OxfordBlue"))
                     }
                 }
             }
+            .navigationBarHidden(true)
         }
     }
 }

@@ -16,11 +16,12 @@ struct ContentView: View {
     var body: some View {
         TabView {
             // Text("PlanningView()") can be replaced with view to be showed on click
-            Text("PlanningView()")
+//            Text("PlanningView()")
+            PlanningView(recipeList: Recipe.getRecipes())
                 .tabItem {
                     Label("Planning", systemImage: "magnifyingglass")
                 }
-            Text("PersonalListView()")
+            Text("PersonalList()")
                 .tabItem {
                     Label("Personal", systemImage: "scroll.fill")
                 }

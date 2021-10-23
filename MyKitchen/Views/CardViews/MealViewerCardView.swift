@@ -32,7 +32,7 @@ struct MealViewerCardView: View {
                 .frame(width: 350, height: 140)
                 .cornerRadius(6)
                 .padding(.bottom, 5.0)
-                .padding(/*@START_MENU_TOKEN@*/.top, -10.0/*@END_MENU_TOKEN@*/)
+                .padding(.top, -10.0)
             
             //            VStack(alignment: .leading) {
             //                Text(recipe.name)

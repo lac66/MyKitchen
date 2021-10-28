@@ -8,71 +8,70 @@
 import SwiftUI
 
 struct HomeView: View {
+//    @State var isLinkActive = false;
+    let recipes: [Recipe]
+    
     var body: some View {
-        ZStack {
-            VStack {
-                HStack {
-                    Button {
-                        print("tapped Planning")
-                    } label: {
-                        Text("Planning")
-                            .frame(width: 360, height: 100)
-                            .background(Color.green)
-                            .font(.system(size: 20, weight: .bold, design: .default))
-                            .cornerRadius(10)
-                            .padding()
+        NavigationView {
+            ZStack {
+                VStack {
+                    HStack {
+                        NavigationLink(destination: PlanningView(recipeList: Recipe.getRecipes())){
+                            Text("Planning")
+                                .frame(width: 360, height: 100)
+                                .background(Color.green)
+                                .font(.system(size: 20, weight: .bold, design: .default))
+                                .cornerRadius(10)
+                                .padding()
+                                 
+                            }
+                        
                     }
-                }
-                HStack {
-                    Button {
-                        print("tapped Personal List")
-                    } label: {
-                        Text("Personal List")
-                            .frame(width: 100, height: 150)
-                            .background(Color.green)
-                            .font(.system(size: 20, weight: .bold, design: .default))
-                            .cornerRadius(10)
+                    HStack {
+//                        Temp link to HomeView while we don't have 'peronal list' set up yet
+                        NavigationLink(destination: HomeView(recipes: Recipe.getRecipes())) {
+                            Text("Personal List")
+                                .frame(width: 100, height: 150)
+                                .background(Color.green)
+                                .font(.system(size: 20, weight: .bold, design: .default))
+                                .cornerRadius(10)
+                        }
+//                        Temp link to Home view while we don't have 'i'm shopping' set up yet
+                        NavigationLink(destination: HomeView(recipes: Recipe.getRecipes())){
+                            Text("I'm Shopping")
+                                .frame(width: 150, height: 150)
+                                .background(Color.green)
+                                .font(.system(size: 20, weight: .bold, design: .default))
+                                .cornerRadius(75)
+    //                            .padding(.horizontal, 5)
+                        }
+//                        Temp link to HomeView while we don't have 'groups' set up yet
+                        NavigationLink(destination: HomeView(recipes: Recipe.getRecipes())) {
+                            Text("Group List")
+                                .frame(width: 100, height: 150)
+                                .background(Color.green)
+                                .font(.system(size: 20, weight: .bold, design: .default))
+                                .cornerRadius(10)
+                        }
                     }
-                    Button {
-                        print("tapped I'm Shopping")
-                    } label: {
-                        Text("I'm Shopping")
-                            .frame(width: 150, height: 150)
-                            .background(Color.green)
-                            .font(.system(size: 20, weight: .bold, design: .default))
-                            .cornerRadius(75)
-//                            .padding(.horizontal, 5)
-                    }
-                    Button {
-                        print("tapped Group List")
-                    } label: {
-                        Text("Group List")
-                            .frame(width: 100, height: 150)
-                            .background(Color.green)
-                            .font(.system(size: 20, weight: .bold, design: .default))
-                            .cornerRadius(10)
-                    }
-                }
-                HStack {
-                    Button {
-                        print("tapped Meal Viewer")
-                    } label: {
-                        Text("Meal Viewer")
-                            .frame(width: 160, height: 100)
-                            .background(Color.green)
-                            .font(.system(size: 20, weight: .bold, design: .default))
-                            .cornerRadius(10)
-                            .padding()
-                    }
-                    Button {
-                        print("tapped Pantry")
-                    } label: {
-                        Text("Pantry")
-                            .frame(width: 160, height: 100)
-                            .background(Color.green)
-                            .font(.system(size: 20, weight: .bold, design: .default))
-                            .cornerRadius(10)
-                            .padding()
+//                    Both temp links pages not set up yet
+                    HStack {
+                        NavigationLink(destination: HomeView(recipes: Recipe.getRecipes())) {
+                            Text("Meal Viewer")
+                                .frame(width: 160, height: 100)
+                                .background(Color.green)
+                                .font(.system(size: 20, weight: .bold, design: .default))
+                                .cornerRadius(10)
+                                .padding()
+                        }
+                    NavigationLink(destination: HomeView(recipes: Recipe.getRecipes())) {
+                            Text("Pantry")
+                                .frame(width: 160, height: 100)
+                                .background(Color.green)
+                                .font(.system(size: 20, weight: .bold, design: .default))
+                                .cornerRadius(10)
+                                .padding()
+                        }
                     }
                 }
             }
@@ -80,8 +79,9 @@ struct HomeView: View {
     }
 }
 
+
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView()
+        HomeView(recipes: Recipe.getRecipes())
     }
 }

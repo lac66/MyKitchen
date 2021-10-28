@@ -25,7 +25,7 @@ struct ContentView: View {
                 .tabItem {
                     Label("Personal", systemImage: "scroll.fill")
                 }
-            Text("HomeView()")
+            HomeView(recipes: Recipe.getRecipes())
                 .tabItem {
                     Label("Home", systemImage: "house.fill")
                 }

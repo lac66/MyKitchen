@@ -28,6 +28,7 @@
 		9B99FE73272B1F0F009E6B62 /* GroupsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B99FE72272B1F0F009E6B62 /* GroupsView.swift */; };
 		9B99FE75272B2344009E6B62 /* MemberCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B99FE74272B2344009E6B62 /* MemberCards.swift */; };
 		9B99FE79272B30B1009E6B62 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B99FE78272B30B1009E6B62 /* UserModel.swift */; };
+		9B99FE7D272B6539009E6B62 /* GroupsHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B99FE7C272B6538009E6B62 /* GroupsHomeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		9B99FE72272B1F0F009E6B62 /* GroupsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsView.swift; sourceTree = "<group>"; };
 		9B99FE74272B2344009E6B62 /* MemberCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCards.swift; sourceTree = "<group>"; };
 		9B99FE78272B30B1009E6B62 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		9B99FE7C272B6538009E6B62 /* GroupsHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsHomeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +177,7 @@
 				3DD93C3427222CA6005AE1CC /* NavBar.swift */,
 				3D4EB767272318340049CAF1 /* MealViewer.swift */,
 				9B99FE72272B1F0F009E6B62 /* GroupsView.swift */,
+				9B99FE7C272B6538009E6B62 /* GroupsHomeView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -339,6 +342,7 @@
 				9B99FE73272B1F0F009E6B62 /* GroupsView.swift in Sources */,
 				3DD93C3527222CA6005AE1CC /* NavBar.swift in Sources */,
 				9B99FDB52721CA59009E6B62 /* RecipeView.swift in Sources */,
+				9B99FE7D272B6539009E6B62 /* GroupsHomeView.swift in Sources */,
 				3DB44B50271911A600DACF0E /* MyKitchenApp.swift in Sources */,
 				3D4EB768272318340049CAF1 /* MealViewer.swift in Sources */,
 				9B99FE75272B2344009E6B62 /* MemberCards.swift in Sources */,

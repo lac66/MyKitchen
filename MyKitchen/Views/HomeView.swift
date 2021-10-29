@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
 //    @State var isLinkActive = false;
     let recipes: [Recipe]
+    let recp = Recipe.getRecipes()
     
     var body: some View {
         NavigationView {
@@ -29,7 +30,7 @@ struct HomeView: View {
                     }
                     HStack {
 //                        Temp link to HomeView while we don't have 'peronal list' set up yet
-                        NavigationLink(destination: HomeView(recipes: Recipe.getRecipes())) {
+                        NavigationLink(destination: HomeView(recipes: recp)) {
                             Text("Personal List")
                                 .frame(width: 100, height: 150)
                                 .background(Color.green)
@@ -37,7 +38,7 @@ struct HomeView: View {
                                 .cornerRadius(10)
                         }
 //                        Temp link to Home view while we don't have 'i'm shopping' set up yet
-                        NavigationLink(destination: HomeView(recipes: Recipe.getRecipes())){
+                        NavigationLink(destination: HomeView(recipes: recp)){
                             Text("I'm Shopping")
                                 .frame(width: 150, height: 150)
                                 .background(Color.green)
@@ -46,7 +47,7 @@ struct HomeView: View {
     //                            .padding(.horizontal, 5)
                         }
 //                        Temp link to HomeView while we don't have 'groups' set up yet
-                        NavigationLink(destination: HomeView(recipes: Recipe.getRecipes())) {
+                        NavigationLink(destination: HomeView(recipes: recp)) {
                             Text("Group List")
                                 .frame(width: 100, height: 150)
                                 .background(Color.green)
@@ -56,7 +57,7 @@ struct HomeView: View {
                     }
 //                    Both temp links pages not set up yet
                     HStack {
-                        NavigationLink(destination: HomeView(recipes: Recipe.getRecipes())) {
+                        NavigationLink(destination: HomeView(recipes: recp)) {
                             Text("Meal Viewer")
                                 .frame(width: 160, height: 100)
                                 .background(Color.green)
@@ -64,7 +65,7 @@ struct HomeView: View {
                                 .cornerRadius(10)
                                 .padding()
                         }
-                    NavigationLink(destination: HomeView(recipes: Recipe.getRecipes())) {
+                    NavigationLink(destination: HomeView(recipes: recp)) {
                             Text("Pantry")
                                 .frame(width: 160, height: 100)
                                 .background(Color.green)

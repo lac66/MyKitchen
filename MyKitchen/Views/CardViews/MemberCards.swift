@@ -17,7 +17,6 @@ struct MemberCards: View {
                     .foregroundColor(Color("Camel"))
                     .cornerRadius(10)
                 
-                
                 Image(systemName: "person.fill")
                     .resizable()
                     .frame(width: 60, height: 60)
@@ -31,36 +30,36 @@ struct MemberCards: View {
                 Text(users.name)
                     .font(.system(size: 24, weight: .bold, design: .default))
                     .padding(.bottom, 1)
-                Text("info")
-                    .font(.system(size: 16, weight: .regular, design: .default))
-                Text("info")
-                    .font(.system(size: 16, weight: .regular, design: .default))
+//                Text("info")
+//                    .font(.system(size: 16, weight: .regular, design: .default))
+//                Text("info")
+//                    .font(.system(size: 16, weight: .regular, design: .default))
             }
             .padding(.leading, 15)
             
             Spacer()
             
-            VStack (spacing: 4) {
-                Spacer()
-                
-                Button {
-                    
-                } label: {
-                    Image(systemName: "heart.fill")
-                        .frame(width: 20, height: 20)
-                        .background(Color("Camel"))
-                        .cornerRadius(4)
-                }
-                
-                Button {
-                    
-                } label: {
-                    Image(systemName: "plus")
-                        .frame(width: 20, height: 20)
-                        .background(Color("Camel"))
-                        .cornerRadius(4)
-                }
-            }
+//            VStack (spacing: 4) {
+//                Spacer()
+//
+//                Button {
+//
+//                } label: {
+//                    Image(systemName: "heart.fill")
+//                        .frame(width: 20, height: 20)
+//                        .background(Color("Camel"))
+//                        .cornerRadius(4)
+//                }
+//
+//                Button {
+//
+//                } label: {
+//                    Image(systemName: "plus")
+//                        .frame(width: 20, height: 20)
+//                        .background(Color("Camel"))
+//                        .cornerRadius(4)
+//                }
+//            }
             .padding(.trailing, 10)
             .padding(.bottom, 8)
         }

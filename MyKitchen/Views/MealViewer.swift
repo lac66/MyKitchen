@@ -21,11 +21,14 @@ struct MealViewer: View {
     }
     
     var body: some View  {
+        ZStack{
+        Color("OxfordBlue").edgesIgnoringSafeArea(.all)
         // entire page should be UICollectionView where you can drag from top HStack to bottom V Stack
         VStack {
             Text("Meal Viewer")
                 .font(.largeTitle)
                 .fontWeight(.bold)
+                .foregroundColor(Color("MintCream"))
                 .multilineTextAlignment(.center)
             
             //Horizontal Scrollbar with meals
@@ -46,6 +49,7 @@ struct MealViewer: View {
                         Text("Sunday")
                             .font(.largeTitle)
                             .underline()
+                            .foregroundColor(Color("MintCream"))
                             .padding(.trailing, 250.0)
 
                             
@@ -57,6 +61,7 @@ struct MealViewer: View {
                             Text("Monday")
                                 .font(.largeTitle)
                                 .underline()
+                                .foregroundColor(Color("MintCream"))
                                 .padding(.trailing, 240.0)
                         }
                         MealViewerCardView(recipe: recipes[0])
@@ -67,6 +72,7 @@ struct MealViewer: View {
                         Text("Tuesday")
                             .font(.largeTitle)
                             .underline()
+                            .foregroundColor(Color("MintCream"))
                             .padding(.trailing, 250.0)
 
 
@@ -78,6 +84,7 @@ struct MealViewer: View {
                         Text("Wednesday")
                             .font(.largeTitle)
                             .underline()
+                            .foregroundColor(Color("MintCream"))
                             .padding(.trailing, 200.0)
 
                         Spacer()
@@ -88,6 +95,7 @@ struct MealViewer: View {
                         Text("Thursday")
                             .font(.largeTitle)
                             .underline()
+                            .foregroundColor(Color("MintCream"))
                             .padding(.trailing, 230.0)
 
                         Spacer()
@@ -98,6 +106,7 @@ struct MealViewer: View {
                         Text("Friday")
                             .font(.largeTitle)
                             .underline()
+                            .foregroundColor(Color("MintCream"))
                             .padding(.trailing, 280.0)
 
                         Spacer()
@@ -108,6 +117,7 @@ struct MealViewer: View {
                         Text("Saturday")
                             .font(.largeTitle)
                             .underline()
+                            .foregroundColor(Color("MintCream"))
                             .padding(.trailing, 240.0)
 
                         Spacer()
@@ -119,10 +129,8 @@ struct MealViewer: View {
             
             Spacer()
 
-        }.background(Color("OxfordBlue"))
-            .foregroundColor(Color("MintCream"))
-            .cornerRadius(15)
-        Spacer()
+        }
+    }
     }
 }
 

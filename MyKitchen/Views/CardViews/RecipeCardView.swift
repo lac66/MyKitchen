@@ -72,7 +72,6 @@ struct RecipeCardView_Previews: PreviewProvider {
     static var recipe = Recipe.data[0]
     static var previews: some View {
         RecipeCardView(recipe: recipe)
-            .background(Color.red)
             .previewLayout(.fixed(width: 350, height: 90))
     }
 }

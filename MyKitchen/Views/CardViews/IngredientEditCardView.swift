@@ -8,45 +8,89 @@
 import SwiftUI
 
 struct IngredientEditCardView: View {
+    @State var ingredientQtyInput : String = ""
     let ingredient: Ingredient
+    
+    var editingChanged: (Bool)->() = { _ in }
+    var commit: ()->() = {}
+    
     var body: some View {
-        HStack() {
-            //Image
-            VStack() {
+        HStack {
+            ZStack {
+                Rectangle()
+                    .frame(width: 75, height: 75)
+                    .foregroundColor(Color("Camel"))
+                    .cornerRadius(10)
+                
+                ingredient.img!
+                    .resizable()
+                    .frame(width: 65, height: 65)
+                    .cornerRadius(6)
+            }
+            .padding(.leading, 10)
+            
+            VStack(alignment: .leading) {
                 Text(ingredient.name)
-                HStack () {
+                    .frame(width: 210, alignment: .leading)
+                    .padding(.leading, 10)
+                    .background(Color("MintCream"))
+                    .foregroundColor(Color("OxfordBlue"))
+                
+                HStack (spacing: 0) {
                     Button {
-                        print("tapped minus")
+                        
                     } label: {
-                        Text("-")
-                            .frame(width: 15, height: 15)
-                            .background(Color(red: 0.6862745098039216, green: 0.5686274509803921, blue: 0.39215686274509803))
-                            .font(.system(size: 20, weight: .bold, design: .default))
-                            .cornerRadius(2)
+                        Image(systemName: "minus")
+                            .frame(width: 20, height: 20)
+                            .background(Color("Camel"))
+                            .cornerRadius(4)
                     }
-//                    TextField("Placeholder", text: "1")
                     
-                    // button and qty
-                    // measurement
-                    // button
+                    let ingredientQty = ingredient.qty!.split(separator: " ")
+                    Text(ingredientQty[0])
+                        .frame(width: 20, height: 20)
+                        .background(Color("MintCream"))
+                        .foregroundColor(Color("OxfordBlue"))
+                    
+                    Button {
+                        
+                    } label: {
+                        Image(systemName: "plus")
+                            .frame(width: 20, height: 20)
+                            .background(Color("Camel"))
+                            .cornerRadius(4)
+                    }
+                    
+                    TextField(ingredientQty[1], text: $ingredientQtyInput, onEditingChanged: editingChanged, onCommit: commit)
+                        .frame(width: 60)
+                        .background(Color("MintCream"))
+                        .padding(.leading)
+                    
+                    Spacer()
+                    
+                    Button {
+                        
+                    } label: {
+                        Image(systemName: "trash")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                            .padding(2)
+                            .foregroundColor(Color("MintCream"))
+                            .background(Color("Camel"))
+                            .cornerRadius(4)
+                    }
+                    .padding(.trailing)
+                    
                 }
             }
+            .padding(.leading, 15)
+            
+            Spacer()
         }
-        .frame(width: 400, height: 80)
-        .background(Color(red: 0.47058823529411764, green: 0.6313725490196078, blue: 0.7333333333333333))
-        
-//        VStack() {
-//            Text(recipe.name)
-//                .font(.system(size: 24, weight: .bold, design: .default))
-//                .padding(.bottom, 1)
-//            Text(recipe.cookTime)
-//                .font(.system(size: 16, weight: .regular, design: .default))
-//            Text(recipe.difficulty)
-//                .font(.system(size: 16, weight: .regular, design: .default))
-//            //                .padding(-10)
-//        }
-//        .frame(width: 400, height: 80)
-//        .background(Color(red: 0.47058823529411764, green: 0.6313725490196078, blue: 0.7333333333333333))
+        .frame(width: 350, height: 90)
+        .background(Color("AirBlue"))
+        .foregroundColor(Color("MintCream"))
+        .cornerRadius(8)
     }
 }
 
@@ -54,8 +98,7 @@ struct IngredientEditCardView_Previews: PreviewProvider {
     static var ingredient = Ingredient.data[0]
     static var previews: some View {
         IngredientEditCardView(ingredient: ingredient)
-            .background(Color.red)
-            .previewLayout(.fixed(width: 400, height: 80))
+            .previewLayout(.fixed(width: 350, height: 90))
     }
 }
 

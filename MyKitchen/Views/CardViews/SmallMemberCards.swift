@@ -8,26 +8,26 @@
 import SwiftUI
 
 struct SmallMemberCards: View {
-    let users: UserModel
+    let user: UserModel
     var body: some View {
         VStack {
             HStack {
                 ZStack {
                     Rectangle()
-                        .frame(width: 53, height: 57)
+                        .frame(width: 60, height: 60)
                         .foregroundColor(Color("Marigold"))
                         .cornerRadius(10)
                     
                     Image(systemName: "person.fill")
                         .resizable()
-                        .frame(width: 43, height: 49)
+                        .frame(width: 50, height: 50)
                         .foregroundColor(Color("OxfordBlue"))
                 }
-                .padding(-11)
                     
             }
-            Text(users.name)
-                .frame(width: 70, height: 25)
+            let fname = user.name.split(separator: " ")[0]
+            Text(fname)
+                .frame(width: 70, height: 20)
         }
     }
 }
@@ -36,6 +36,6 @@ struct SmallMemberCards: View {
 struct SmallMemberCards_Previews: PreviewProvider {
     static var user = UserModel.data[0]
     static var previews: some View {
-        SmallMemberCards(users: user)
+        SmallMemberCards(user: user)
     }
 }

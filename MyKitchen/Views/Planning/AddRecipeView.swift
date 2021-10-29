@@ -28,7 +28,7 @@ struct AddRecipeView: View {
         UITextView.appearance().backgroundColor = .clear
         UITableView.appearance().separatorStyle = .none
         UITableViewCell.appearance().backgroundColor = .green
-        UITableView.appearance().backgroundColor = .green
+        UITableView.appearance().backgroundColor = UIColor(named: "OxfordBlue")
     }
     
     var body: some View {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D1126BC272C467D0090888B /* MealViewerCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1126BB272C467D0090888B /* MealViewerCardView.swift */; };
 		3D4EB768272318340049CAF1 /* MealViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4EB767272318340049CAF1 /* MealViewer.swift */; };
 		3D4EB76A272355F80049CAF1 /* Searchbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4EB769272355F80049CAF1 /* Searchbar.swift */; };
 		3D5557CD2719E355009D5E7D /* RecipeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5557CC2719E355009D5E7D /* RecipeCardView.swift */; };
@@ -51,6 +52,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3D1126BB272C467D0090888B /* MealViewerCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealViewerCardView.swift; sourceTree = "<group>"; };
 		3D4EB767272318340049CAF1 /* MealViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealViewer.swift; sourceTree = "<group>"; };
 		3D4EB769272355F80049CAF1 /* Searchbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Searchbar.swift; sourceTree = "<group>"; };
 		3D5557CC2719E355009D5E7D /* RecipeCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeCardView.swift; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 				3D4EB769272355F80049CAF1 /* Searchbar.swift */,
 				9B99FE74272B2344009E6B62 /* MemberCards.swift */,
 				9B99FE82272B991C009E6B62 /* SmallMemberCards.swift */,
+				3D1126BB272C467D0090888B /* MealViewerCardView.swift */,
 			);
 			path = CardViews;
 			sourceTree = "<group>";
@@ -348,6 +351,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DCFA872272BA9D4009184DA /* RecipeView.swift in Sources */,
+				3D1126BC272C467D0090888B /* MealViewerCardView.swift in Sources */,
 				3D5557CD2719E355009D5E7D /* RecipeCardView.swift in Sources */,
 				3DD93C2F2721F31B005AE1CC /* IngredientEditCardView.swift in Sources */,
 				3DD93C312721F430005AE1CC /* Ingredient.swift in Sources */,

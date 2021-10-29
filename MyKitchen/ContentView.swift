@@ -29,7 +29,7 @@ struct ContentView: View {
                 .tabItem {
                     Label("Home", systemImage: "house.fill")
                 }
-            Text("MealViewerView()")
+            MealViewer(recipeList: Recipe.getRecipes())
                 .tabItem {
                     Label("MealViewer", systemImage: "calendar")
                 }

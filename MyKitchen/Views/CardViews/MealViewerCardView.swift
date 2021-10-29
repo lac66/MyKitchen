@@ -12,7 +12,7 @@ struct MealViewerCardView: View {
     var body: some View {
         VStack {
             HStack {
-                Text("Super very long recipe name to see overflow")
+                Text("Sample Recipe Name")
                     .font(.system(size: 24, design: .default))
                     .foregroundColor(Color("OxfordBlue"))
                     .padding(.bottom, 1)

@@ -27,5 +27,3 @@ struct modelData: Identifiable {
     ]
     
     
-
-    

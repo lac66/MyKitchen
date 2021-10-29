@@ -130,3 +130,16 @@ struct RecipeDetailsSubView: View {
         }
     }
 }
+
+
+//enum FoodGrouping {
+//    case protein
+//    case fandj
+//    case dairy
+//    case grains
+//    case drink
+//    case misc
+//}
+//var groceryList = [FoodGrouping: [Ingredient]]()
+
+

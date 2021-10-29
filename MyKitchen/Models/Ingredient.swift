@@ -11,7 +11,7 @@ import SwiftUI
 struct Ingredient: Identifiable {
     var id = UUID()
     let name: String
-    var type: String
+    var type: String?
     var qty: String?
     var img: UIImage?
     var items: [Ingredient]?

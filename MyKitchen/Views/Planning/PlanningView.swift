@@ -50,13 +50,14 @@ struct PlanningView: View {
                             .frame(width: 160, height: 30)
                             .background(Color("Camel"))
                             
-                            Button {
-                                print("add recipe")
-                            } label: {
-                                Image(systemName: "plus")
-                                    .frame(width: 30, height: 30)
-                                    .background(Color("Camel"))
-                            }
+                            NavigationLink(
+                                destination: AddRecipeView(),
+                                label: {
+                                    Image(systemName: "plus")
+                                        .frame(width: 30, height: 30)
+                                        .background(Color("Camel"))
+                                }
+                            )
                         }
                         .cornerRadius(8)
                     }

@@ -33,7 +33,7 @@ struct ContentView: View {
                 .tabItem {
                     Label("MealViewer", systemImage: "calendar")
                 }
-            Text("GroupView()")
+            GroupsHomeView(groceries: Ingredient.data, users: UserModel.data)
                 .tabItem {
                     Label("Group", systemImage: "person.3.fill")
                 }

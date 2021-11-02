@@ -12,6 +12,7 @@ struct UserModel : Identifiable, Hashable {
     public var name: String
     public var email: String
     public var password: String
+    //public var mealForWeek: [DaysOfWeek: [Recipe]]  = [:]       //fix errors for this
 }
 
 extension UserModel {

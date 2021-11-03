@@ -11,7 +11,7 @@ struct AddRecipeView: View {
     let placeholder = Text("Recipe Name")
     let instructionPlaceholder = "Enter instructions here..." //Text("Enter instructions here...")
     @State var nameInput: String = ""
-    @State var qtyInput: String = ""
+    @State var selectedQty: Unit = Unit.unit
     @State var amtInput: String = ""
     @State var ingredientNameInput: String = ""
     @State var recipeInstructionsInput: String = "Enter instructions here..."
@@ -76,7 +76,7 @@ struct AddRecipeView: View {
 
                             if (ingredients.count > 0) {
                                 ForEach(ingredients, id: \.id) { ingredient in
-                                    Text("\(ingredient.qty!)   \(ingredient.name)")
+                                    Text(ingredient.qty!.toString())
                                 }
                             }
                         }
@@ -102,15 +102,23 @@ struct AddRecipeView: View {
                                     .padding(.leading)
                                     .frame(width: 50, height: 40)
                                     .background(Color("MintCream"))
-                                TextField("", text: $qtyInput)
-                                    .placeholder(when: qtyInput.isEmpty) {
-                                        Text("QTY")
-                                            .foregroundColor(Color("OxfordBluePlaceholder"))
+                                
+                                Picker("Choose the quantity unit", selection: $selectedQty) {
+                                    ForEach(Unit.allCases, id: \.id) { unit in
+                                        Text(unit.str)
                                     }
-                                    .padding(.leading, 5)
-                                    .frame(width: 50, height: 40)
-                                    .background(Color("MintCream"))
-                                    .padding()
+                                }
+                                
+//                                TextField("", text: (qtyInput.str))
+//                                    .placeholder(when: qtyInput.str.isEmpty) {
+//                                        Text("QTY")
+//                                            .foregroundColor(Color("OxfordBluePlaceholder"))
+//                                    }
+//                                    .padding(.leading, 5)
+//                                    .frame(width: 50, height: 40)
+//                                    .background(Color("MintCream"))
+//                                    .padding()
+                                
                                 TextField("", text: $ingredientNameInput)
                                     .placeholder(when: ingredientNameInput.isEmpty) {
                                         Text("Ingredient")
@@ -132,9 +140,9 @@ struct AddRecipeView: View {
                         ZStack {
                             Button {
                                 if (showAddPanel) {
-                                    ingredients.append(Ingredient(name: ingredientNameInput, qty: (amtInput + " " + qtyInput)))
+                                    ingredients.append(Ingredient(name: ingredientNameInput, qty: Quantity(amt: Float(amtInput)!, unit: selectedQty)))
                                     amtInput = ""
-                                    qtyInput = ""
+                                    selectedQty = Unit.unit
                                     ingredientNameInput = ""
                                     // add to ingredients above
                                     offsetAmt = -80

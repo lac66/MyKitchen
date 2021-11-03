@@ -8,7 +8,14 @@
 import SwiftUI
 
 struct IngredientEditCardView: View {
+    
+    init(ingredient : Ingredient) {
+        self.ingredient = ingredient
+        self._selectedQty = State(initialValue: self.ingredient.qty!)
+    }
+    
     @State var ingredientQtyInput : String = ""
+    @State var selectedQty : Quantity
     let ingredient: Ingredient
     
     var editingChanged: (Bool)->() = { _ in }
@@ -46,9 +53,8 @@ struct IngredientEditCardView: View {
                             .cornerRadius(4)
                     }
                     
-                    let ingredientQty = ingredient.qty!.split(separator: " ")
-                    Text(ingredientQty[0])
-                        .frame(width: 20, height: 20)
+                    Text("\(ingredient.qty!.amt)")
+                        .frame(width: 30, height: 20)
                         .background(Color("MintCream"))
                         .foregroundColor(Color("OxfordBlue"))
                     
@@ -61,10 +67,21 @@ struct IngredientEditCardView: View {
                             .cornerRadius(4)
                     }
                     
-                    TextField(ingredientQty[1], text: $ingredientQtyInput, onEditingChanged: editingChanged, onCommit: commit)
-                        .frame(width: 60)
-                        .background(Color("MintCream"))
-                        .padding(.leading)
+                    Picker("Choose a list to add recipe to", selection: $selectedQty) {
+                        ForEach(Unit.allCases, id: \.id) { unit in
+                            Text(unit.str)
+                        }
+                    }
+                    
+//                    TextField("", text: $ingredientQtyInput, onEditingChanged: editingChanged, onCommit: commit)
+//                        .frame(width: 60)
+//                        .background(Color("MintCream"))
+//                        .padding(.leading)
+//                        .placeholder(when: ingredientQtyInput.isEmpty) {
+//                            Text(ingredientQty[1])
+//                                .foregroundColor(Color("OxfordBluePlaceholder"))
+//                                .padding(.leading)
+//                        }
                     
                     Spacer()
                     
@@ -79,6 +96,7 @@ struct IngredientEditCardView: View {
                             .background(Color("Camel"))
                             .cornerRadius(4)
                     }
+                    .frame(alignment: .trailing)
                     .padding(.trailing)
                     
                 }

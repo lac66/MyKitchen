@@ -34,6 +34,9 @@
 		9B99FE83272B991C009E6B62 /* SmallMemberCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B99FE82272B991C009E6B62 /* SmallMemberCards.swift */; };
 		A327A1D6272C688F001B7627 /* DaysOfWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = A327A1D5272C688F001B7627 /* DaysOfWeek.swift */; };
 		A35179BC2731EC1400E35FC2 /* MealDaySelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35179BB2731EC1400E35FC2 /* MealDaySelection.swift */; };
+		BA5FD80E2732CD60000ACC4C /* pantry view.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5FD80D2732CD60000ACC4C /* pantry view.swift */; };
+		BA5FD8102732D3F3000ACC4C /* ItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5FD80F2732D3F2000ACC4C /* ItemDetailView.swift */; };
+		BA5FD8122732DDCA000ACC4C /* ItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5FD8112732DDCA000ACC4C /* ItemView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +91,9 @@
 		9B99FE82272B991C009E6B62 /* SmallMemberCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallMemberCards.swift; sourceTree = "<group>"; };
 		A327A1D5272C688F001B7627 /* DaysOfWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysOfWeek.swift; sourceTree = "<group>"; };
 		A35179BB2731EC1400E35FC2 /* MealDaySelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealDaySelection.swift; sourceTree = "<group>"; };
+		BA5FD80D2732CD60000ACC4C /* pantry view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "pantry view.swift"; sourceTree = "<group>"; };
+		BA5FD80F2732D3F2000ACC4C /* ItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailView.swift; sourceTree = "<group>"; };
+		BA5FD8112732DDCA000ACC4C /* ItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +185,7 @@
 		3DB44B7A2719188600DACF0E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				BA5FD80C2732CD41000ACC4C /* MyPantry */,
 				A35179BA2731EBE800E35FC2 /* MealViewer */,
 				3DCFA86C272BA994009184DA /* Planning */,
 				3DB44B822719282B00DACF0E /* CardViews */,
@@ -233,6 +240,16 @@
 				A35179BB2731EC1400E35FC2 /* MealDaySelection.swift */,
 			);
 			path = MealViewer;
+			sourceTree = "<group>";
+		};
+		BA5FD80C2732CD41000ACC4C /* MyPantry */ = {
+			isa = PBXGroup;
+			children = (
+				BA5FD80D2732CD60000ACC4C /* pantry view.swift */,
+				BA5FD80F2732D3F2000ACC4C /* ItemDetailView.swift */,
+				BA5FD8112732DDCA000ACC4C /* ItemView.swift */,
+			);
+			path = MyPantry;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -365,6 +382,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DCFA872272BA9D4009184DA /* RecipeView.swift in Sources */,
+				BA5FD8102732D3F3000ACC4C /* ItemDetailView.swift in Sources */,
 				3D1126BC272C467D0090888B /* MealViewerCardView.swift in Sources */,
 				3D5557CD2719E355009D5E7D /* RecipeCardView.swift in Sources */,
 				3DD93C2F2721F31B005AE1CC /* IngredientEditCardView.swift in Sources */,
@@ -372,11 +390,13 @@
 				A35179BC2731EC1400E35FC2 /* MealDaySelection.swift in Sources */,
 				3DB44B7C271918B400DACF0E /* HomeView.swift in Sources */,
 				3DCFA871272BA9D4009184DA /* RecipeDetailsView.swift in Sources */,
+				BA5FD8122732DDCA000ACC4C /* ItemView.swift in Sources */,
 				3D4EB76A272355F80049CAF1 /* Searchbar.swift in Sources */,
 				3DB44B52271911A600DACF0E /* ContentView.swift in Sources */,
 				9B99FE73272B1F0F009E6B62 /* GroupsView.swift in Sources */,
 				3DD93C3527222CA6005AE1CC /* NavBar.swift in Sources */,
 				9B99FE7D272B6539009E6B62 /* GroupsHomeView.swift in Sources */,
+				BA5FD80E2732CD60000ACC4C /* pantry view.swift in Sources */,
 				3DB44B50271911A600DACF0E /* MyKitchenApp.swift in Sources */,
 				A327A1D6272C688F001B7627 /* DaysOfWeek.swift in Sources */,
 				3D4EB768272318340049CAF1 /* MealViewer.swift in Sources */,

@@ -27,9 +27,6 @@
 		3DCFA871272BA9D4009184DA /* RecipeDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCFA86D272BA9D4009184DA /* RecipeDetailsView.swift */; };
 		3DCFA872272BA9D4009184DA /* RecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCFA86E272BA9D4009184DA /* RecipeView.swift */; };
 		3DCFA873272BA9D4009184DA /* PlanningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCFA86F272BA9D4009184DA /* PlanningView.swift */; };
-		3DCFA874272BA9D4009184DA /* AddRecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCFA870272BA9D4009184DA /* AddRecipeView.swift */; };
-		3DD93C2F2721F31B005AE1CC /* IngredientEditCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD93C2E2721F31B005AE1CC /* IngredientEditCardView.swift */; };
-		3DD93C312721F430005AE1CC /* Ingredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD93C302721F430005AE1CC /* Ingredient.swift */; };
 		3DD93C3527222CA6005AE1CC /* NavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD93C3427222CA6005AE1CC /* NavBar.swift */; };
 		9B99FE73272B1F0F009E6B62 /* GroupsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B99FE72272B1F0F009E6B62 /* GroupsView.swift */; };
 		9B99FE75272B2344009E6B62 /* MemberCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B99FE74272B2344009E6B62 /* MemberCards.swift */; };
@@ -38,7 +35,7 @@
 		9B99FE83272B991C009E6B62 /* SmallMemberCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B99FE82272B991C009E6B62 /* SmallMemberCards.swift */; };
 		A327A1D6272C688F001B7627 /* DaysOfWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = A327A1D5272C688F001B7627 /* DaysOfWeek.swift */; };
 		A35179BC2731EC1400E35FC2 /* MealDaySelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35179BB2731EC1400E35FC2 /* MealDaySelection.swift */; };
-		BA5FD80E2732CD60000ACC4C /* pantry view.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5FD80D2732CD60000ACC4C /* pantry view.swift */; };
+		BA5FD80E2732CD60000ACC4C /* PantryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5FD80D2732CD60000ACC4C /* PantryView.swift */; };
 		BA5FD8102732D3F3000ACC4C /* ItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5FD80F2732D3F2000ACC4C /* ItemDetailView.swift */; };
 		BA5FD8122732DDCA000ACC4C /* ItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5FD8112732DDCA000ACC4C /* ItemView.swift */; };
 /* End PBXBuildFile section */
@@ -87,9 +84,6 @@
 		3DCFA86D272BA9D4009184DA /* RecipeDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeDetailsView.swift; sourceTree = "<group>"; };
 		3DCFA86E272BA9D4009184DA /* RecipeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeView.swift; sourceTree = "<group>"; };
 		3DCFA86F272BA9D4009184DA /* PlanningView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanningView.swift; sourceTree = "<group>"; };
-		3DCFA870272BA9D4009184DA /* AddRecipeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddRecipeView.swift; sourceTree = "<group>"; };
-		3DD93C2E2721F31B005AE1CC /* IngredientEditCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientEditCardView.swift; sourceTree = "<group>"; };
-		3DD93C302721F430005AE1CC /* Ingredient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ingredient.swift; sourceTree = "<group>"; };
 		3DD93C3427222CA6005AE1CC /* NavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavBar.swift; sourceTree = "<group>"; };
 		9B99FE6B272B1C71009E6B62 /* MyKitchen.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyKitchen.entitlements; sourceTree = "<group>"; };
 		9B99FE72272B1F0F009E6B62 /* GroupsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsView.swift; sourceTree = "<group>"; };
@@ -99,7 +93,7 @@
 		9B99FE82272B991C009E6B62 /* SmallMemberCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallMemberCards.swift; sourceTree = "<group>"; };
 		A327A1D5272C688F001B7627 /* DaysOfWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysOfWeek.swift; sourceTree = "<group>"; };
 		A35179BB2731EC1400E35FC2 /* MealDaySelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealDaySelection.swift; sourceTree = "<group>"; };
-		BA5FD80D2732CD60000ACC4C /* pantry view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "pantry view.swift"; sourceTree = "<group>"; };
+		BA5FD80D2732CD60000ACC4C /* PantryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryView.swift; sourceTree = "<group>"; };
 		BA5FD80F2732D3F2000ACC4C /* ItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailView.swift; sourceTree = "<group>"; };
 		BA5FD8112732DDCA000ACC4C /* ItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -262,7 +256,7 @@
 		BA5FD80C2732CD41000ACC4C /* MyPantry */ = {
 			isa = PBXGroup;
 			children = (
-				BA5FD80D2732CD60000ACC4C /* pantry view.swift */,
+				BA5FD80D2732CD60000ACC4C /* PantryView.swift */,
 				BA5FD80F2732D3F2000ACC4C /* ItemDetailView.swift */,
 				BA5FD8112732DDCA000ACC4C /* ItemView.swift */,
 			);
@@ -412,7 +406,7 @@
 				9B99FE73272B1F0F009E6B62 /* GroupsView.swift in Sources */,
 				3DD93C3527222CA6005AE1CC /* NavBar.swift in Sources */,
 				9B99FE7D272B6539009E6B62 /* GroupsHomeView.swift in Sources */,
-				BA5FD80E2732CD60000ACC4C /* pantry view.swift in Sources */,
+				BA5FD80E2732CD60000ACC4C /* PantryView.swift in Sources */,
 				3DA9E2A7273314CA00476227 /* Ingredient.swift in Sources */,
 				3DB44B50271911A600DACF0E /* MyKitchenApp.swift in Sources */,
 				3DA9E2A52733145E00476227 /* Unit.swift in Sources */,

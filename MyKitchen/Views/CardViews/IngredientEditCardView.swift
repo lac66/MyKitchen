@@ -5,18 +5,34 @@
 //  Created by Levi Carpenter on 10/21/21.
 //
 
+
+
+
+
+//
+//
+//
+//                  todo
+//
+//                  Ingredient object does not update with picker atm
+//
+//
+//
+//
+//
+
 import SwiftUI
 
 struct IngredientEditCardView: View {
     
     init(ingredient : Ingredient) {
-        self.ingredient = ingredient
-        self._selectedQty = State(initialValue: self.ingredient.qty!)
+        self._ingredient = State(initialValue: ingredient)
+        self._selectedUnit = State(initialValue: Unit.allCases.firstIndex(of: ingredient.qty!.getUnit())!)
     }
     
     @State var ingredientQtyInput : String = ""
-    @State var selectedQty : Quantity
-    let ingredient: Ingredient
+    @State var selectedUnit : Int
+    @State var ingredient: Ingredient
     
     var editingChanged: (Bool)->() = { _ in }
     var commit: ()->() = {}
@@ -38,28 +54,28 @@ struct IngredientEditCardView: View {
             
             VStack(alignment: .leading) {
                 Text(ingredient.name)
-                    .frame(width: 210, alignment: .leading)
+                    .frame(width: 210, height: 30, alignment: .leading)
                     .padding(.leading, 10)
                     .background(Color("MintCream"))
                     .foregroundColor(Color("OxfordBlue"))
                 
                 HStack (spacing: 0) {
                     Button {
-                        
+                        ingredient.qty!.decrementAmt()
                     } label: {
                         Image(systemName: "minus")
                             .frame(width: 20, height: 20)
                             .background(Color("Camel"))
                             .cornerRadius(4)
                     }
-                    
-                    Text("\(ingredient.qty!.amt)")
-                        .frame(width: 30, height: 20)
+                    let amtText: String = String(format: "%.2f", ingredient.qty!.getAmt())
+                    Text(amtText)
+                        .frame(width: 50, height: 20)
                         .background(Color("MintCream"))
                         .foregroundColor(Color("OxfordBlue"))
                     
                     Button {
-                        
+                        ingredient.qty!.incrementAmt()
                     } label: {
                         Image(systemName: "plus")
                             .frame(width: 20, height: 20)
@@ -67,26 +83,23 @@ struct IngredientEditCardView: View {
                             .cornerRadius(4)
                     }
                     
-                    Picker("Choose a list to add recipe to", selection: $selectedQty) {
-                        ForEach(Unit.allCases, id: \.id) { unit in
-                            Text(unit.str)
+                    Picker(selection: $selectedUnit, label: Text(Unit.allCases[selectedUnit].str).foregroundColor(Color("OxfordBlue")),
+                           content: {
+                            ForEach(0 ..< Unit.allCases.count) { index in
+                                Text(Unit.allCases[index].str)
+                                .frame(width: 80, height: 25)
+                                .foregroundColor(Color("OxfordBlue"))
                         }
-                    }
-                    
-//                    TextField("", text: $ingredientQtyInput, onEditingChanged: editingChanged, onCommit: commit)
-//                        .frame(width: 60)
-//                        .background(Color("MintCream"))
-//                        .padding(.leading)
-//                        .placeholder(when: ingredientQtyInput.isEmpty) {
-//                            Text(ingredientQty[1])
-//                                .foregroundColor(Color("OxfordBluePlaceholder"))
-//                                .padding(.leading)
-//                        }
+                    })
+                    .pickerStyle(MenuPickerStyle())
+                    .frame(width: 80, height: 25, alignment: .center)
+                    .background(Color("MintCream"))
+                    .padding(.leading)
                     
                     Spacer()
                     
                     Button {
-                        
+                        print(ingredient.qty!.getUnit())
                     } label: {
                         Image(systemName: "trash")
                             .resizable()

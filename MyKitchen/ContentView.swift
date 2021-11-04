@@ -21,7 +21,7 @@ struct ContentView: View {
                 .tabItem {
                     Label("Planning", systemImage: "magnifyingglass")
                 }
-            Text("PersonalList()")
+            PersonalListView(ingredientList: Ingredient.data)
                 .tabItem {
                     Label("Personal", systemImage: "scroll.fill")
                 }

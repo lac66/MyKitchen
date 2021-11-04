@@ -74,82 +74,9 @@ struct PlanningView: View {
                             }
                         }
                     }
-//                        .navigationBarTitleDisplayMode(.inline)
-//                        .toolbar {
-//                            ToolbarItem (placement: .principal) {
-//                                VStack {
-//                                    Text("Planning").font(.headline)
-//
-//                                    ZStack {
-//                                        HStack {
-//                                            TextField("Search here", text: $searchText)
-//                                                .padding()
-//                                        }
-//                                        .frame(width: 350, height: 30)
-//                                        .background(Color("MintCream"))
-//                                        .cornerRadius(20)
-//                                    }
-//                                }
-//                                .padding(.top, 30)
-//                                .foregroundColor(Color("MintCream"))
-//                            }
-//                        }
+                    .padding(.bottom, 10)
                 }
                 .navigationBarHidden(true)
-//                .padding(.top, 30)
-                
-//                ScrollView {
-//                    VStack (spacing: 10) {
-//                        ForEach(recipes, id: \.id) { recipe in
-//                            NavigationLink(
-//                                destination: RecipeDetailsView(recipe: recipe),
-//                                label: {
-//                                    RecipeCardView(recipe: recipe)
-//                                })
-//                        }
-//                    }
-//                }
-//                .padding(.top)
-//                .navigationBarTitleDisplayMode(.inline)
-//                .toolbar {
-//                    ToolbarItem (placement: .principal) {
-//                        VStack {
-//                            Text("Planning").font(.headline)
-//
-//                            ZStack {
-//                                HStack {
-//                                    TextField("Search here", text: $searchText)
-//                                }
-//                                .frame(height: 30)
-//                                .background(Color("MintCream"))
-//                            }
-//
-//                            HStack (spacing: 0) {
-//                                Button("Saved") {
-//                                    print("saved")
-//                                }
-//                                .frame(width: 160, height: 30)
-//                                .background(Color("Camel"))
-//
-//                                Button("Explore") {
-//                                    print("saved")
-//                                }
-//                                .frame(width: 160, height: 30)
-//                                .background(Color("Camel"))
-//
-//                                Button {
-//
-//                                } label: {
-//                                    Image(systemName: "plus")
-//                                        .frame(width: 30, height: 30)
-//                                        .background(Color("Camel"))
-//                                }
-//                            }
-//                            .cornerRadius(8)
-//                        }
-//                        .foregroundColor(Color("MintCream"))
-//                    }
-//                }
             }
         }
     }

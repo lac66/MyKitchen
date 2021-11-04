@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LoginView: View {
+struct LoginPageView: View {
     
     init() {
         navAppearance.backgroundColor = UIColor(named: "OxfordBlue")
@@ -23,26 +23,28 @@ struct LoginView: View {
                 Color("OxfordBlue").edgesIgnoringSafeArea(.all)
                 
                 VStack {
-                    Button {
-                        
-                    } label: {
-                        Text("Sign In")
-                            .frame(width: 300, height: 60)
-                            .background(Color("Camel"))
-                            .foregroundColor(Color("MintCream"))
-                            .cornerRadius(15)
-                    }
+                    NavigationLink(
+                        destination: SignInView(),
+                        label: {
+                            Text("Sign In")
+                                .foregroundColor(Color("MintCream"))
+                        }
+                    )
+                    .frame(width: 300, height: 60)
+                    .background(Color("Camel"))
+                    .cornerRadius(15)
                     
-                    Button {
-                        
-                    } label: {
-                        Text("Create Your Account")
-                            .frame(width: 300, height: 60)
-                            .background(Color("Camel"))
-                            .foregroundColor(Color("MintCream"))
-                            .cornerRadius(15)
-                            .padding()
-                    }
+                    NavigationLink(
+                        destination: SignUpView(),
+                        label: {
+                            Text("Create Your Account")
+                                .foregroundColor(Color("MintCream"))
+                        }
+                    )
+                    .frame(width: 300, height: 60)
+                    .background(Color("Camel"))
+                    .cornerRadius(15)
+                    .padding()
                 }
                 .navigationBarHidden(true)
             }
@@ -50,8 +52,8 @@ struct LoginView: View {
     }
 }
 
-struct LoginView_Previews: PreviewProvider {
+struct LoginPageView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView()
+        LoginPageView()
     }
 }

@@ -29,6 +29,7 @@
 		3DB85E022733869800695D1F /* LoginPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB85E012733869800695D1F /* LoginPageView.swift */; };
 		3DB85E0627339EFD00695D1F /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB85E0527339EFD00695D1F /* SignInView.swift */; };
 		3DB85E0827339FE300695D1F /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB85E0727339FE300695D1F /* SignUpView.swift */; };
+		3DB914B72733B0C100549E66 /* LoginPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB914B62733B0C100549E66 /* LoginPageView.swift */; };
 		3DCFA871272BA9D4009184DA /* RecipeDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCFA86D272BA9D4009184DA /* RecipeDetailsView.swift */; };
 		3DCFA872272BA9D4009184DA /* RecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCFA86E272BA9D4009184DA /* RecipeView.swift */; };
 		3DCFA873272BA9D4009184DA /* PlanningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCFA86F272BA9D4009184DA /* PlanningView.swift */; };
@@ -89,9 +90,9 @@
 		3DB85DFD2733462600695D1F /* PersonalListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalListView.swift; sourceTree = "<group>"; };
 		3DB85DFF2733839200695D1F /* IngType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngType.swift; sourceTree = "<group>"; };
 		3DB85E012733869800695D1F /* LoginPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginPageView.swift; path = ../../../../../../LoginPageView.swift; sourceTree = "<group>"; };
-		3DB85E0427339EEA00695D1F /* LoginPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageView.swift; sourceTree = "<group>"; };
 		3DB85E0527339EFD00695D1F /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		3DB85E0727339FE300695D1F /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		3DB914B62733B0C100549E66 /* LoginPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageView.swift; sourceTree = "<group>"; };
 		3DCFA86D272BA9D4009184DA /* RecipeDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeDetailsView.swift; sourceTree = "<group>"; };
 		3DCFA86E272BA9D4009184DA /* RecipeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeView.swift; sourceTree = "<group>"; };
 		3DCFA86F272BA9D4009184DA /* PlanningView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanningView.swift; sourceTree = "<group>"; };
@@ -252,7 +253,7 @@
 		3DB85E0327339EE200695D1F /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				3DB85E0427339EEA00695D1F /* LoginPageView.swift */,
+				3DB914B62733B0C100549E66 /* LoginPageView.swift */,
 				3DB85E0527339EFD00695D1F /* SignInView.swift */,
 				3DB85E0727339FE300695D1F /* SignUpView.swift */,
 			);
@@ -425,6 +426,7 @@
 				3D5557CD2719E355009D5E7D /* RecipeCardView.swift in Sources */,
 				A35179BC2731EC1400E35FC2 /* MealDaySelection.swift in Sources */,
 				3DB44B7C271918B400DACF0E /* HomeView.swift in Sources */,
+				3DB914B72733B0C100549E66 /* LoginPageView.swift in Sources */,
 				3DCFA871272BA9D4009184DA /* RecipeDetailsView.swift in Sources */,
 				BA5FD8122732DDCA000ACC4C /* ItemView.swift in Sources */,
 				3D4EB76A272355F80049CAF1 /* Searchbar.swift in Sources */,

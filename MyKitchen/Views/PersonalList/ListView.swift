@@ -1,24 +1,24 @@
 //
-//  ItemView.swift
+//  ListView.swift
 //  MyKitchen
 //
-//  Created by Akshay on 11/3/21.
+//  Created by Akshay on 11/4/21.
 //
 
 import SwiftUI
 
-let colNavAppearance = UINavigationBarAppearance()
+let listNavAppearance = UINavigationBarAppearance()
 
-struct ItemView: View {
+struct ListView: View {
     let ingredient: [Ingredient]
     
     init(ingredientList: [Ingredient]) {
         ingredient = ingredientList
         
-        colNavAppearance.backgroundColor = UIColor(named: "OxfordBlue")
+        listNavAppearance.backgroundColor = UIColor(named: "OxfordBlue")
         
         UINavigationBar.appearance().standardAppearance = colNavAppearance
-        UINavigationBar.appearance().scrollEdgeAppearance = colNavAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = listNavAppearance
     }
     
     var body: some View {
@@ -43,10 +43,11 @@ struct ItemView: View {
     }
 }
 
-struct ItemView_Previews: PreviewProvider {
+struct ListView_Previews: PreviewProvider {
     static var ingredient = Ingredient.data
     static var previews: some View {
-        ItemView(ingredientList: ingredient)
+        ListView(ingredientList: ingredient)
     }
 }
+
 

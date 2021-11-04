@@ -1,15 +1,15 @@
 //
-//  PantryView.swift
+//  PersonalView.swift
 //  MyKitchen
 //
-//  Created by Akshay 11/3/21.
+//  Created by Akshay on 11/4/21.
 //
 
 import SwiftUI
 
-let pannavAppearance = UINavigationBarAppearance()
+let PernavAppearance = UINavigationBarAppearance()
 
-struct PantryView: View {
+struct PersonalView: View {
     let ingredient: [Ingredient]
     
     @State var searchText = ""
@@ -17,11 +17,11 @@ struct PantryView: View {
     init(ingredientList: [Ingredient]) {
         ingredient = ingredientList
         
-        pannavAppearance.backgroundColor = UIColor(named: "OxfordBlue")
-        pannavAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor(named: "MintCream") as Any]
+        PernavAppearance.backgroundColor = UIColor(named: "OxfordBlue")
+        PernavAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor(named: "MintCream") as Any]
         
-        UINavigationBar.appearance().standardAppearance = pannavAppearance
-        UINavigationBar.appearance().scrollEdgeAppearance = pannavAppearance
+        UINavigationBar.appearance().standardAppearance = PernavAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = PernavAppearance
     }
     
     var body: some View {
@@ -31,7 +31,7 @@ struct PantryView: View {
                 
                 VStack {
                     VStack (alignment: .leading) {
-                        Text("Pantry List")
+                        Text("Personal List")
                             .font(.system(size: 32, weight: .bold, design: .default))
         
                         Searchbar(placeholder: Text("Search here"), text: $searchText)
@@ -155,9 +155,9 @@ struct PantryView: View {
     }
 }
 
-struct PantryView_Previews: PreviewProvider {
+struct PersonalView_Previews: PreviewProvider {
     static var ingredient = Ingredient.data
     static var previews: some View {
-        PantryView(ingredientList: ingredient)
+        PersonalView(ingredientList: ingredient)
     }
 }

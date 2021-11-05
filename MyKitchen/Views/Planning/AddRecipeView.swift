@@ -17,9 +17,8 @@ struct AddRecipeView: View {
     @State var recipeInstructionsInput: String = "Enter instructions here..."
     @State var showAddPanel: Bool = false
     @State var offsetAmt: CGFloat = -80
-//    @State var ingredients : [Ingredient] = [Ingredient(name: "Milk", qty: "1 cup"), Ingredient(name: "Ground Beef", qty: "1 lb")]
-    @State var ingredients : [Ingredient] = []
     @State var id : Int = 0
+    @State var ingredients : [Ingredient] = []
     
     var editingChanged: (Bool)->() = { _ in }
     var commit: ()->() = {}
@@ -29,6 +28,8 @@ struct AddRecipeView: View {
         UITableView.appearance().separatorStyle = .none
         UITableViewCell.appearance().backgroundColor = .green
         UITableView.appearance().backgroundColor = UIColor(named: "OxfordBlue")
+        
+        navAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor(named: "MintCream") as Any]
     }
     
     var body: some View {
@@ -54,11 +55,18 @@ struct AddRecipeView: View {
                             Text("Ingredient")
                                 .font(.system(size: 18, weight: .semibold, design: .default))
                                 .padding()
+                                .multilineTextAlignment(.leading)
 
                             if (ingredients.count > 0) {
-                                ForEach(ingredients, id: \.id) { ingredient in
-                                    Text(ingredient.qty!.toString())
+                                VStack {
+                                    ForEach(ingredients, id: \.id) { ingredient in
+                                        Text("\(ingredient.qty!.toString())     \(ingredient.name)")
+                                            .padding(.leading, 25)
+                                    }
+                                    .padding(.bottom, 1)
+                                    .multilineTextAlignment(.leading)
                                 }
+                                .padding(.bottom)
                             }
                         }
                         .zIndex(1)

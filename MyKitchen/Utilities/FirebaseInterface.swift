@@ -12,6 +12,7 @@ class FirebaseInterface : ObservableObject {
     let auth = Auth.auth()
     
     @Published var signedIn = false
+    @Published var currentUser = Auth.auth().currentUser
     
     var isSignedIn : Bool {
         return auth.currentUser != nil
@@ -36,6 +37,16 @@ class FirebaseInterface : ObservableObject {
             
             //success
             self?.signedIn = true
+        }
+    }
+    
+    func signOut () -> Bool {
+        do {
+            try Auth.auth().signOut()
+            self.currentUser = nil
+            return true
+        } catch {
+            return false
         }
     }
 }

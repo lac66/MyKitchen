@@ -8,13 +8,16 @@
 import SwiftUI
 
 struct NavBar: View {
+    @EnvironmentObject var fbInterface : FirebaseInterface
+    @State var initialIndex = 2
+    
     init() {
         UITabBar.appearance().barTintColor = UIColor(Color("AirBlue"))
         UITabBar.appearance().unselectedItemTintColor = UIColor(Color("MintCream"))
     }
     
     var body: some View {
-        TabView {
+        TabView (selection: $initialIndex) {
             // Text("PlanningView()") can be replaced with view to be showed on click
             //            Text("PlanningView()")
             PlanningView(recipeList: Recipe.getRecipes())
@@ -37,6 +40,10 @@ struct NavBar: View {
                 .tabItem {
                     Label("Group", systemImage: "person.3.fill")
                 }
+        }
+        .onDisappear {
+            let so = fbInterface.signOut()
+            print(so)
         }
     }
 }

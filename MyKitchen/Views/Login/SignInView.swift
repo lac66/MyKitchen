@@ -14,7 +14,7 @@ struct SignInView: View {
     
     init() {
         navAppearance.backgroundColor = UIColor(named: "OxfordBlue")
-        navAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor(named: "MintCream") as Any]
+        navAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor(named: "Camel") as Any]
         
         UINavigationBar.appearance().standardAppearance = navAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = navAppearance
@@ -35,10 +35,9 @@ struct SignInView: View {
                         .placeholder(when: emailInput.isEmpty, placeholder: {
                             Text("Email")
                                 .foregroundColor(Color("MintCream"))
-                                .padding(.leading)
                         })
-                        .navigationBarTitle("Sign In", displayMode: .inline)
                         .frame(width: 300, height: 60)
+                        .padding(.leading)
                         .border(Color("MintCream"), width: 2)
                         .cornerRadius(10)
                     
@@ -46,19 +45,12 @@ struct SignInView: View {
                         .placeholder(when: passwordInput.isEmpty, placeholder: {
                             Text("Password")
                                 .foregroundColor(Color("MintCream"))
-                                .padding(.leading)
                         })
                         .frame(width: 300, height: 60)
+                        .padding(.leading)
                         .border(Color("MintCream"), width: 2)
                         .cornerRadius(10)
                     
-//                    NavigationLink(
-//                        destination: SignInView(),
-//                        label: {
-//                            Text("Sign In")
-//                                .foregroundColor(Color("MintCream"))
-//                        }
-//                    )
                     Button {
                         fbInterface.signIn(email: emailInput, password: passwordInput)
                     } label: {
@@ -70,6 +62,8 @@ struct SignInView: View {
                     .cornerRadius(15)
                     .padding(.top)
                     
+                    
+                    // todo send somewhere else
                     NavigationLink(
                         destination: SignUpView(),
                         label: {

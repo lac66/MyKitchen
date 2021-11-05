@@ -37,7 +37,11 @@ struct Quantity : Hashable {
     }
     
     func toString() -> String {
-        let roundedAmt = round(amt * 100) / 100.0
-        return "\(roundedAmt)  \(unit)"
+        if (amt.truncatingRemainder(dividingBy: 1) == 0) {
+            return "\(Int(amt))  \(unit)"
+        } else {
+            let roundedAmt = round(amt * 100) / 100.0
+            return "\(roundedAmt)  \(unit)"
+        }
     }
 }

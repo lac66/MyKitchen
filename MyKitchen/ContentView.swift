@@ -6,20 +6,23 @@
 //
 
 import SwiftUI
+import FirebaseAuth
+
+let navAppearance = UINavigationBarAppearance()
 
 struct ContentView: View {
     @EnvironmentObject var fbInterface : FirebaseInterface
     
     var body: some View {
-        NavigationView {
-            if fbInterface.signedIn {
-                NavBar()
-                    .navigationBarHidden(true)
-            } else {
+        ZStack {
+            if !fbInterface.signedIn {
                 LoginPageView()
+            } else {
+                NavBar()
             }
         }
         .onAppear {
+            fbInterface.signOut()
             fbInterface.signedIn = fbInterface.isSignedIn
         }
     }

@@ -15,7 +15,7 @@ struct SignUpView: View {
     
     init() {
         navAppearance.backgroundColor = UIColor(named: "OxfordBlue")
-        navAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor(named: "MintCream") as Any]
+        navAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor(named: "Camel") as Any]
         
         UINavigationBar.appearance().standardAppearance = navAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = navAppearance
@@ -36,10 +36,10 @@ struct SignUpView: View {
                         .placeholder(when: nameInput.isEmpty, placeholder: {
                             Text("Full Name")
                                 .foregroundColor(Color("MintCream"))
-                                .padding(.leading)
                         })
                         .navigationBarTitle("Sign Up", displayMode: .inline)
                         .frame(width: 300, height: 60)
+                        .padding(.leading)
                         .border(Color("MintCream"), width: 2)
                         .cornerRadius(10)
                     
@@ -47,9 +47,9 @@ struct SignUpView: View {
                         .placeholder(when: emailInput.isEmpty, placeholder: {
                             Text("Email")
                                 .foregroundColor(Color("MintCream"))
-                                .padding(.leading)
                         })
                         .frame(width: 300, height: 60)
+                        .padding(.leading)
                         .border(Color("MintCream"), width: 2)
                         .cornerRadius(10)
                     
@@ -57,9 +57,9 @@ struct SignUpView: View {
                         .placeholder(when: passwordInput.isEmpty, placeholder: {
                             Text("Password")
                                 .foregroundColor(Color("MintCream"))
-                                .padding(.leading)
                         })
                         .frame(width: 300, height: 60)
+                        .padding(.leading)
                         .border(Color("MintCream"), width: 2)
                         .cornerRadius(10)
                     

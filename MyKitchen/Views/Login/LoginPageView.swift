@@ -10,14 +10,6 @@ import SwiftUI
 struct LoginPageView: View {
     @EnvironmentObject var fbInterface : FirebaseInterface
     
-    init() {
-        navAppearance.backgroundColor = UIColor(named: "OxfordBlue")
-        navAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor(named: "MintCream") as Any]
-        
-        UINavigationBar.appearance().standardAppearance = navAppearance
-        UINavigationBar.appearance().scrollEdgeAppearance = navAppearance
-    }
-    
     var body: some View {
         NavigationView {
             ZStack {
@@ -52,7 +44,8 @@ struct LoginPageView: View {
                     .cornerRadius(15)
                     .padding()
                 }
-                .navigationBarHidden(true)
+                .navigationBarTitle("Login", displayMode: .inline)
+//                .navigationBarHidden(true)
             }
         }
     }

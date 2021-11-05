@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-let navAppearance = UINavigationBarAppearance()
-
 struct PlanningView: View {
     let recipes: [Recipe]
     

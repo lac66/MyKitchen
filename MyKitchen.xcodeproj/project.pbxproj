@@ -153,8 +153,8 @@
 		3DA9E2A12733143200476227 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				A327A1D5272C688F001B7627 /* DaysOfWeek.swift */,
 				3DA9E2A42733145E00476227 /* Unit.swift */,
-				3DA9E2A22733145300476227 /* Quantity.swift */,
 				3DB85DFF2733839200695D1F /* IngType.swift */,
 				3D7D2ACC27350A7900153328 /* FirebaseInterface.swift */,
 			);
@@ -250,7 +250,7 @@
 				3DB85DFB273338F900695D1F /* Ingredient.swift */,
 				3DB44B802719203900DACF0E /* Recipe.swift */,
 				9B99FE78272B30B1009E6B62 /* UserModel.swift */,
-				A327A1D5272C688F001B7627 /* DaysOfWeek.swift */,
+				3DA9E2A22733145300476227 /* Quantity.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";

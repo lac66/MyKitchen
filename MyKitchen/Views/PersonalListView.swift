@@ -1,5 +1,5 @@
 //
-//  PersonalList.swift
+//  PersonalListView.swift
 //  MyKitchen
 //
 //  Created by Levi Carpenter on 11/3/21.
@@ -59,7 +59,7 @@ struct PersonalListView: View {
 struct PersonalListView_Previews: PreviewProvider {
     static var recipes = Recipe.data
     static var previews: some View {
-        PlanningView(recipeList: recipes)
+        PersonalListView(ingredientList: Ingredient.data)
     }
 }
 

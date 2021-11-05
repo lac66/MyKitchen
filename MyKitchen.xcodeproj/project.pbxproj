@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,6 +12,8 @@
 		3D4EB768272318340049CAF1 /* MealViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4EB767272318340049CAF1 /* MealViewer.swift */; };
 		3D4EB76A272355F80049CAF1 /* Searchbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4EB769272355F80049CAF1 /* Searchbar.swift */; };
 		3D5557CD2719E355009D5E7D /* RecipeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5557CC2719E355009D5E7D /* RecipeCardView.swift */; };
+		3D7D2ACD27350A7900153328 /* FirebaseInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7D2ACC27350A7900153328 /* FirebaseInterface.swift */; };
+		3D7D2ACF27350F8C00153328 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3D7D2ACE27350F8C00153328 /* GoogleService-Info.plist */; };
 		3DA9E2A32733145300476227 /* Quantity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA9E2A22733145300476227 /* Quantity.swift */; };
 		3DA9E2A52733145E00476227 /* Unit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA9E2A42733145E00476227 /* Unit.swift */; };
 		3DA9E2A92733158B00476227 /* AddRecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA9E2A82733158B00476227 /* AddRecipeView.swift */; };
@@ -72,6 +74,8 @@
 		3D4EB767272318340049CAF1 /* MealViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealViewer.swift; sourceTree = "<group>"; };
 		3D4EB769272355F80049CAF1 /* Searchbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Searchbar.swift; sourceTree = "<group>"; };
 		3D5557CC2719E355009D5E7D /* RecipeCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeCardView.swift; sourceTree = "<group>"; };
+		3D7D2ACC27350A7900153328 /* FirebaseInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseInterface.swift; sourceTree = "<group>"; };
+		3D7D2ACE27350F8C00153328 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3DA9E2A22733145300476227 /* Quantity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Quantity.swift; sourceTree = "<group>"; };
 		3DA9E2A42733145E00476227 /* Unit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Unit.swift; sourceTree = "<group>"; };
 		3DA9E2A82733158B00476227 /* AddRecipeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddRecipeView.swift; sourceTree = "<group>"; };
@@ -154,6 +158,7 @@
 				3DA9E2A42733145E00476227 /* Unit.swift */,
 				3DA9E2A22733145300476227 /* Quantity.swift */,
 				3DB85DFF2733839200695D1F /* IngType.swift */,
+				3D7D2ACC27350A7900153328 /* FirebaseInterface.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -183,14 +188,15 @@
 		3DB44B4E271911A600DACF0E /* MyKitchen */ = {
 			isa = PBXGroup;
 			children = (
-				3DA9E2A12733143200476227 /* Utilities */,
-				9B99FE6B272B1C71009E6B62 /* MyKitchen.entitlements */,
 				3DB44B7F2719200900DACF0E /* Models */,
 				3DB44B7A2719188600DACF0E /* Views */,
+				3DA9E2A12733143200476227 /* Utilities */,
 				3DB44B4F271911A600DACF0E /* MyKitchenApp.swift */,
 				3DB44B51271911A600DACF0E /* ContentView.swift */,
 				3DB44B53271911A900DACF0E /* Assets.xcassets */,
+				3D7D2ACE27350F8C00153328 /* GoogleService-Info.plist */,
 				3DB44B58271911A900DACF0E /* Info.plist */,
+				9B99FE6B272B1C71009E6B62 /* MyKitchen.entitlements */,
 				3DB44B55271911A900DACF0E /* Preview Content */,
 			);
 			path = MyKitchen;
@@ -295,7 +301,6 @@
 				EC62A3B39A2B1666EB85520E /* Pods-MyKitchenTests.debug.xcconfig */,
 				0E380EBE85460989D689C3D3 /* Pods-MyKitchenTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -437,6 +442,7 @@
 			files = (
 				3DB44B57271911A900DACF0E /* Preview Assets.xcassets in Resources */,
 				3DB44B54271911A900DACF0E /* Assets.xcassets in Resources */,
+				3D7D2ACF27350F8C00153328 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -570,6 +576,7 @@
 				BA5FD8102732D3F3000ACC4C /* ItemDetailView.swift in Sources */,
 				3D1126BC272C467D0090888B /* MealViewerCardView.swift in Sources */,
 				3D5557CD2719E355009D5E7D /* RecipeCardView.swift in Sources */,
+				3D7D2ACD27350A7900153328 /* FirebaseInterface.swift in Sources */,
 				A35179BC2731EC1400E35FC2 /* MealDaySelection.swift in Sources */,
 				3DB44B7C271918B400DACF0E /* HomeView.swift in Sources */,
 				3DB914B72733B0C100549E66 /* LoginPageView.swift in Sources */,

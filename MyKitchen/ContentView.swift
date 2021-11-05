@@ -8,35 +8,19 @@
 import SwiftUI
 
 struct ContentView: View {
-    init() {
-        UITabBar.appearance().barTintColor = UIColor(Color("AirBlue"))
-        UITabBar.appearance().unselectedItemTintColor = UIColor(Color("MintCream"))
-    }
+    @EnvironmentObject var fbInterface : FirebaseInterface
     
     var body: some View {
-        TabView {
-            // Text("PlanningView()") can be replaced with view to be showed on click
-//            Text("PlanningView()")
-            PlanningView(recipeList: Recipe.getRecipes())
-                .tabItem {
-                    Label("Planning", systemImage: "magnifyingglass")
-                }
-            PersonalListView(ingredientList: Ingredient.data)
-                .tabItem {
-                    Label("Personal", systemImage: "scroll.fill")
-                }
-            HomeView(recipes: Recipe.getRecipes())
-                .tabItem {
-                    Label("Home", systemImage: "house.fill")
-                }
-            MealViewer(recipeList: Recipe.getRecipes())
-                .tabItem {
-                    Label("MealViewer", systemImage: "calendar")
-                }
-            GroupsHomeView(groceries: Ingredient.data, users: UserModel.data)
-                .tabItem {
-                    Label("Group", systemImage: "person.3.fill")
-                }
+        NavigationView {
+            if fbInterface.signedIn {
+                NavBar()
+                    .navigationBarHidden(true)
+            } else {
+                LoginPageView()
+            }
+        }
+        .onAppear {
+            fbInterface.signedIn = fbInterface.isSignedIn
         }
     }
 }

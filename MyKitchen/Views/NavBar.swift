@@ -16,26 +16,24 @@ struct NavBar: View {
     var body: some View {
         TabView {
             // Text("PlanningView()") can be replaced with view to be showed on click
-            Text("PlanningView()")
+            //            Text("PlanningView()")
+            PlanningView(recipeList: Recipe.getRecipes())
                 .tabItem {
                     Label("Planning", systemImage: "magnifyingglass")
                 }
-            Text("PersonalListView()")
+            PersonalListView(ingredientList: Ingredient.data)
                 .tabItem {
                     Label("Personal", systemImage: "scroll.fill")
                 }
-            Text("HomeView()")
+            HomeView(recipes: Recipe.getRecipes())
                 .tabItem {
-                    Circle()
-                        .foregroundColor(Color("Camel"))
-                        
                     Label("Home", systemImage: "house.fill")
                 }
-            Text("MealViewerView()")
+            MealViewer(recipeList: Recipe.getRecipes())
                 .tabItem {
                     Label("MealViewer", systemImage: "calendar")
                 }
-            Text("GroupView()")
+            GroupsHomeView(groceries: Ingredient.data, users: UserModel.data)
                 .tabItem {
                     Label("Group", systemImage: "person.3.fill")
                 }

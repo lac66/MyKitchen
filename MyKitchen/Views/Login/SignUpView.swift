@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SignUpView: View {
+    @EnvironmentObject var fbInterface : FirebaseInterface
     @State var nameInput : String = ""
     @State var emailInput : String = ""
     @State var passwordInput : String = ""
@@ -26,12 +27,18 @@ struct SignUpView: View {
                 Color("OxfordBlue").edgesIgnoringSafeArea(.all)
                 
                 VStack {
+                    Image("MyKitchenLogo")
+                        .resizable()
+                        .frame(width: 300, height: 120)
+                        .padding(.bottom, 120)
+                    
                     TextField("", text: $nameInput)
                         .placeholder(when: nameInput.isEmpty, placeholder: {
                             Text("Full Name")
                                 .foregroundColor(Color("MintCream"))
                                 .padding(.leading)
                         })
+                        .navigationBarTitle("Sign Up", displayMode: .inline)
                         .frame(width: 300, height: 60)
                         .border(Color("MintCream"), width: 2)
                         .cornerRadius(10)
@@ -56,13 +63,19 @@ struct SignUpView: View {
                         .border(Color("MintCream"), width: 2)
                         .cornerRadius(10)
                     
-                    NavigationLink(
-                        destination: SignInView(),
-                        label: {
-                            Text("Create Your Account")
-                                .foregroundColor(Color("MintCream"))
-                        }
-                    )
+//                    NavigationLink(
+//                        destination: SignInView(),
+//                        label: {
+//                            Text("Create Your Account")
+//                                .foregroundColor(Color("MintCream"))
+//                        }
+//                    )
+                    Button {
+                        fbInterface.signUp(email: emailInput, password: passwordInput)
+                    } label: {
+                        Text("Create Your Account")
+                            .foregroundColor(Color("MintCream"))
+                    }
                     .frame(width: 300, height: 60)
                     .background(Color("Camel"))
                     .cornerRadius(15)

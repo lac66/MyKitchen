@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct LoginPageView: View {
+    @EnvironmentObject var fbInterface : FirebaseInterface
     
     init() {
         navAppearance.backgroundColor = UIColor(named: "OxfordBlue")
@@ -23,6 +24,11 @@ struct LoginPageView: View {
                 Color("OxfordBlue").edgesIgnoringSafeArea(.all)
                 
                 VStack {
+                    Image("MyKitchenLogo")
+                        .resizable()
+                        .frame(width: 300, height: 120)
+                        .padding(.bottom, 150)
+                    
                     NavigationLink(
                         destination: SignInView(),
                         label: {

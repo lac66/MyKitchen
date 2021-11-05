@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SignInView: View {
+    @EnvironmentObject var fbInterface : FirebaseInterface
     @State var emailInput : String = ""
     @State var passwordInput : String = ""
     
@@ -25,12 +26,18 @@ struct SignInView: View {
                 Color("OxfordBlue").edgesIgnoringSafeArea(.all)
                 
                 VStack {
+                    Image("MyKitchenLogo")
+                        .resizable()
+                        .frame(width: 300, height: 120)
+                        .padding(.bottom, 150)
+                    
                     TextField("", text: $emailInput)
                         .placeholder(when: emailInput.isEmpty, placeholder: {
                             Text("Email")
                                 .foregroundColor(Color("MintCream"))
                                 .padding(.leading)
                         })
+                        .navigationBarTitle("Sign In", displayMode: .inline)
                         .frame(width: 300, height: 60)
                         .border(Color("MintCream"), width: 2)
                         .cornerRadius(10)
@@ -45,13 +52,19 @@ struct SignInView: View {
                         .border(Color("MintCream"), width: 2)
                         .cornerRadius(10)
                     
-                    NavigationLink(
-                        destination: SignInView(),
-                        label: {
-                            Text("Sign In")
-                                .foregroundColor(Color("MintCream"))
-                        }
-                    )
+//                    NavigationLink(
+//                        destination: SignInView(),
+//                        label: {
+//                            Text("Sign In")
+//                                .foregroundColor(Color("MintCream"))
+//                        }
+//                    )
+                    Button {
+                        fbInterface.signIn(email: emailInput, password: passwordInput)
+                    } label: {
+                        Text("Sign In")
+                            .foregroundColor(Color("MintCream"))
+                    }
                     .frame(width: 300, height: 60)
                     .background(Color("Camel"))
                     .cornerRadius(15)

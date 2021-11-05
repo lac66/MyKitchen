@@ -45,7 +45,6 @@
 		A327A1D6272C688F001B7627 /* DaysOfWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = A327A1D5272C688F001B7627 /* DaysOfWeek.swift */; };
 		A35179BC2731EC1400E35FC2 /* MealDaySelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35179BB2731EC1400E35FC2 /* MealDaySelection.swift */; };
 		BA5FD80E2732CD60000ACC4C /* PantryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5FD80D2732CD60000ACC4C /* PantryView.swift */; };
-		BA5FD8102732D3F3000ACC4C /* ItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5FD80F2732D3F2000ACC4C /* ItemDetailView.swift */; };
 		BA5FD8122732DDCA000ACC4C /* ItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5FD8112732DDCA000ACC4C /* ItemView.swift */; };
 		E6EC5B8BF079E567C03F6584 /* Pods_MyKitchen_MyKitchenUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC46418F0FF1BD6E3D7BE54 /* Pods_MyKitchen_MyKitchenUITests.framework */; };
 /* End PBXBuildFile section */
@@ -115,7 +114,6 @@
 		A35179BB2731EC1400E35FC2 /* MealDaySelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealDaySelection.swift; sourceTree = "<group>"; };
 		B772AFE48E4AEF7797F7B677 /* Pods_MyKitchenTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyKitchenTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA5FD80D2732CD60000ACC4C /* PantryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryView.swift; sourceTree = "<group>"; };
-		BA5FD80F2732D3F2000ACC4C /* ItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailView.swift; sourceTree = "<group>"; };
 		BA5FD8112732DDCA000ACC4C /* ItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemView.swift; sourceTree = "<group>"; };
 		BD5CCCC671F74259BB795E96 /* Pods_MyKitchen.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyKitchen.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C41630BBFD9C5D8FD91EE318 /* Pods-MyKitchen-MyKitchenUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyKitchen-MyKitchenUITests.debug.xcconfig"; path = "Target Support Files/Pods-MyKitchen-MyKitchenUITests/Pods-MyKitchen-MyKitchenUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -326,7 +324,6 @@
 			isa = PBXGroup;
 			children = (
 				BA5FD80D2732CD60000ACC4C /* PantryView.swift */,
-				BA5FD80F2732D3F2000ACC4C /* ItemDetailView.swift */,
 				BA5FD8112732DDCA000ACC4C /* ItemView.swift */,
 			);
 			path = MyPantry;
@@ -573,7 +570,6 @@
 				3DA9E2A32733145300476227 /* Quantity.swift in Sources */,
 				3DCFA872272BA9D4009184DA /* RecipeView.swift in Sources */,
 				3DB85DFC273338F900695D1F /* Ingredient.swift in Sources */,
-				BA5FD8102732D3F3000ACC4C /* ItemDetailView.swift in Sources */,
 				3D1126BC272C467D0090888B /* MealViewerCardView.swift in Sources */,
 				3D5557CD2719E355009D5E7D /* RecipeCardView.swift in Sources */,
 				3D7D2ACD27350A7900153328 /* FirebaseInterface.swift in Sources */,

@@ -67,7 +67,7 @@ struct PantryView: View {
                         VStack (spacing: 10) {
                             ForEach(ingredient, id: \.id) { ingredient in
                                 NavigationLink(
-                                    destination: ItemDetailView(ingredient: ingredient),
+                                    destination: IngredientEditCardView(ingredient: ingredient),
                                     label: {
                                         IngredientEditCardView(ingredient: ingredient)
                                     })

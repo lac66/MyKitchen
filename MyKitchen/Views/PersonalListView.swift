@@ -32,7 +32,7 @@ struct PersonalListView: View {
                         Text("Personal List")
                             .font(.system(size: 32, weight: .bold, design: .default))
                         
-                        Searchbar(placeholder: Text("Search here"), text: $searchText)
+                        Searchbar(placeholder: Text("Search here"), isForRecipes: false, text: $searchText)
                             .foregroundColor(Color("MintCream"))
                     }
                     .foregroundColor(Color("MintCream"))

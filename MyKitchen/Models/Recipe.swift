@@ -16,6 +16,8 @@ struct Recipe: Identifiable {
     var img: Image?
     var ingredients: [String]?
     var instructions: [String]?
+    
+    
 }
 
 extension Recipe {
@@ -36,7 +38,7 @@ extension Recipe {
             Recipe(id: 13, name: "Shrimp Boil", cookTime: "50 mins", difficulty: "Easy", img: Image("food"), ingredients: ["1 Cup Something", "2 tsp Something else", "3 Gal Something good"], instructions: ["Put all ingredients in a pan", "Stir until it smells and looks good", "Take pan off of burner", "Enjoy!"])
         ]
     }
-    
+
     static func getRecipes() -> [Recipe] {
         return Recipe.data
     }

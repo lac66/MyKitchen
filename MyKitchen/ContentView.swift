@@ -22,7 +22,7 @@ struct ContentView: View {
             }
         }
         .onAppear {
-            fbInterface.signOut()
+//            fbInterface.signOut()
             fbInterface.signedIn = fbInterface.isSignedIn
         }
     }

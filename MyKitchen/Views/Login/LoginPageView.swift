@@ -45,7 +45,6 @@ struct LoginPageView: View {
                     .padding()
                 }
                 .navigationBarTitle("Login", displayMode: .inline)
-//                .navigationBarHidden(true)
             }
         }
     }

@@ -32,7 +32,7 @@ struct PlanningView: View {
                         Text("Planning")
                             .font(.system(size: 32, weight: .bold, design: .default))
         
-                        Searchbar(placeholder: Text("Search here"), text: $searchText)
+                        Searchbar(placeholder: Text("Search here"), isForRecipes: true, text: $searchText)
                             .foregroundColor(Color("MintCream"))
                         
                         HStack (spacing: 0) {

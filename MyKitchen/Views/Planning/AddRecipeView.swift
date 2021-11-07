@@ -51,7 +51,7 @@ struct AddRecipeView: View {
                     .padding(.top)
                     
                     VStack (spacing: 0) {
-                        VStack {
+                        VStack (alignment: .leading) {
                             Text("Ingredient")
                                 .font(.system(size: 18, weight: .semibold, design: .default))
                                 .padding()

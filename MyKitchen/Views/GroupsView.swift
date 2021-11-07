@@ -12,10 +12,10 @@ struct GroupsView: View {
     init(groupList: [UserModel]) {
         users = groupList
         
-        coloredNavAppearance.backgroundColor = UIColor(named: "OxfordBlue")
+        navAppearance.backgroundColor = UIColor(named: "OxfordBlue")
         
-        UINavigationBar.appearance().standardAppearance = coloredNavAppearance
-        UINavigationBar.appearance().scrollEdgeAppearance = coloredNavAppearance
+        UINavigationBar.appearance().standardAppearance = navAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = navAppearance
     }
     var body: some View {
        // MemberCards(users: users)

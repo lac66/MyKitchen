@@ -63,13 +63,6 @@ struct SignUpView: View {
                         .border(Color("MintCream"), width: 2)
                         .cornerRadius(10)
                     
-//                    NavigationLink(
-//                        destination: SignInView(),
-//                        label: {
-//                            Text("Create Your Account")
-//                                .foregroundColor(Color("MintCream"))
-//                        }
-//                    )
                     Button {
                         fbInterface.signUp(email: emailInput, password: passwordInput)
                     } label: {

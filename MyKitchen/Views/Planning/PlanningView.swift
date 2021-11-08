@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct PlanningView: View {
-    let recipes: [Recipe]
+    @EnvironmentObject var eInterface : EdamamInterface
+    
+    var recipes: [Recipe]
     
     @State var searchText = ""
     

@@ -13,8 +13,10 @@ struct MyKitchenApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     var body: some Scene {
         WindowGroup {
+            let eInterface = EdamamInterface()
             let fbInterface = FirebaseInterface()
             ContentView()
+                .environmentObject(eInterface)
                 .environmentObject(fbInterface)
         }
     }

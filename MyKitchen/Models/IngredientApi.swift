@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct IngredientTest: Codable {
+struct IngredientApi: Codable {
     let text : String?
     let quantity : Double?
     let measure : String?

@@ -26,6 +26,6 @@ struct SubLinks : Codable {
 }
 
 struct SubRecipeResponse : Codable {
-    let recipe : RecipeTest?
+    let recipe : RecipeApi?
     let _links : Links?
 }

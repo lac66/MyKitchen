@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct NavBar: View {
+    @EnvironmentObject var eInterface : EdamamInterface
     @EnvironmentObject var fbInterface : FirebaseInterface
     @State var initialIndex = 2
     
@@ -24,6 +25,7 @@ struct NavBar: View {
                 .tabItem {
                     Label("Planning", systemImage: "magnifyingglass")
                 }
+                .environmentObject(eInterface)
             PersonalListView(ingredientList: Ingredient.data)
                 .tabItem {
                     Label("Personal", systemImage: "scroll.fill")

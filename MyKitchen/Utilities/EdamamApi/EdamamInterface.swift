@@ -6,12 +6,15 @@
 //
 
 import Foundation
+import SwiftUI
 
 class EdamamInterface : ObservableObject {
     let appId = "30587033"
     let appKey = "0febb1f0fdee5debdf144f1318297d2a"
     let firstPartialURL = "https://api.edamam.com/api/recipes/v2/"
     //    let lastPartialUrl = "?app_id=\(appId)&app_key=\(appKey)"
+    
+    @Published var recipes : [Recipe] = []
     
     func searchWithApi(text: String, isForRecipes: Bool) {
         print("changed")
@@ -53,11 +56,31 @@ class EdamamInterface : ObservableObject {
             
             print(json)
             
-            DispatchQueue.main.async {
-                // get recipes to planningview
+            for subRecipe in json.hits! {
+                let tmp = subRecipe.recipe!
+                
+                var newIngredients : [Ingredient] = []
+                for ing in tmp.ingredients! {
+                    newIngredients.append(Ingredient(id: ing.foodId!, text: ing.text!, quantity: ing.quantity!, measure: ing.measure, food: ing.food!, weight: ing.weight!, foodCategory: ing.foodCategory, imgUrl: ing.image))
+                }
+                
+                let newRecipe = Recipe(id: tmp.uri!, name: tmp.label!, imgUrl: tmp.image!, sourceUrl: tmp.url!, yield: tmp.yield!, ingString: tmp.ingredientLines!, ingredients: newIngredients, calories: tmp.calories!, cuisineType: tmp.cuisineType!, mealType: tmp.mealType!)
+                
+//                self.getImage(from: newRecipe.imgUrl) { returnedImage in
+//                    newRecipe.img = returnedImage
+//                    self.recipes.append(newRecipe)
+//                }
+                
+                DispatchQueue.main.async {
+                    self.recipes.append(newRecipe)
+                }
             }
         })
         
         task.resume()
     }
+    
+//    func getImage(from url: String, completionHandler: (Image) -> Void) {
+//        AsyncImage(url: URL(string: url))
+//    }
 }

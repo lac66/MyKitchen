@@ -8,7 +8,16 @@
 import SwiftUI
 
 struct RecipeCardView: View {
+    @ObservedObject var imageLoader: ImageLoader
+    @State var image: UIImage = UIImage()
+    
     let recipe: Recipe
+    
+    init(recipe: Recipe, withURL url: String) {
+        self.recipe = recipe
+        imageLoader = ImageLoader(urlString: url)
+    }
+    
     var body: some View {
         HStack {
             ZStack {
@@ -17,10 +26,15 @@ struct RecipeCardView: View {
                     .foregroundColor(Color("Camel"))
                     .cornerRadius(10)
                 
-                recipe.img!
+                // need to load image from url
+                Image(uiImage: image)
                     .resizable()
                     .frame(width: 65, height: 65)
                     .cornerRadius(6)
+                    .onReceive(imageLoader.didChange) { data in
+                        self.image = UIImage(data: data) ?? UIImage()
+                        self.recipe.img = self.image
+                    }
             }
             .padding(.leading, 10)
             
@@ -28,10 +42,10 @@ struct RecipeCardView: View {
                 Text(recipe.name)
                     .font(.system(size: 24, weight: .bold, design: .default))
                     .padding(.bottom, 1)
-                Text(recipe.cookTime)
-                    .font(.system(size: 16, weight: .regular, design: .default))
-                Text(recipe.difficulty)
-                    .font(.system(size: 16, weight: .regular, design: .default))
+//                Text(recipe.cookTime)
+//                    .font(.system(size: 16, weight: .regular, design: .default))
+//                Text(recipe.difficulty)
+//                    .font(.system(size: 16, weight: .regular, design: .default))
             }
             .padding(.leading, 15)
             
@@ -69,9 +83,9 @@ struct RecipeCardView: View {
 }
 
 struct RecipeCardView_Previews: PreviewProvider {
-    static var recipe = Recipe.data[0]
+    static let recipe = Recipe(id: "id", name: "name", imgUrl: "imgUrl", sourceUrl: "sourceUrl", yield: 1, ingString: ["ingArr"], ingredients: [Ingredient(id: "id", text: "text", quantity: 1.0, measure: "measure", food: "food", weight: 1.0, foodCategory: "foodCategory", imgUrl: "https://www.edamam.com/food-img/627/627582f390a350d98c367f89c3a943fe.jpg")], calories: 1.0, cuisineType: ["cuisineType"], mealType: ["mealType"])
     static var previews: some View {
-        RecipeCardView(recipe: recipe)
+        RecipeCardView(recipe: recipe, withURL: recipe.imgUrl)
             .previewLayout(.fixed(width: 350, height: 90))
     }
 }

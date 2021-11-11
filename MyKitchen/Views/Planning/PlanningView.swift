@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct PlanningView: View {
+    @EnvironmentObject var fbInterface : FirebaseInterface
     @EnvironmentObject var eInterface : EdamamInterface
     
-    var recipes: [Recipe]
+//    var recipes: [Recipe]
     
     @State var searchText = ""
     
-    init(recipeList: [Recipe]) {
-        recipes = recipeList
+    init() {
+//        recipes = recipeList
         
         navAppearance.backgroundColor = UIColor(named: "OxfordBlue")
         navAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor(named: "MintCream") as Any]
@@ -65,11 +66,11 @@ struct PlanningView: View {
                     
                     ScrollView {
                         VStack (spacing: 10) {
-                            ForEach(recipes, id: \.id) { recipe in
+                            ForEach(eInterface.recipes, id: \.id) { recipe in
                                 NavigationLink(
                                     destination: RecipeDetailsView(recipe: recipe),
                                     label: {
-                                        RecipeCardView(recipe: recipe)
+                                        RecipeCardView(recipe: recipe, withURL: recipe.imgUrl)
                                     })
                             }
                         }
@@ -83,8 +84,8 @@ struct PlanningView: View {
 }
 
 struct PlanningView_Previews: PreviewProvider {
-    static var recipes = Recipe.data
+//    static var recipes = Recipe.data
     static var previews: some View {
-        PlanningView(recipeList: recipes)
+        PlanningView()
     }
 }

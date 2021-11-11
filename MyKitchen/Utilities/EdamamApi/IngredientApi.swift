@@ -13,5 +13,7 @@ struct IngredientApi: Codable {
     let measure : String?
     let food : String?
     let weight : Double?
+    let foodCategory: String?
     let foodId : String?
+    let image: String?
 }

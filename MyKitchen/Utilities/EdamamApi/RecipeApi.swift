@@ -31,8 +31,6 @@ struct RecipeApi : Codable {
     let totalNutrients: [String: Nutrient]?
     let totalDaily : [String: Nutrient]?
     let digest : [Digest]?
-    
-//    let imgHolder : ImageHolder?
 }
 
 struct Nutrient : Codable {

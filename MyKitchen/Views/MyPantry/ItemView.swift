@@ -44,7 +44,7 @@ struct ItemView: View {
 }
 
 struct ItemView_Previews: PreviewProvider {
-    static var ingredient = Ingredient.data
+    static var ingredient = [Ingredient(id: "id", text: "text", quantity: 1.0, measure: "measure", food: "food", weight: 1.0, foodCategory: "foodCategory", imgUrl: "imgUrl")]
     static var previews: some View {
         ItemView(ingredientList: ingredient)
     }

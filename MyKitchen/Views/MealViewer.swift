@@ -7,12 +7,9 @@
 import SwiftUI
 
 struct MealViewer: View {
+    @EnvironmentObject var fbInterface : FirebaseInterface
     
-    let recipes: [Recipe]
-    
-    init(recipeList: [Recipe]) {
-        recipes = recipeList
-        
+    init() {
         navAppearance.backgroundColor = UIColor(named: "OxfordBlue")
         
         UINavigationBar.appearance().standardAppearance = navAppearance
@@ -35,10 +32,10 @@ struct MealViewer: View {
                     //Horizontal Scrollbar with meals
                     ScrollView(.horizontal, showsIndicators: true){
                         HStack{
-                            ForEach(recipes, id: \.id) { recipe in
-                                MealViewerCardView(recipe: recipe)
-                                
-                            }
+//                            ForEach(recipes, id: \.id) { recipe in
+//                                MealViewerCardView(recipe: recipe)
+//
+//                            }
                         }
                         
                     }
@@ -66,7 +63,7 @@ struct MealViewer: View {
                                         .foregroundColor(Color("MintCream"))
                                         .padding(.trailing, 240.0)
                                 }
-                                MealViewerCardView(recipe: recipes[0])
+//                                MealViewerCardView(recipe: recipes[0])
                                 Spacer()
                                 
                             }
@@ -139,9 +136,7 @@ struct MealViewer: View {
 
 
 struct MealViewer_Previews: PreviewProvider {
-    static var recipes = Recipe.data
     static var previews: some View {
-        MealViewer(recipeList: recipes)
-            .background(Color("OxfordBlue"))
+        MealViewer()
     }
 }

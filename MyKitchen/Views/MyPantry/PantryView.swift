@@ -10,13 +10,10 @@ import SwiftUI
 let pannavAppearance = UINavigationBarAppearance()
 
 struct PantryView: View {
-    let ingredient: [Ingredient]
     
     @State var searchText = ""
     
-    init(ingredientList: [Ingredient]) {
-        ingredient = ingredientList
-        
+    init() {
         pannavAppearance.backgroundColor = UIColor(named: "OxfordBlue")
         pannavAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor(named: "MintCream") as Any]
         
@@ -65,13 +62,13 @@ struct PantryView: View {
                     
                     ScrollView {
                         VStack (spacing: 10) {
-                            ForEach(ingredient, id: \.id) { ingredient in
-                                NavigationLink(
-                                    destination: IngredientEditCardView(ingredient: ingredient),
-                                    label: {
-                                        IngredientEditCardView(ingredient: ingredient)
-                                    })
-                            }
+//                            ForEach(ingredient, id: \.id) { ingredient in
+//                                NavigationLink(
+//                                    destination: IngredientEditCardView(ingredient: ingredient),
+//                                    label: {
+//                                        IngredientEditCardView(ingredient: ingredient)
+//                                    })
+//                            }
                         }
                     }
 //                        .navigationBarTitleDisplayMode(.inline)
@@ -156,8 +153,7 @@ struct PantryView: View {
 }
 
 struct PantryView_Previews: PreviewProvider {
-    static var ingredient = Ingredient.data
     static var previews: some View {
-        PantryView(ingredientList: ingredient)
+        PantryView()
     }
 }

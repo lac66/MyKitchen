@@ -60,8 +60,8 @@ struct AddRecipeView: View {
                             if (ingredients.count > 0) {
                                 VStack {
                                     ForEach(ingredients, id: \.id) { ingredient in
-                                        Text("\(ingredient.qty!.toString())     \(ingredient.name)")
-                                            .padding(.leading, 25)
+//                                        Text("\(ingredient.qty!.toString())     \(ingredient.name)")
+//                                            .padding(.leading, 25)
                                     }
                                     .padding(.bottom, 1)
                                     .multilineTextAlignment(.leading)
@@ -129,7 +129,7 @@ struct AddRecipeView: View {
                         ZStack {
                             Button {
                                 if (showAddPanel) {
-                                    ingredients.append(Ingredient(name: ingredientNameInput, qty: Quantity(amt: Double(amtInput)!, unit: Unit.allCases[selectedQty])))
+//                                    ingredients.append(Ingredient(name: ingredientNameInput, qty: Quantity(amt: Double(amtInput)!, unit: Unit.allCases[selectedQty])))
                                     amtInput = ""
                                     selectedQty = 14
                                     ingredientNameInput = ""

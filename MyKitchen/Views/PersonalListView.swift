@@ -8,13 +8,10 @@
 import SwiftUI
 
 struct PersonalListView: View {
-    let ingredients: [Ingredient]
-    
+    @EnvironmentObject var fbInterface : FirebaseInterface
     @State var searchText = ""
     
-    init(ingredientList: [Ingredient]) {
-        ingredients = ingredientList
-        
+    init() {
         navAppearance.backgroundColor = UIColor(named: "OxfordBlue")
         navAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor(named: "MintCream") as Any]
         
@@ -40,9 +37,9 @@ struct PersonalListView: View {
                     
                     ScrollView {
                         VStack (spacing: 10) {
-                            ForEach(ingredients, id: \.id) { ingredient in
-                                IngredientEditCardView(ingredient: ingredient)
-                            }
+//                            ForEach(ingredients, id: \.id) { ingredient in
+//                                IngredientEditCardView(ingredient: ingredient)
+//                            }
                         }
                     }
                     .onTapGesture {
@@ -57,9 +54,8 @@ struct PersonalListView: View {
 }
 
 struct PersonalListView_Previews: PreviewProvider {
-    static var recipes = Recipe.data
     static var previews: some View {
-        PersonalListView(ingredientList: Ingredient.data)
+        PersonalListView()
     }
 }
 

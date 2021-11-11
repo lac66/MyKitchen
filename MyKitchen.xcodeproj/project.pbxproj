@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		023C20A75D6648F4B3112112 /* Pods_MyKitchen.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD5CCCC671F74259BB795E96 /* Pods_MyKitchen.framework */; };
+		3D0763F1273CC41E00960322 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0763F0273CC41E00960322 /* ImageLoader.swift */; };
 		3D1126BC272C467D0090888B /* MealViewerCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1126BB272C467D0090888B /* MealViewerCardView.swift */; };
 		3D4EB768272318340049CAF1 /* MealViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4EB767272318340049CAF1 /* MealViewer.swift */; };
 		3D4EB76A272355F80049CAF1 /* Searchbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4EB769272355F80049CAF1 /* Searchbar.swift */; };
@@ -16,7 +17,10 @@
 		3D7D2ACD27350A7900153328 /* FirebaseInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7D2ACC27350A7900153328 /* FirebaseInterface.swift */; };
 		3D7D2ACF27350F8C00153328 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3D7D2ACE27350F8C00153328 /* GoogleService-Info.plist */; };
 		3D934C662738B0BA005552B4 /* EdamamInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D934C652738B0BA005552B4 /* EdamamInterface.swift */; };
-		3D934C682738B348005552B4 /* ImageHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D934C672738B348005552B4 /* ImageHolder.swift */; };
+		3D934C6A2738C87A005552B4 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D934C692738C87A005552B4 /* User.swift */; };
+		3D934C6C2738CA8C005552B4 /* UserDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D934C6B2738CA8C005552B4 /* UserDB.swift */; };
+		3D934C702738CC94005552B4 /* WeeklyUserDataDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D934C6F2738CC94005552B4 /* WeeklyUserDataDB.swift */; };
+		3D934C722738CEFF005552B4 /* WeeklyUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D934C712738CEFF005552B4 /* WeeklyUserData.swift */; };
 		3DA182FB2736FE6D00956FDD /* RecipeApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA182FA2736FE6D00956FDD /* RecipeApi.swift */; };
 		3DA182FD2736FF0600956FDD /* IngredientApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA182FC2736FF0600956FDD /* IngredientApi.swift */; };
 		3DA9E2A32733145300476227 /* Quantity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA9E2A22733145300476227 /* Quantity.swift */; };
@@ -74,6 +78,7 @@
 /* Begin PBXFileReference section */
 		0389DE2B865C0C999E0F0196 /* Pods-MyKitchen.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyKitchen.release.xcconfig"; path = "Target Support Files/Pods-MyKitchen/Pods-MyKitchen.release.xcconfig"; sourceTree = "<group>"; };
 		0E380EBE85460989D689C3D3 /* Pods-MyKitchenTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyKitchenTests.release.xcconfig"; path = "Target Support Files/Pods-MyKitchenTests/Pods-MyKitchenTests.release.xcconfig"; sourceTree = "<group>"; };
+		3D0763F0273CC41E00960322 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		3D1126BB272C467D0090888B /* MealViewerCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealViewerCardView.swift; sourceTree = "<group>"; };
 		3D4EB767272318340049CAF1 /* MealViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealViewer.swift; sourceTree = "<group>"; };
 		3D4EB769272355F80049CAF1 /* Searchbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Searchbar.swift; sourceTree = "<group>"; };
@@ -82,7 +87,10 @@
 		3D7D2ACC27350A7900153328 /* FirebaseInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseInterface.swift; sourceTree = "<group>"; };
 		3D7D2ACE27350F8C00153328 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3D934C652738B0BA005552B4 /* EdamamInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdamamInterface.swift; sourceTree = "<group>"; };
-		3D934C672738B348005552B4 /* ImageHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHolder.swift; sourceTree = "<group>"; };
+		3D934C692738C87A005552B4 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		3D934C6B2738CA8C005552B4 /* UserDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDB.swift; sourceTree = "<group>"; };
+		3D934C6F2738CC94005552B4 /* WeeklyUserDataDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyUserDataDB.swift; sourceTree = "<group>"; };
+		3D934C712738CEFF005552B4 /* WeeklyUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyUserData.swift; sourceTree = "<group>"; };
 		3DA182FA2736FE6D00956FDD /* RecipeApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeApi.swift; sourceTree = "<group>"; };
 		3DA182FC2736FF0600956FDD /* IngredientApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientApi.swift; sourceTree = "<group>"; };
 		3DA9E2A22733145300476227 /* Quantity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Quantity.swift; sourceTree = "<group>"; };
@@ -160,15 +168,44 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3DA9E2A12733143200476227 /* Utilities */ = {
+		3D934C6D2738CB01005552B4 /* EdamamApi */ = {
+			isa = PBXGroup;
+			children = (
+				3D934C652738B0BA005552B4 /* EdamamInterface.swift */,
+				3D69E7A22736EE6C00709BCA /* RecipeApiResponse.swift */,
+				3DA182FA2736FE6D00956FDD /* RecipeApi.swift */,
+				3DA182FC2736FF0600956FDD /* IngredientApi.swift */,
+			);
+			path = EdamamApi;
+			sourceTree = "<group>";
+		};
+		3D934C6E2738CB0F005552B4 /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				3D7D2ACC27350A7900153328 /* FirebaseInterface.swift */,
+				3D934C6B2738CA8C005552B4 /* UserDB.swift */,
+				3D934C6F2738CC94005552B4 /* WeeklyUserDataDB.swift */,
+			);
+			path = Firebase;
+			sourceTree = "<group>";
+		};
+		3D934C732738CFF9005552B4 /* Enum */ = {
 			isa = PBXGroup;
 			children = (
 				A327A1D5272C688F001B7627 /* DaysOfWeek.swift */,
 				3DA9E2A42733145E00476227 /* Unit.swift */,
 				3DB85DFF2733839200695D1F /* IngType.swift */,
-				3D7D2ACC27350A7900153328 /* FirebaseInterface.swift */,
-				3D934C652738B0BA005552B4 /* EdamamInterface.swift */,
-				3D934C672738B348005552B4 /* ImageHolder.swift */,
+			);
+			path = Enum;
+			sourceTree = "<group>";
+		};
+		3DA9E2A12733143200476227 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				3D934C732738CFF9005552B4 /* Enum */,
+				3D934C6E2738CB0F005552B4 /* Firebase */,
+				3D934C6D2738CB01005552B4 /* EdamamApi */,
+				3D0763F0273CC41E00960322 /* ImageLoader.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -248,8 +285,8 @@
 				3DB44B822719282B00DACF0E /* CardViews */,
 				3DB44B7B271918B400DACF0E /* HomeView.swift */,
 				3DD93C3427222CA6005AE1CC /* NavBar.swift */,
-				3D4EB767272318340049CAF1 /* MealViewer.swift */,
 				9B99FE72272B1F0F009E6B62 /* GroupsView.swift */,
+				3D4EB767272318340049CAF1 /* MealViewer.swift */,
 				9B99FE7C272B6538009E6B62 /* GroupsHomeView.swift */,
 				3DB85DFD2733462600695D1F /* PersonalListView.swift */,
 			);
@@ -263,9 +300,8 @@
 				3DB44B802719203900DACF0E /* Recipe.swift */,
 				9B99FE78272B30B1009E6B62 /* UserModel.swift */,
 				3DA9E2A22733145300476227 /* Quantity.swift */,
-				3D69E7A22736EE6C00709BCA /* RecipeApiResponse.swift */,
-				3DA182FA2736FE6D00956FDD /* RecipeApi.swift */,
-				3DA182FC2736FF0600956FDD /* IngredientApi.swift */,
+				3D934C692738C87A005552B4 /* User.swift */,
+				3D934C712738CEFF005552B4 /* WeeklyUserData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -600,11 +636,14 @@
 				3DD93C3527222CA6005AE1CC /* NavBar.swift in Sources */,
 				9B99FE7D272B6539009E6B62 /* GroupsHomeView.swift in Sources */,
 				BA5FD80E2732CD60000ACC4C /* PantryView.swift in Sources */,
+				3D934C6A2738C87A005552B4 /* User.swift in Sources */,
 				3DB44B50271911A600DACF0E /* MyKitchenApp.swift in Sources */,
 				3DB85DFE2733462600695D1F /* PersonalListView.swift in Sources */,
+				3D934C6C2738CA8C005552B4 /* UserDB.swift in Sources */,
 				3DA9E2A52733145E00476227 /* Unit.swift in Sources */,
 				A327A1D6272C688F001B7627 /* DaysOfWeek.swift in Sources */,
 				3D4EB768272318340049CAF1 /* MealViewer.swift in Sources */,
+				3D934C702738CC94005552B4 /* WeeklyUserDataDB.swift in Sources */,
 				3DA182FB2736FE6D00956FDD /* RecipeApi.swift in Sources */,
 				9B99FE75272B2344009E6B62 /* MemberCards.swift in Sources */,
 				3DA9E2A92733158B00476227 /* AddRecipeView.swift in Sources */,
@@ -613,7 +652,8 @@
 				3DA182FD2736FF0600956FDD /* IngredientApi.swift in Sources */,
 				9B99FE79272B30B1009E6B62 /* UserModel.swift in Sources */,
 				3D934C662738B0BA005552B4 /* EdamamInterface.swift in Sources */,
-				3D934C682738B348005552B4 /* ImageHolder.swift in Sources */,
+				3D0763F1273CC41E00960322 /* ImageLoader.swift in Sources */,
+				3D934C722738CEFF005552B4 /* WeeklyUserData.swift in Sources */,
 				3DCFA873272BA9D4009184DA /* PlanningView.swift in Sources */,
 				3DB85E0827339FE300695D1F /* SignUpView.swift in Sources */,
 				3DB44B812719203900DACF0E /* Recipe.swift in Sources */,

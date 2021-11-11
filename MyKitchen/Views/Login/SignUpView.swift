@@ -64,7 +64,7 @@ struct SignUpView: View {
                         .cornerRadius(10)
                     
                     Button {
-                        fbInterface.signUp(email: emailInput, password: passwordInput)
+                        fbInterface.signUp(name: nameInput, email: emailInput, password: passwordInput)
                     } label: {
                         Text("Create Your Account")
                             .foregroundColor(Color("MintCream"))

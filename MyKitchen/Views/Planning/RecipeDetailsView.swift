@@ -8,11 +8,9 @@
 import SwiftUI
 
 struct RecipeDetailsView: View {
-    let recipe: Recipe
-    var pickerSelection = ["Personal List", "Group List"]
+    @EnvironmentObject var fbInterface: FirebaseInterface
     
-    @State private var showListSelection = false
-    @State private var selectedList = "Personal List"
+    let recipe: Recipe
     
     var body: some View {
         ZStack (alignment: .bottom) {
@@ -26,37 +24,80 @@ struct RecipeDetailsView: View {
                             .font(.system(size: 32, weight: .bold, design: .default))
                             .padding(.leading, 25)
                         
-                        RecipeDetailsSubView(recipe: recipe)
+                        ZStack {
+                            Rectangle()
+                                .frame(width: 350, height: 350)
+                                .foregroundColor(Color("Camel"))
+                                .cornerRadius(30)
+                            
+                            if (recipe.img != nil) {
+                                Image(uiImage: recipe.img!)
+                                    .resizable()
+                                    .frame(width: 325, height: 325)
+                                    .cornerRadius(25)
+                            } else {
+                                // show default image
+                                Image(uiImage: UIImage())
+                            }
+                        }
+                        
+                        ZStack (alignment: .leading) {
+                            Rectangle()
+                                .frame(width: 350)
+                                .foregroundColor(Color("AirBlue"))
+                                .cornerRadius(30)
+                            
+                            VStack (alignment: .leading) {
+                                Text("Ingredients")
+                                    .padding(.bottom)
+                                    .font(.system(size: 24, weight: .semibold, design: .default))
+                                
+                                ForEach(recipe.ingredients, id: \.id) { ingredient in
+                                    Text(ingredient.text)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                        .padding(1)
+                                        .padding(.leading)
+//                                        .padding(.trailing)
+                                }
+                            }
+                            .frame(width: 300)
+                            .padding(12)
+                            .padding(.leading, 12)
+                        }
+                        
+                        ZStack (alignment: .leading) {
+                            Rectangle()
+                                .frame(width: 350)
+                                .foregroundColor(Color("AirBlue"))
+                                .cornerRadius(30)
+                            
+                            VStack (alignment: .leading) {
+                                Text("Instructions")
+                                    .padding(.bottom)
+                                    .font(.system(size: 24, weight: .semibold, design: .default))
+                                
+                                Link( "Click Here", destination: URL(string: recipe.sourceUrl)!)
+                                    .padding(1)
+                                    .padding(.leading)
+                            }
+                            .frame(width: 300)
+                            .padding(12)
+                            .padding(.leading, 12)
+                        }
                     }
                     .foregroundColor(Color("MintCream"))
                 }
                 
                 VStack {
                     Button("Add to List") {
-                        if (showListSelection) {
-                            // add to list now
-                            showListSelection.toggle()
-                        } else {
-                            showListSelection.toggle()
-                        }
+                        // add to personal List
+                        fbInterface.addRecipe(recipe: recipe)
                     }
                     .frame(width: 350, height: 40)
                     .foregroundColor(Color("MintCream"))
                     .font(.system(size: 30, weight: .black, design: .monospaced))
                     .background(Color("Camel"))
                     .cornerRadius(24)
-                    
-                    if showListSelection {
-                        VStack {
-                            Picker("Choose a list to add recipe to", selection: $selectedList) {
-                                ForEach(pickerSelection, id: \.self) {
-                                    Text($0)
-                                }
-                            }
-                        }
-                        .foregroundColor(Color("MintCream"))
-                        .frame(height: 60)
-                    }
                 }
                 .padding(.bottom, 10)
             }
@@ -65,81 +106,8 @@ struct RecipeDetailsView: View {
 }
 
 struct RecipeDetailsView_Previews: PreviewProvider {
-    static var recipe = Recipe.data[0]
+    static let recipe = Recipe(id: "id", name: "name", imgUrl: "imgUrl", sourceUrl: "sourceUrl", yield: 1, ingString: ["ingArr"], ingredients: [Ingredient(id: "id", text: "text", quantity: 1.0, measure: "measure", food: "food", weight: 1.0, foodCategory: "foodCategory", imgUrl: "https://www.edamam.com/food-img/627/627582f390a350d98c367f89c3a943fe.jpg")], calories: 1.0, cuisineType: ["cuisineType"], mealType: ["mealType"])
     static var previews: some View {
         RecipeDetailsView(recipe: recipe)
     }
 }
-
-struct RecipeDetailsSubView: View {
-    let recipe: Recipe
-    
-    var body: some View {
-        ZStack {
-            Rectangle()
-                .frame(width: 350, height: 350)
-                .foregroundColor(Color("Camel"))
-                .cornerRadius(30)
-            
-            recipe.img!
-                .resizable()
-                .frame(width: 325, height: 325)
-                .cornerRadius(25)
-        }
-        
-        ZStack (alignment: .leading) {
-            Rectangle()
-                .frame(width: 350)
-                .foregroundColor(Color("AirBlue"))
-                .cornerRadius(30)
-            
-            VStack (alignment: .leading) {
-                Text("Ingredients")
-                    .padding(.bottom)
-                    .font(.system(size: 24, weight: .semibold, design: .default))
-                
-                ForEach(recipe.ingredients!, id: \.self) { ingredient in
-                    Text(ingredient)
-                        .padding(1)
-                        .padding(.leading)
-                }
-            }
-            .padding(12)
-            .padding(.leading, 12)
-        }
-        
-        ZStack (alignment: .leading) {
-            Rectangle()
-                .frame(width: 350)
-                .foregroundColor(Color("AirBlue"))
-                .cornerRadius(30)
-            
-            VStack (alignment: .leading) {
-                Text("Instructions")
-                    .padding(.bottom)
-                    .font(.system(size: 24, weight: .semibold, design: .default))
-                
-                ForEach(recipe.instructions!, id: \.self) { instructions in
-                    Text(instructions)
-                        .padding(1)
-                        .padding(.leading)
-                }
-            }
-            .padding(12)
-            .padding(.leading, 12)
-        }
-    }
-}
-
-
-//enum FoodGrouping {
-//    case protein
-//    case fandj
-//    case dairy
-//    case grains
-//    case drink
-//    case misc
-//}
-//var groceryList = [FoodGrouping: [Ingredient]]()
-
-

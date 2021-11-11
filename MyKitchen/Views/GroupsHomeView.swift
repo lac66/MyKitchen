@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct GroupsHomeView: View {
-    let groceries: [Ingredient]
-    let users: [UserModel]
+    @EnvironmentObject var fbInterface : FirebaseInterface
+//    let groceries: [Ingredient]
+//    let users: [UserModel]
     
     var body: some View {
 //        Color("OxfordBlue")
@@ -29,9 +30,9 @@ struct GroupsHomeView: View {
                     .foregroundColor(Color("MintCream"))
                 
                 VStack{
-                    List(groceries, children: \.items) { row in
-                        Text(row.name)
-                    }
+//                    List(groceries, children: \.items) { row in
+//                        Text(row.name)
+//                    }
                     ZStack{
                         Rectangle()
                             .frame(width: 350, height: 110)
@@ -44,11 +45,11 @@ struct GroupsHomeView: View {
                             .cornerRadius(15)
                         
                         HStack {
-                            ForEach(users, id: \.self){ user in
-                                SmallMemberCards(user: user)
-                                    .frame(width: 60, height: 80)
-                            }
-                            .frame(width: 100, height: 10, alignment: .center)
+//                            ForEach(users, id: \.self){ user in
+//                                SmallMemberCards(user: user)
+//                                    .frame(width: 60, height: 80)
+//                            }
+//                            .frame(width: 100, height: 10, alignment: .center)
                         }
                     }
                     .background(Color("OxfordBlue"))
@@ -78,6 +79,6 @@ struct GroupsHomeView_Previews: PreviewProvider {
     let groceries: [Ingredient]
     let users: [UserModel]
     static var previews: some View {
-        GroupsHomeView(groceries: Ingredient.data, users: UserModel.data)
+        GroupsHomeView()
     }
 }

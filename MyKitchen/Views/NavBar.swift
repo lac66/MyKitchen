@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct NavBar: View {
+//    @EnvironmentObject var currUser : User
     @EnvironmentObject var eInterface : EdamamInterface
     @EnvironmentObject var fbInterface : FirebaseInterface
     @State var initialIndex = 2
@@ -21,27 +22,35 @@ struct NavBar: View {
         TabView (selection: $initialIndex) {
             // Text("PlanningView()") can be replaced with view to be showed on click
             //            Text("PlanningView()")
-            PlanningView(recipeList: Recipe.getRecipes())
+            PlanningView()
                 .tabItem {
                     Label("Planning", systemImage: "magnifyingglass")
                 }
+                .environmentObject(fbInterface)
                 .environmentObject(eInterface)
-            PersonalListView(ingredientList: Ingredient.data)
+            // will get data from user observable obj
+            PersonalListView()
                 .tabItem {
                     Label("Personal", systemImage: "scroll.fill")
                 }
-            HomeView(recipes: Recipe.getRecipes())
+                .environmentObject(fbInterface)
+            HomeView()
                 .tabItem {
                     Label("Home", systemImage: "house.fill")
                 }
-            MealViewer(recipeList: Recipe.getRecipes())
+                .environmentObject(fbInterface)
+            // will get data from user observable obj
+            MealViewer()
                 .tabItem {
                     Label("MealViewer", systemImage: "calendar")
                 }
-            GroupsHomeView(groceries: Ingredient.data, users: UserModel.data)
+                .environmentObject(fbInterface)
+            // will get data from user observable obj
+            GroupsHomeView()
                 .tabItem {
                     Label("Group", systemImage: "person.3.fill")
                 }
+                .environmentObject(fbInterface)
         }
         .onDisappear {
             let so = fbInterface.signOut()

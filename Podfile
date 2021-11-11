@@ -8,6 +8,7 @@ target 'MyKitchen' do
   # Pods for MyKitchen
   pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
+  pod 'FirebaseFirestoreSwift'
   pod 'Firebase/Analytics'
 
   target 'MyKitchenTests' do

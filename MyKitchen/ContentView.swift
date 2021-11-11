@@ -24,6 +24,11 @@ struct ContentView: View {
         .onAppear {
 //            fbInterface.signOut()
             fbInterface.signedIn = fbInterface.isSignedIn
+            if (fbInterface.signedIn) {
+                fbInterface.getUser {
+                    print("got user in contentView")
+                }
+            }
         }
     }
 }

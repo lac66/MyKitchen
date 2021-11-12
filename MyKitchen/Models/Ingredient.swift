@@ -11,15 +11,15 @@ import SwiftUI
 class Ingredient: Identifiable {
     let id : String
     let text : String
-    let quantity : Double
-    let measure : String?
+    var quantity : Double
+    var measure : String?
     let food : String
     let weight : Double
     let foodCategory: String?
     let imgUrl: String?
     
     var type: IngType?
-    var img: Image?
+    var img: UIImage?
     
     init(id: String, text: String, quantity: Double, measure: String?, food: String, weight: Double, foodCategory: String?, imgUrl: String?) {
         self.id = id
@@ -30,27 +30,11 @@ class Ingredient: Identifiable {
         self.weight = weight
         self.foodCategory = foodCategory
         self.imgUrl = imgUrl
-        
-//        if (imgUrl != nil) {
-//            self.getImage(urlStr: imgUrl!)
-//        }
     }
-    
-//    func getImage(urlStr: String) {
-//        let url = URL(string: urlStr)
-//
-//        _ = URLSession.shared.dataTask(with: url!) { [self] (data, response, error) in
-//            guard let data = data, error == nil else { return }
-//            print(response?.suggestedFilename ?? url!.lastPathComponent)
-//            print("Download Finished")
-//
-//            self.img = Image(uiImage: UIImage(data: data)!)
-//        }
-//    }
 }
 
 
-extension Ingredient {
+//extension Ingredient {
 //    static var data: [Ingredient] {
 //        [
 //            Ingredient(name: "Milk", type: IngType.dairy, qty: Quantity(amt: 1, unit: Unit.gal), img: Image("milk")),
@@ -67,8 +51,8 @@ extension Ingredient {
 //        return Ingredient.data
 //    }
 //
-    
-}
+//
+//}
 
 
 

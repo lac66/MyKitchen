@@ -40,6 +40,7 @@ struct SignInView: View {
                         .padding(.leading)
                         .border(Color("MintCream"), width: 2)
                         .cornerRadius(10)
+                        .foregroundColor(Color("MintCream"))
                     
                     SecureField("", text: $passwordInput)
                         .placeholder(when: passwordInput.isEmpty, placeholder: {
@@ -50,6 +51,7 @@ struct SignInView: View {
                         .padding(.leading)
                         .border(Color("MintCream"), width: 2)
                         .cornerRadius(10)
+                        .foregroundColor(Color("MintCream"))
                     
                     Button {
                         fbInterface.signIn(email: emailInput, password: passwordInput)

@@ -8,7 +8,8 @@
 import Foundation
 import SwiftUI
 
-class Recipe {
+class Recipe : Equatable {
+    
     let id : String
     let name: String
     let imgUrl : String
@@ -33,21 +34,11 @@ class Recipe {
         self.calories = calories
         self.cuisineType = cuisineType
         self.mealType = mealType
-        
-//        self.getImage(urlStr: imgUrl)
     }
     
-//    func getImage(urlStr: String) {
-//        let url = URL(string: urlStr)
-//
-//        _ = URLSession.shared.dataTask(with: url!) { [self] (data, response, error) in
-//            guard let data = data, error == nil else { return }
-//            print(response?.suggestedFilename ?? url!.lastPathComponent)
-//            print("Download Finished")
-//
-//            self.img = Image(uiImage: UIImage(data: data)!)
-//        }
-//    }
+    static func == (lhs: Recipe, rhs: Recipe) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 extension Recipe {

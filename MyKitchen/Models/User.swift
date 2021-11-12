@@ -12,18 +12,20 @@ class User : ObservableObject {
     let email : String
     let name : String
     var pantryList : [Ingredient]
+    var savedRecipes : [Recipe]
     var weeklyUserData: [WeeklyUserData]
 
-    init(id: String, email: String, name: String, pantryList: [Ingredient], weeklyUserData: [WeeklyUserData]) {
+    init(id: String, email: String, name: String, pantryList: [Ingredient], savedRecipes: [Recipe], weeklyUserData: [WeeklyUserData]) {
         self.id = id
         self.email = email
         self.name = name
         self.pantryList = pantryList
+        self.savedRecipes = savedRecipes
         self.weeklyUserData = weeklyUserData
     }
     
     func toString() -> String {
-        return "id: \(String(describing: id)), email: \(email), name: \(name), pantryList: \(pantryList), weeklyUserData: \(weeklyUserData)"
+        return "id: \(String(describing: id)), email: \(email), name: \(name), pantryList: \(pantryList), savedRecipes: \(savedRecipes) weeklyUserData: \(weeklyUserData)"
     }
 }
 

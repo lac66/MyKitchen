@@ -42,6 +42,7 @@ struct SignUpView: View {
                         .padding(.leading)
                         .border(Color("MintCream"), width: 2)
                         .cornerRadius(10)
+                        .foregroundColor(Color("MintCream"))
                     
                     TextField("", text: $emailInput)
                         .placeholder(when: emailInput.isEmpty, placeholder: {
@@ -52,6 +53,7 @@ struct SignUpView: View {
                         .padding(.leading)
                         .border(Color("MintCream"), width: 2)
                         .cornerRadius(10)
+                        .foregroundColor(Color("MintCream"))
                     
                     SecureField("", text: $passwordInput)
                         .placeholder(when: passwordInput.isEmpty, placeholder: {
@@ -62,6 +64,7 @@ struct SignUpView: View {
                         .padding(.leading)
                         .border(Color("MintCream"), width: 2)
                         .cornerRadius(10)
+                        .foregroundColor(Color("MintCream"))
                     
                     Button {
                         fbInterface.signUp(name: nameInput, email: emailInput, password: passwordInput)

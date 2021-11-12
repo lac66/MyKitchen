@@ -28,13 +28,13 @@ struct ItemView: View {
                 
                 ScrollView {
                     VStack (spacing: 10) {
-                        ForEach(ingredient, id: \.id) { ingredient in
-                            NavigationLink(
-                                destination: IngredientEditCardView(ingredient:ingredient),
-                                label: {
-                                    IngredientEditCardView(ingredient: ingredient)
-                                })
-                        }
+//                        ForEach(ingredient, id: \.id) { ingredient in
+//                            NavigationLink(
+//                                destination: IngredientEditCardView(ingredient:ingredient),
+//                                label: {
+//                                    IngredientEditCardView(ingredient: ingredient)
+//                                })
+//                        }
                     }
                 }
             }

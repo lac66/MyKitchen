@@ -8,13 +8,16 @@
 import SwiftUI
 
 struct RecipeCardView: View {
+    @EnvironmentObject var fbInterface: FirebaseInterface
     @ObservedObject var imageLoader: ImageLoader
     @State var image: UIImage = UIImage()
     
     let recipe: Recipe
+    let heartImg: String
     
-    init(recipe: Recipe, withURL url: String) {
+    init(recipe: Recipe, withURL url: String, heartImg: String) {
         self.recipe = recipe
+        self.heartImg = heartImg
         imageLoader = ImageLoader(urlString: url)
     }
     
@@ -55,16 +58,17 @@ struct RecipeCardView: View {
                 Spacer()
                 
                 Button {
-                    
+                    // saved to favorites
+                    fbInterface.saveRecipe(recipe: recipe)
                 } label: {
-                    Image(systemName: "heart.fill")
+                    Image(systemName: heartImg)
                         .frame(width: 20, height: 20)
                         .background(Color("Camel"))
                         .cornerRadius(4)
                 }
                 
                 Button {
-                    
+                    fbInterface.addRecipeToWeeklyData(recipe: recipe)
                 } label: {
                     Image(systemName: "plus")
                         .frame(width: 20, height: 20)
@@ -85,7 +89,7 @@ struct RecipeCardView: View {
 struct RecipeCardView_Previews: PreviewProvider {
     static let recipe = Recipe(id: "id", name: "name", imgUrl: "imgUrl", sourceUrl: "sourceUrl", yield: 1, ingString: ["ingArr"], ingredients: [Ingredient(id: "id", text: "text", quantity: 1.0, measure: "measure", food: "food", weight: 1.0, foodCategory: "foodCategory", imgUrl: "https://www.edamam.com/food-img/627/627582f390a350d98c367f89c3a943fe.jpg")], calories: 1.0, cuisineType: ["cuisineType"], mealType: ["mealType"])
     static var previews: some View {
-        RecipeCardView(recipe: recipe, withURL: recipe.imgUrl)
+        RecipeCardView(recipe: recipe, withURL: recipe.imgUrl, heartImg: "heart")
             .previewLayout(.fixed(width: 350, height: 90))
     }
 }

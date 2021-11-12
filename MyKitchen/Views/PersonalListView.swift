@@ -37,9 +37,9 @@ struct PersonalListView: View {
                     
                     ScrollView {
                         VStack (spacing: 10) {
-//                            ForEach(ingredients, id: \.id) { ingredient in
-//                                IngredientEditCardView(ingredient: ingredient)
-//                            }
+                            ForEach(fbInterface.currentUser!.weeklyUserData[fbInterface.currentUser!.weeklyUserData.count - 1].personalList, id: \.id) { ingredient in
+                                IngredientEditCardView(ingredient: ingredient, withURL: ingredient.imgUrl)
+                            }
                         }
                     }
                     .onTapGesture {

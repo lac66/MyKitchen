@@ -24,18 +24,26 @@
 import SwiftUI
 
 struct IngredientEditCardView: View {
-    
-    init(ingredient : Ingredient) {
-        self._ingredient = State(initialValue: ingredient)
-//        self._selectedUnit = State(initialValue: Unit.allCases.firstIndex(of: ingredient.qty!.getUnit())!)
-    }
+    @ObservedObject var imageLoader: ImageLoader
+    @State var image: UIImage = UIImage()
     
     @State var ingredientQtyInput : String = ""
-//    @State var selectedUnit : Int
-    @State var ingredient: Ingredient
+    //    @State var selectedUnit : Int
     
-    var editingChanged: (Bool)->() = { _ in }
-    var commit: ()->() = {}
+    let ingredient: Ingredient
+    
+    init(ingredient : Ingredient, withURL url: String?) {
+        self.ingredient = ingredient
+//        self._selectedUnit = State(initialValue: Unit.allCases.firstIndex(of: ingredient.qty!.getUnit())!)
+        if (url == nil) {
+            imageLoader = ImageLoader(urlString: "")
+        } else {
+            imageLoader = ImageLoader(urlString: url!)
+        }
+    }
+    
+//    var editingChanged: (Bool)->() = { _ in }
+//    var commit: ()->() = {}
     
     var body: some View {
         HStack {
@@ -45,19 +53,24 @@ struct IngredientEditCardView: View {
                     .foregroundColor(Color("Camel"))
                     .cornerRadius(10)
                 
-                ingredient.img!
+                Image(uiImage: image)
                     .resizable()
                     .frame(width: 65, height: 65)
                     .cornerRadius(6)
+                    .onReceive(imageLoader.didChange) { data in
+                        self.image = UIImage(data: data) ?? UIImage()
+                        self.ingredient.img = self.image
+                    }
             }
             .padding(.leading, 10)
             
             VStack(alignment: .leading) {
-//                Text(ingredient.name)
-//                    .frame(width: 210, height: 30, alignment: .leading)
-//                    .padding(.leading, 10)
-//                    .background(Color("MintCream"))
-//                    .foregroundColor(Color("OxfordBlue"))
+                Text(ingredient.food)
+                    .frame(width: 210, height: 30, alignment: .leading)
+                    .padding(.leading, 10)
+                    .background(Color("MintCream"))
+                    .foregroundColor(Color("OxfordBlue"))
+                    .padding(.bottom, 5)
                 
                 HStack (spacing: 0) {
                     Button {
@@ -68,11 +81,11 @@ struct IngredientEditCardView: View {
                             .background(Color("Camel"))
                             .cornerRadius(4)
                     }
-//                    let amtText: String = String(format: "%.2f", ingredient.qty!.getAmt())
-//                    Text(amtText)
-//                        .frame(width: 50, height: 20)
-//                        .background(Color("MintCream"))
-//                        .foregroundColor(Color("OxfordBlue"))
+                    let amtText: String = String(format: "%.2f", ingredient.quantity)
+                    Text(amtText)
+                        .frame(width: 50, height: 20)
+                        .background(Color("MintCream"))
+                        .foregroundColor(Color("OxfordBlue"))
                     
                     Button {
 //                        ingredient.qty!.incrementAmt()
@@ -91,10 +104,10 @@ struct IngredientEditCardView: View {
 //                                .foregroundColor(Color("OxfordBlue"))
 //                        }
 //                    })
-                    .pickerStyle(MenuPickerStyle())
-                    .frame(width: 80, height: 25, alignment: .center)
-                    .background(Color("MintCream"))
-                    .padding(.leading)
+//                    .pickerStyle(MenuPickerStyle())
+//                    .frame(width: 80, height: 25, alignment: .center)
+//                    .background(Color("MintCream"))
+//                    .padding(.leading)
                     
                     Spacer()
                     
@@ -126,9 +139,9 @@ struct IngredientEditCardView: View {
 }
 
 struct IngredientEditCardView_Previews: PreviewProvider {
-    static var ingredient = Ingredient(id: "id", text: "text", quantity: 1.0, measure: "measure", food: "food", weight: 1.0, foodCategory: "foodCategory", imgUrl: "imgUrl")
+    static var ingredient = Ingredient(id: "id", text: "text", quantity: 1.0, measure: "measure", food: "food", weight: 1.0, foodCategory: "foodCategory", imgUrl: "https://www.edamam.com/food-img/46a/46a132e96626d7989b4d6ed8c91f4da0.jpg")
     static var previews: some View {
-        IngredientEditCardView(ingredient: ingredient)
+        IngredientEditCardView(ingredient: ingredient, withURL: ingredient.imgUrl!)
             .previewLayout(.fixed(width: 350, height: 90))
     }
 }

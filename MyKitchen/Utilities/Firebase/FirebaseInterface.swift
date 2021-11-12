@@ -116,6 +116,7 @@ class FirebaseInterface : ObservableObject {
             "name": name,
             "email": email,
             "pantryList": [],
+            "savedRecipes": [],
             "weeklyUserData": weeklyUserDataArray
         ]
         
@@ -139,15 +140,33 @@ class FirebaseInterface : ObservableObject {
         } catch let error {
             print("Error writing user to Firestore: \(error)")
         }
+        
+        self.objectWillChange.send()
     }
+    
+//    func getRealtimePersonalList() {
+//        db.collection("accounts").document(currentUser!.id).addSnapshotListener { (documentSnapshop, error) in
+//            guard let document = documentSnapshop else {
+//                print("No doucments. Error: \(error!)")
+//                return
+//            }
+//            guard let data = document.data() else {
+//                print("Document data was empty.")
+//                return
+//            }
+//            
+//            print(data)
+//        }
+//    }
     
     // Conversion Methods -- From DB to App
     
     func convertUserDBtoUser(userDb: UserDB) {
         print("start conversion")
         let ingArray = self.convertApitoIngs(ingsApi: userDb.pantryList)
+        let savedRecipes = self.convertApitoRecipeArray(recArr: userDb.savedRecipes)
         let wud = convertWUDDBtoWUD(wud: userDb.weeklyUserData)
-        self.currentUser = User(id: auth.currentUser!.uid, email: userDb.email, name: userDb.name, pantryList: ingArray, weeklyUserData: wud)
+        self.currentUser = User(id: auth.currentUser!.uid, email: userDb.email, name: userDb.name, pantryList: ingArray, savedRecipes: savedRecipes, weeklyUserData: wud)
         print("currentUser:")
         print(self.currentUser!.toString())
         self.signedIn = true
@@ -157,7 +176,7 @@ class FirebaseInterface : ObservableObject {
     func convertApitoIngs(ingsApi: [IngredientApi]) -> [Ingredient] {
         var ings: [Ingredient] = []
         for ing in ingsApi {
-            ings.append(Ingredient(id: ing.foodId!, text: ing.text!, quantity: ing.quantity!, measure: ing.measure!, food: ing.food!, weight: ing.weight!, foodCategory: ing.foodCategory!, imgUrl: ing.image!))
+            ings.append(Ingredient(id: ing.foodId!, text: ing.text!, quantity: ing.quantity!, measure: ing.measure, food: ing.food!, weight: ing.weight!, foodCategory: ing.foodCategory!, imgUrl: ing.image!))
         }
         return ings
     }
@@ -193,14 +212,15 @@ class FirebaseInterface : ObservableObject {
     
     func convertUserToUserDB() -> UserDB {
         let pantryList = convertIngsToApi(ings: currentUser!.pantryList)
+        let savedRecipes = convertRecipeArraytoApi(recArr: currentUser!.savedRecipes)
         let wud = convertWUDtoWUDDB(wud: currentUser!.weeklyUserData)
-        return UserDB(id: currentUser?.id, email: currentUser!.email, name: currentUser!.name, pantryList: pantryList, weeklyUserData: wud)
+        return UserDB(id: currentUser?.id, email: currentUser!.email, name: currentUser!.name, pantryList: pantryList, savedRecipes: savedRecipes, weeklyUserData: wud)
     }
     
     func convertIngsToApi(ings: [Ingredient]) -> [IngredientApi] {
         var ingsApi: [IngredientApi] = []
         for ing in ings {
-            ingsApi.append(IngredientApi(text: ing.text, quantity: ing.quantity, measure: ing.measure!, food: ing.food, weight: ing.weight, foodCategory: ing.foodCategory!, foodId: ing.id, image: ing.imgUrl!))
+            ingsApi.append(IngredientApi(text: ing.text, quantity: ing.quantity, measure: ing.measure, food: ing.food, weight: ing.weight, foodCategory: ing.foodCategory, foodId: ing.id, image: ing.imgUrl))
         }
         return ingsApi
     }
@@ -234,13 +254,33 @@ class FirebaseInterface : ObservableObject {
     
     // Mutate CurrentUser Methods
     
-    func addRecipe(recipe: Recipe) {
+    func addRecipeToWeeklyData(recipe: Recipe) {
         currentUser?.weeklyUserData[(currentUser?.weeklyUserData.count)! - 1].recipesOfWeek[DaysOfWeek.Unassigned]?.append(recipe)
         
         for ingredient in recipe.ingredients {
             currentUser?.weeklyUserData[(currentUser?.weeklyUserData.count)! - 1].personalList.append(ingredient)
         }
         
+        currentUser!.objectWillChange.send()
         updateDB()
+    }
+    
+    func saveRecipe(recipe: Recipe) {
+        currentUser?.savedRecipes.append(recipe)
+        print("recipe saved")
+        
+        updateDB()
+    }
+    
+    // Misc Methods
+    
+    func searchSavedRecipes(text: String) -> [Recipe] {
+        var searchedRecipes: [Recipe] = []
+        for recipe in currentUser!.savedRecipes {
+            if recipe.name.contains(text) {
+                searchedRecipes.append(recipe)
+            }
+        }
+        return searchedRecipes
     }
 }

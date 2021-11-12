@@ -53,6 +53,7 @@ struct Searchbar: View {
 
 struct Searchbar_Previews: PreviewProvider {
     @State static var emptyText = ""
+    @State static var searchBool = true
     
     static var previews: some View {
         Searchbar(placeholder: Text("Search here"), isForRecipes: true, text: $emptyText)

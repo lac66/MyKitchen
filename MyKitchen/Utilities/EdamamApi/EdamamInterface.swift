@@ -23,6 +23,8 @@ class EdamamInterface : ObservableObject {
                 return
             }
             
+            let text = text.replacingOccurrences(of: " ", with: "+")
+            
             let url = firstPartialURL + "?type=public&q=\(text)&app_id=\(appId)&app_key=\(appKey)"
             print(url)
             getData(from: url)
@@ -56,6 +58,10 @@ class EdamamInterface : ObservableObject {
             
             print(json)
             
+            DispatchQueue.main.async {
+                self.recipes.removeAll()
+            }
+            
             for subRecipe in json.hits! {
                 let tmp = subRecipe.recipe!
                 
@@ -66,11 +72,6 @@ class EdamamInterface : ObservableObject {
                 
                 let newRecipe = Recipe(id: tmp.uri!, name: tmp.label!, imgUrl: tmp.image!, sourceUrl: tmp.url!, yield: tmp.yield!, ingString: tmp.ingredientLines!, ingredients: newIngredients, calories: tmp.calories!, cuisineType: tmp.cuisineType!, mealType: tmp.mealType!)
                 
-//                self.getImage(from: newRecipe.imgUrl) { returnedImage in
-//                    newRecipe.img = returnedImage
-//                    self.recipes.append(newRecipe)
-//                }
-                
                 DispatchQueue.main.async {
                     self.recipes.append(newRecipe)
                 }
@@ -79,8 +80,4 @@ class EdamamInterface : ObservableObject {
         
         task.resume()
     }
-    
-//    func getImage(from url: String, completionHandler: (Image) -> Void) {
-//        AsyncImage(url: URL(string: url))
-//    }
 }

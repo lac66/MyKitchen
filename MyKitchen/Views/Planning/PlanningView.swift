@@ -11,13 +11,10 @@ struct PlanningView: View {
     @EnvironmentObject var fbInterface : FirebaseInterface
     @EnvironmentObject var eInterface : EdamamInterface
     
-//    var recipes: [Recipe]
-    
+    @State var isExploring = true
     @State var searchText = ""
     
     init() {
-//        recipes = recipeList
-        
         navAppearance.backgroundColor = UIColor(named: "OxfordBlue")
         navAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor(named: "MintCream") as Any]
         
@@ -41,12 +38,16 @@ struct PlanningView: View {
                         HStack (spacing: 0) {
                             Button("Saved") {
                                 print("saved")
+                                isExploring = false
+                                searchText = ""
                             }
                             .frame(width: 160, height: 30)
                             .background(Color("Camel"))
                             
                             Button("Explore") {
                                 print("explore")
+                                isExploring = true
+                                searchText = ""
                             }
                             .frame(width: 160, height: 30)
                             .background(Color("Camel"))
@@ -66,12 +67,44 @@ struct PlanningView: View {
                     
                     ScrollView {
                         VStack (spacing: 10) {
-                            ForEach(eInterface.recipes, id: \.id) { recipe in
-                                NavigationLink(
-                                    destination: RecipeDetailsView(recipe: recipe),
-                                    label: {
-                                        RecipeCardView(recipe: recipe, withURL: recipe.imgUrl)
-                                    })
+                            if isExploring {
+                                if (eInterface.recipes.count == 0) {
+                                    Text("Enter a recipe above to begin exploring")
+                                        .foregroundColor(Color("MintCream"))
+                                } else {
+                                    ForEach(eInterface.recipes, id: \.id) { recipe in
+                                        NavigationLink(
+                                            destination: RecipeDetailsView(recipe: recipe),
+                                            label: {
+                                                if (fbInterface.currentUser!.savedRecipes.contains(recipe)) {
+                                                    RecipeCardView(recipe: recipe, withURL: recipe.imgUrl, heartImg: "heart.fill")
+                                                } else {
+                                                    RecipeCardView(recipe: recipe, withURL: recipe.imgUrl, heartImg: "heart")
+                                                }
+                                            })
+                                    }
+                                }
+                            } else {
+                                if (fbInterface.currentUser!.savedRecipes.count == 0) {
+                                    Text("No saved recipes.")
+                                        .foregroundColor(Color("MintCream"))
+                                } else if !searchText.isEmpty {
+                                    ForEach(fbInterface.searchSavedRecipes(text: searchText), id: \.id) { recipe in
+                                        NavigationLink(
+                                            destination: RecipeDetailsView(recipe: recipe),
+                                            label: {
+                                                RecipeCardView(recipe: recipe, withURL: recipe.imgUrl, heartImg: "heart.fill")
+                                            })
+                                    }
+                                } else {
+                                    ForEach(fbInterface.currentUser!.savedRecipes, id: \.id) { recipe in
+                                        NavigationLink(
+                                            destination: RecipeDetailsView(recipe: recipe),
+                                            label: {
+                                                RecipeCardView(recipe: recipe, withURL: recipe.imgUrl, heartImg: "heart.fill")
+                                            })
+                                    }
+                                }
                             }
                         }
                     }

@@ -52,10 +52,10 @@ struct NavBar: View {
                 }
                 .environmentObject(fbInterface)
         }
-        .onDisappear {
-            let so = fbInterface.signOut()
-            print(so)
-        }
+//        .onDisappear {
+//            let so = fbInterface.signOut()
+//            print(so)
+//        }
     }
 }
 

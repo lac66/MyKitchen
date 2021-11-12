@@ -91,7 +91,7 @@ struct RecipeDetailsView: View {
                 VStack {
                     Button("Add to List") {
                         // add to personal List
-                        fbInterface.addRecipe(recipe: recipe)
+                        fbInterface.addRecipeToWeeklyData(recipe: recipe)
                     }
                     .frame(width: 350, height: 40)
                     .foregroundColor(Color("MintCream"))

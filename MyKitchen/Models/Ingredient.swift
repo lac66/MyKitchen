@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-class Ingredient: Identifiable {
+class Ingredient: Identifiable, Equatable {
     let id : String
     let text : String
     var quantity : Double
@@ -30,6 +30,10 @@ class Ingredient: Identifiable {
         self.weight = weight
         self.foodCategory = foodCategory
         self.imgUrl = imgUrl
+    }
+    
+    static func == (lhs: Ingredient, rhs: Ingredient) -> Bool {
+        return lhs.id == rhs.id
     }
 }
 

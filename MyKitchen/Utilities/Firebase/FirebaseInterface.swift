@@ -255,12 +255,18 @@ class FirebaseInterface : ObservableObject {
     // Mutate CurrentUser Methods
     
     func addRecipeToWeeklyData(recipe: Recipe) {
-        currentUser?.weeklyUserData[(currentUser?.weeklyUserData.count)! - 1].recipesOfWeek[DaysOfWeek.Unassigned]?.append(recipe)
+        var wud = currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1]
+        wud.recipesOfWeek[DaysOfWeek.Unassigned]!.append(recipe)
         
         for ingredient in recipe.ingredients {
-            currentUser?.weeklyUserData[(currentUser?.weeklyUserData.count)! - 1].personalList.append(ingredient)
+            if (wud.personalList.contains(ingredient)) {
+                wud.personalList[wud.personalList.firstIndex(of: ingredient)!].quantity += ingredient.quantity
+            } else {
+                wud.personalList.append(ingredient)
+            }
         }
         
+        currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1] = wud
         currentUser!.objectWillChange.send()
         updateDB()
     }

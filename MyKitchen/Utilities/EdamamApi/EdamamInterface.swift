@@ -11,29 +11,29 @@ import SwiftUI
 class EdamamInterface : ObservableObject {
     let appId = "30587033"
     let appKey = "0febb1f0fdee5debdf144f1318297d2a"
-    let firstPartialURL = "https://api.edamam.com/api/recipes/v2/"
+    let firstPartialURLRecipe = "https://api.edamam.com/api/recipes/v2/"
+    let firstPartialURLIngredient = "https://api.edamam.com/auto-complete"
     //    let lastPartialUrl = "?app_id=\(appId)&app_key=\(appKey)"
     
     @Published var recipes : [Recipe] = []
     
     func searchWithApi(text: String, isForRecipes: Bool) {
         print("changed")
+        if (text.isEmpty) {
+            return
+        }
         if (isForRecipes) {
-            if (text.isEmpty) {
-                return
-            }
-            
             let text = text.replacingOccurrences(of: " ", with: "+")
             
-            let url = firstPartialURL + "?type=public&q=\(text)&app_id=\(appId)&app_key=\(appKey)"
+            let url = firstPartialURLRecipe + "?type=public&q=\(text)&app_id=\(appId)&app_key=\(appKey)"
             print(url)
-            getData(from: url)
+            getRecipeData(from: url)
         } else {
             // perform ingredient search
         }
     }
     
-    func getData(from url: String) {
+    func getRecipeData(from url: String) {
         let task = URLSession.shared.dataTask(with: URL(string: url)!, completionHandler: {data, response, error in
             guard let data = data, error == nil else {
                 print("Something went wrong")

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PersonalListView: View {
     @EnvironmentObject var fbInterface : FirebaseInterface
+    @State var addButtonImg = "plus"
     @State var searchText = ""
     
     init() {
@@ -29,16 +30,46 @@ struct PersonalListView: View {
                         Text("Personal List")
                             .font(.system(size: 32, weight: .bold, design: .default))
                         
-                        Searchbar(placeholder: Text("Search here"), isForRecipes: false, text: $searchText)
-                            .foregroundColor(Color("MintCream"))
+                        HStack {
+                            Searchbar(placeholder: Text("Search here"), isForRecipes: false, text: $searchText)
+                                .frame(width: 300)
+                                .foregroundColor(Color("MintCream"))
+                            
+                            Button {
+                                if (addButtonImg == "plus") {
+                                    addButtonImg = "xmark"
+                                } else {
+                                    addButtonImg = "plus"
+                                }
+                            } label: {
+                                Image(systemName: addButtonImg)
+                                    .frame(width: 30, height: 30)
+                                    .background(Color("Camel"))
+                                    .cornerRadius(4)
+                            }
+                        }
                     }
                     .foregroundColor(Color("MintCream"))
                     .padding(.bottom)
                     
                     ScrollView {
                         VStack (spacing: 10) {
-                            ForEach(fbInterface.currentUser!.weeklyUserData[fbInterface.currentUser!.weeklyUserData.count - 1].personalList, id: \.id) { ingredient in
-                                IngredientEditCardView(ingredient: ingredient, withURL: ingredient.imgUrl)
+                            // add logic for api vs list search here if/else
+                            ForEach(0 ..< IngType.allCases.count) { index in
+                                VStack {
+                                    Text(IngType.allCases[index].str)
+                                        .foregroundColor(Color("MintCream"))
+                                        .font(.system(size: 24, weight: .semibold, design: .default))
+                                        .padding(5)
+                                    
+                                    ForEach(fbInterface.currentUser!.weeklyUserData[fbInterface.currentUser!.weeklyUserData.count - 1].personalList, id: \.id) { ingredient in
+                                        if (ingredient.type == IngType.allCases[index]) {
+                                            IngredientEditCardView(ingredient: ingredient, withURL: ingredient.imgUrl)
+                                        }
+                                    }
+                                }
+                                .background(Color("AirBlue"))
+                                .cornerRadius(15)
                             }
                         }
                     }

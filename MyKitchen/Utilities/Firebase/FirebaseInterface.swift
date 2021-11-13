@@ -82,6 +82,7 @@ class FirebaseInterface : ObservableObject {
                     if let user = user {
                         print(user)
                         self.convertUserDBtoUser(userDb: user)
+                        // groupID != nil get group 
                     } else {
                         // let user know eventually
                         print("document does not exist")
@@ -276,6 +277,23 @@ class FirebaseInterface : ObservableObject {
         print("recipe saved")
         
         updateDB()
+    }
+    
+    // Group Methods
+    
+    func createGroup() {
+        let leaderID = currentUser?.id
+        print(leaderID ?? "No id")
+        var g = Groups(groupID: "test", groupList: [], leaderID: leaderID ?? "nil", members: [])
+    }
+    
+    func inGroup() -> Bool {
+        if(currentUser?.groupID != nil){
+            return true
+        }
+        else {
+            return false
+        }
     }
     
     // Misc Methods

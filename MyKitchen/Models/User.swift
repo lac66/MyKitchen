@@ -14,7 +14,18 @@ class User : ObservableObject {
     var pantryList : [Ingredient]
     var savedRecipes : [Recipe]
     var weeklyUserData: [WeeklyUserData]
+    let groupID : String?
 
+    init(id: String, email: String, name: String, pantryList: [Ingredient], savedRecipes: [Recipe], weeklyUserData: [WeeklyUserData], groupID: String?) {
+        self.id = id
+        self.email = email
+        self.name = name
+        self.pantryList = pantryList
+        self.savedRecipes = savedRecipes
+        self.weeklyUserData = weeklyUserData
+        self.groupID = groupID
+    }
+    
     init(id: String, email: String, name: String, pantryList: [Ingredient], savedRecipes: [Recipe], weeklyUserData: [WeeklyUserData]) {
         self.id = id
         self.email = email
@@ -22,6 +33,7 @@ class User : ObservableObject {
         self.pantryList = pantryList
         self.savedRecipes = savedRecipes
         self.weeklyUserData = weeklyUserData
+        self.groupID = nil
     }
     
     func toString() -> String {

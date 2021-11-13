@@ -21,15 +21,27 @@ struct GroupsHomeView: View {
 //        List(groupByCategory, children: \.item) { row in
 //            Text("Hello")
 //        }
+        NavigationView{
+            if(!fbInterface.inGroup()){
+//                Text("Here")
+                GroupsInitial()
+            }
+            else{
+            
         ZStack{
+            
             Color("OxfordBlue")
                 .ignoresSafeArea()
             
             VStack{
+                HStack {
                 Text("Group homepage")
-                    .foregroundColor(Color("MintCream"))
+                    
                 
+                }
+                .foregroundColor(Color("MintCream"))
                 VStack{
+                    
 //                    List(groceries, children: \.items) { row in
 //                        Text(row.name)
 //                    }
@@ -68,8 +80,11 @@ struct GroupsHomeView: View {
                                 .foregroundColor(Color("AirBlue"))
                                 .cornerRadius(10)
                         }
+                        }
+                        }
                     }
                 }
+            .navigationBarHidden(true)
             }
         }
     }

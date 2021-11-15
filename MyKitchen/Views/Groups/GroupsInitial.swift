@@ -52,7 +52,7 @@ struct GroupsInitial: View {
                         .background(Color("AirBlue"))
                         .cornerRadius(15)
                         
-                        NavigationLink(destination: JoinGroup()){
+                        NavigationLink(destination: JoinGroup()) {
                             Text("Join Group")
                                 .frame(width: 130, height: 35)
                                 .background(Color("MintCream"))

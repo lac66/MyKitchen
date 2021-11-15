@@ -20,7 +20,7 @@ struct GroupsHomeView: View {
         
 //        List(groupByCategory, children: \.item) { row in
 //            Text("Hello")
-//        }
+//         }
         NavigationView{
             if(!fbInterface.inGroup()){
 //                Text("Here")

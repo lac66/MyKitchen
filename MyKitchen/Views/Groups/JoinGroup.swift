@@ -27,7 +27,7 @@ struct JoinGroup: View {
                         .foregroundColor(Color("OxfordBlue"))
                         .frame(width: 300, height: 250)
                 }
-                Searchbar(placeholder: Text("Enter Group ID"), isForRecipes: false, text: $groupSearch)
+                Searchbar(placeholder: Text("Enter Group ID "), isForRecipes: false, text: $groupSearch)
             .navigationBarHidden(true)
             }
         }

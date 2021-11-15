@@ -36,15 +36,6 @@ class User : ObservableObject {
         self.groupID = nil
     }
     
-    init(id: String, email: String, name: String, pantryList: [Ingredient], savedRecipes: [Recipe], weeklyUserData: [WeeklyUserData], groupID: String?) {
-        self.id = id
-        self.email = email
-        self.name = name
-        self.pantryList = pantryList
-        self.savedRecipes = savedRecipes
-        self.weeklyUserData = weeklyUserData
-        self.groupID = groupID
-    }
     
     func toString() -> String {
         return "id: \(String(describing: id)), email: \(email), name: \(name), pantryList: \(pantryList), savedRecipes: \(savedRecipes) weeklyUserData: \(weeklyUserData)"

@@ -8,6 +8,9 @@ import SwiftUI
 
 struct MealViewerCardView: View {
     let recipe: Recipe
+    @State private var showListSelection = false
+    @State private var selectedDay: DaysOfWeek = .Unassigned
+    
     var body: some View {
         
         VStack {
@@ -31,17 +34,34 @@ struct MealViewerCardView: View {
                     }
                  */
 
-                NavigationLink(
-                    destination: MealDaySelection()){
-                        ZStack {
-                            Rectangle()
-                                .frame(width: 20, height: 20)
-                                .foregroundColor(Color("Camel"))
-                                .cornerRadius(4)
-                            
-                            Image(systemName: "plus")
+                ZStack {
+                    Button("Select Day"){
+                        if (showListSelection) {
+                            //self.setFromDay()
+                            // add to day now
+                        }
+                        showListSelection.toggle()
+                        
+                    }
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(Color("Camel"))
+                        .cornerRadius(4)
+                    
+                    Image(systemName: "plus")
+                }
+                    
+                if showListSelection {
+                    VStack {
+                        Picker("Choose a day to add the recipe to", selection: $selectedDay){ //}, selection: $selectedDay.onChange(changeDay)) {
+                            ForEach(DaysOfWeek.allCases, id: \.self) { //, id: \.self
+                                Text($0.rawValue)
+                            }
                         }
                     }
+                    .foregroundColor(Color("MintCream"))
+                    .frame(height: 60)
+                }
+                
             }
             .padding(.horizontal, 10.0)
             Image("food")
@@ -66,3 +86,15 @@ struct MealViewerCardView_Previews: PreviewProvider {
             .previewLayout(.fixed(width: 400, height: 175))
     }
 }
+ /*
+extension Binding {
+    func onChange(_ handler: @escaping (Value) -> Void) -> Binding<Value> {
+        return Binding(
+            get: { self.wrappedValue },
+            set: { selection in
+                self.wrappedValue = selection
+                handler(selection)
+        })
+    }
+}
+*/

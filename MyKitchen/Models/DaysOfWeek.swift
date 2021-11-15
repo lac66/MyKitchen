@@ -7,13 +7,13 @@
 
 import Foundation
 
-enum DaysOfWeek {
-    case Sunday
-    case Monday
-    case Tuesday
-    case Wednesday
-    case Thursday
-    case Friday
-    case Saturday
-    case Unassigned
+enum DaysOfWeek:String, CaseIterable {
+    case Unassigned = "Unassigned"
+    case Sunday = "Sunday"
+    case Monday = "Monday"
+    case Tuesday = "Tuesday"
+    case Wednesday = "Wednesday"
+    case Thursday = "Thursday"
+    case Friday = "Friday"
+    case Saturday = "Saturday"
 }

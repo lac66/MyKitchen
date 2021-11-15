@@ -8,11 +8,21 @@ import SwiftUI
 
 struct MealViewer: View {
     
-    let recipes: [Recipe]
-    
-    init(recipeList: [Recipe]) {
-        recipes = recipeList
+    var recipes: [Recipe]
+    var recipesForDay: [String: [Recipe]]
         
+    init(recipeList: [Recipe]) {
+        //recipes = make call from getRecipesFromPlanner()
+        recipes = recipeList
+        recipesForDay = ["Unspecified": recipes,
+                         "Sunday": [],
+                         "Monday": [],
+                         "Tuesday": [],
+                         "Wednesday": [],
+                         "Thursday": [],
+                         "Friday": [],
+                         "Saturday": []]
+        //update recipesForDay with saved recipes for week if exists
         coloredNavAppearance.backgroundColor = UIColor(named: "OxfordBlue")
         
         UINavigationBar.appearance().standardAppearance = coloredNavAppearance
@@ -24,119 +34,58 @@ struct MealViewer: View {
             
             ZStack{
                 Color("OxfordBlue").edgesIgnoringSafeArea(.all)
-                // entire page should be UICollectionView where you can drag from top HStack to bottom V Stack
                 VStack {
+                    //Header
                     Text("Meal Viewer")
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .foregroundColor(Color("MintCream"))
                         .multilineTextAlignment(.center)
                     
-                    //Horizontal Scrollbar with meals
-                    ScrollView(.horizontal, showsIndicators: true){
-                        HStack{
-                            ForEach(recipes, id: \.id) { recipe in
-                                MealViewerCardView(recipe: recipe)
-                                
-                            }
-                        }
-                        
-                    }
-                    Spacer()
                     //Days of the week
                     ScrollView(.vertical, showsIndicators: true) {
                         VStack {
-                            Group{
-                                Spacer()
-                                Text("Sunday")
-                                    .font(.largeTitle)
-                                    .underline()
-                                    .foregroundColor(Color("MintCream"))
-                                    .padding(.trailing, 250.0)
-                                
-                                
-                                Spacer()
-                                
-                            }
-                            Group{
-                                HStack {
-                                    Text("Monday")
+                            ForEach(DaysOfWeek.allCases, id: \.self){ day in
+                                //Horizontal Scrollbar with meals
+                                //Unassigned
+                                if day.rawValue == DaysOfWeek.Unassigned.rawValue {
+                                    ScrollView(.horizontal, showsIndicators: true){
+                                        HStack{
+                                            ForEach(recipesForDay["Unspecified"]!, id: \.id) { recipe in
+                                                MealViewerCardView(recipe: recipe)
+                                                
+                                            }
+                                        }
+                                        
+                                    }
+                                } else {
+                                    //Days Sunday - Saturday
+                                    HStack{
+                                        Text(day.rawValue)
                                         .font(.largeTitle)
                                         .underline()
                                         .foregroundColor(Color("MintCream"))
-                                        .padding(.trailing, 240.0)
+                                        .padding(.leading, 10.0)
+                                    Spacer()
+                                    }
+                                    if recipesForDay[day.rawValue] != nil{
+                                        VStack{
+                                            ForEach(recipesForDay[day.rawValue]!) { recipe in
+                                                MealViewerCardView(recipe: recipe)
+                                            }
+                                        }
+                                    }
                                 }
-                                MealViewerCardView(recipe: recipes[0])
-                                Spacer()
-                                
                             }
-                            Group{
-                                Text("Tuesday")
-                                    .font(.largeTitle)
-                                    .underline()
-                                    .foregroundColor(Color("MintCream"))
-                                    .padding(.trailing, 250.0)
-                                
-                                
-                                Spacer()
-                                
-                            }
-                            
-                            Group{
-                                Text("Wednesday")
-                                    .font(.largeTitle)
-                                    .underline()
-                                    .foregroundColor(Color("MintCream"))
-                                    .padding(.trailing, 200.0)
-                                
-                                Spacer()
-                                
-                            }
-                            
-                            Group{
-                                Text("Thursday")
-                                    .font(.largeTitle)
-                                    .underline()
-                                    .foregroundColor(Color("MintCream"))
-                                    .padding(.trailing, 230.0)
-                                
-                                Spacer()
-                                
-                            }
-                            
-                            Group{
-                                Text("Friday")
-                                    .font(.largeTitle)
-                                    .underline()
-                                    .foregroundColor(Color("MintCream"))
-                                    .padding(.trailing, 280.0)
-                                
-                                Spacer()
-                                
-                            }
-                            
-                            Group{
-                                Text("Saturday")
-                                    .font(.largeTitle)
-                                    .underline()
-                                    .foregroundColor(Color("MintCream"))
-                                    .padding(.trailing, 240.0)
-                                
-                                Spacer()
-                                
-                            }
+                            Spacer()
                         }
                         Spacer()
-                    }
-                    
-                    Spacer()
-                    
+                    }.navigationBarHidden(true)
                 }
             }
         }
     }
 }
-
 
 struct MealViewer_Previews: PreviewProvider {
     static var recipes = Recipe.data

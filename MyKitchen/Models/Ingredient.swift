@@ -30,6 +30,27 @@ class Ingredient: Identifiable, Equatable {
         self.weight = weight
         self.foodCategory = foodCategory
         self.imgUrl = imgUrl
+        
+        if foodCategory != nil {
+            self.type = getType(category: foodCategory!)
+        }
+    }
+    
+    func getType(category: String) -> IngType {
+        let tmp = category.lowercased()
+        if tmp == "meats" || tmp == "poultry" || tmp == "eggs" || tmp == "cured meats" {
+            return IngType.protein
+        } else if tmp == "vegetables" || tmp == "fruit" {
+            return IngType.fnv
+        } else if tmp == "cheese" || tmp == "dairy" || tmp == "milk" {
+            return IngType.dairy
+        } else if tmp == "grains" {
+            return IngType.grains
+        } else if tmp == "cocktails and liquors" || tmp == "water" || tmp == "non-dairy beverages" {
+            return IngType.drink
+        } else {
+            return IngType.misc
+        }
     }
     
     static func == (lhs: Ingredient, rhs: Ingredient) -> Bool {

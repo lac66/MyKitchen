@@ -82,7 +82,7 @@ class FirebaseInterface : ObservableObject {
                     if let user = user {
                         print(user)
                         self.convertUserDBtoUser(userDb: user)
-                        // groupID != nil get group 
+                        // groupID != nil get group
                     } else {
                         // let user know eventually
                         print("document does not exist")
@@ -142,6 +142,7 @@ class FirebaseInterface : ObservableObject {
             print("Error writing user to Firestore: \(error)")
         }
         
+        // might not be necessary
         self.objectWillChange.send()
     }
     

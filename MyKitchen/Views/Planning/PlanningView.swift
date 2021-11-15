@@ -34,6 +34,7 @@ struct PlanningView: View {
         
                         Searchbar(placeholder: Text("Search here"), isForRecipes: true, text: $searchText)
                             .foregroundColor(Color("MintCream"))
+                            .frame(width: 350)
                         
                         HStack (spacing: 0) {
                             Button("Saved") {

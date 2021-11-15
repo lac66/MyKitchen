@@ -26,6 +26,7 @@ struct Searchbar: View {
                 if text.isEmpty { placeholder }
                 TextField("", text: $text, onEditingChanged: self.search)
             }
+            .frame(height: 30)
             
             if !text.isEmpty {
                 Button {
@@ -36,7 +37,6 @@ struct Searchbar: View {
                 }
             }
         }
-        .frame(width: 350, height: 30)
         .foregroundColor(Color("MintCream"))
         .background(Color("Camel"))
         .cornerRadius(20)

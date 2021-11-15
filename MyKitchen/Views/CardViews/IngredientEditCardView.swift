@@ -66,6 +66,7 @@ struct IngredientEditCardView: View {
             
             VStack(alignment: .leading) {
                 Text(ingredient.food)
+//                Text(ingredient.foodCategory!)
                     .frame(width: 210, height: 30, alignment: .leading)
                     .padding(.leading, 10)
                     .background(Color("MintCream"))
@@ -105,9 +106,14 @@ struct IngredientEditCardView: View {
 //                        }
 //                    })
 //                    .pickerStyle(MenuPickerStyle())
-//                    .frame(width: 80, height: 25, alignment: .center)
-//                    .background(Color("MintCream"))
-//                    .padding(.leading)
+                    
+                    if (ingredient.foodCategory != nil) {
+                        Text(ingredient.foodCategory!)
+                            .frame(width: 80, height: 25, alignment: .center)
+                            .background(Color("MintCream"))
+                            .foregroundColor(Color("OxfordBlue"))
+                            .padding(.leading)
+                    }
                     
                     Spacer()
                     

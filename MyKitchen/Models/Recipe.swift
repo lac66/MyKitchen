@@ -14,7 +14,7 @@ class Recipe : Equatable {
     let name: String
     let imgUrl : String
     let sourceUrl : String
-    let yield : Int
+    let yield : Double
     let ingString : [String]
     let ingredients : [Ingredient]
     let calories : Double
@@ -23,7 +23,7 @@ class Recipe : Equatable {
     
     var img : UIImage?
     
-    init (id: String, name: String, imgUrl: String, sourceUrl: String, yield: Int, ingString: [String], ingredients: [Ingredient], calories: Double, cuisineType: [String], mealType: [String]) {
+    init (id: String, name: String, imgUrl: String, sourceUrl: String, yield: Double, ingString: [String], ingredients: [Ingredient], calories: Double, cuisineType: [String], mealType: [String]) {
         self.id = id
         self.name = name
         self.imgUrl = imgUrl

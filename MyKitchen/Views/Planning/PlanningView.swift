@@ -13,6 +13,7 @@ struct PlanningView: View {
     
     @State var isExploring = true
     @State var searchText = ""
+    @State var typingCheck: DispatchWorkItem?
     
     init() {
         navAppearance.backgroundColor = UIColor(named: "OxfordBlue")
@@ -32,7 +33,21 @@ struct PlanningView: View {
                         Text("Planning")
                             .font(.system(size: 32, weight: .bold, design: .default))
         
-                        Searchbar(placeholder: Text("Search here"), isForRecipes: true, text: $searchText)
+                        Searchbar(placeholder: "Search here", isForRecipes: true, text: $searchText)
+                            .onChange(of: searchText) { newValue in
+                                if (isExploring) {
+                                    if (typingCheck != nil) {
+                                        typingCheck!.cancel()
+                                        typingCheck = nil
+                                    }
+                                    
+                                    typingCheck = DispatchWorkItem {
+                                        print("search")
+                                        searchApi()
+                                    }
+                                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: typingCheck!)
+                                }
+                            }
                             .foregroundColor(Color("MintCream"))
                             .frame(width: 350)
                         
@@ -114,6 +129,10 @@ struct PlanningView: View {
                 .navigationBarHidden(true)
             }
         }
+    }
+    
+    func searchApi() {
+        eInterface.searchWithApi(text: searchText, isForRecipes: true)
     }
 }
 

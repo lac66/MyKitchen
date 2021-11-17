@@ -31,9 +31,11 @@ struct IngredientEditCardView: View {
     //    @State var selectedUnit : Int
     
     let ingredient: Ingredient
+    let cardWidth: Double
     
-    init(ingredient : Ingredient, withURL url: String?) {
+    init(ingredient : Ingredient, withURL url: String?, width: Double) {
         self.ingredient = ingredient
+        self.cardWidth = width
 //        self._selectedUnit = State(initialValue: Unit.allCases.firstIndex(of: ingredient.qty!.getUnit())!)
         if (url == nil) {
             imageLoader = ImageLoader(urlString: "")
@@ -137,7 +139,7 @@ struct IngredientEditCardView: View {
             
             Spacer()
         }
-        .frame(width: 350, height: 90)
+        .frame(width: CGFloat(cardWidth), height: 90)
         .background(Color("AirBlue"))
         .foregroundColor(Color("MintCream"))
         .cornerRadius(8)
@@ -147,7 +149,7 @@ struct IngredientEditCardView: View {
 struct IngredientEditCardView_Previews: PreviewProvider {
     static var ingredient = Ingredient(id: "id", text: "text", quantity: 1.0, measure: "measure", food: "food", weight: 1.0, foodCategory: "foodCategory", imgUrl: "https://www.edamam.com/food-img/46a/46a132e96626d7989b4d6ed8c91f4da0.jpg")
     static var previews: some View {
-        IngredientEditCardView(ingredient: ingredient, withURL: ingredient.imgUrl!)
+        IngredientEditCardView(ingredient: ingredient, withURL: ingredient.imgUrl!, width: 350)
             .previewLayout(.fixed(width: 350, height: 90))
     }
 }

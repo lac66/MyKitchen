@@ -34,6 +34,7 @@ struct NavBar: View {
                     Label("Personal", systemImage: "scroll.fill")
                 }
                 .environmentObject(fbInterface)
+                .environmentObject(eInterface)
             HomeView()
                 .tabItem {
                     Label("Home", systemImage: "house.fill")
@@ -52,10 +53,6 @@ struct NavBar: View {
                 }
                 .environmentObject(fbInterface)
         }
-//        .onDisappear {
-//            let so = fbInterface.signOut()
-//            print(so)
-//        }
     }
 }
 

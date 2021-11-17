@@ -25,9 +25,7 @@ struct ContentView: View {
 //            fbInterface.signOut()
             fbInterface.signedIn = fbInterface.isSignedIn
             if (fbInterface.signedIn) {
-                fbInterface.getUser {
-                    print("got user in contentView")
-                }
+                fbInterface.getUser()
             }
         }
     }

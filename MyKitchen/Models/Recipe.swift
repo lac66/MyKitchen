@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-class Recipe : Equatable {
+class Recipe : Equatable, Identifiable {
     
     let id : String
     let name: String

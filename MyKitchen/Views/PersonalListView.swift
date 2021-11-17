@@ -104,7 +104,6 @@ struct PersonalListView: View {
                                     }
                                 }
                             }
-//                            .fixedSize(horizontal: true, vertical: false)
                             .frame(idealWidth: 350, idealHeight: 400)
                             .background(Color("Camel"))
                             .cornerRadius(15)

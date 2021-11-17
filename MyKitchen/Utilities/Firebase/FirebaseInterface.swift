@@ -241,6 +241,12 @@ class FirebaseInterface : ObservableObject {
         return wudDb
     }
     
+    // Get User Data Methods
+    func getRecipesOfWeek() -> [DaysOfWeek:[Recipe]] {
+        return currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].recipesOfWeek
+    }
+    
+    
     // Mutate CurrentUser Methods
     
     func addRecipeToWeeklyData(recipe: Recipe) {

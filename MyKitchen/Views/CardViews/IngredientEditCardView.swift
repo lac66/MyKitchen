@@ -14,10 +14,10 @@ struct IngredientEditCardView: View {
     @State var image: UIImage = UIImage()
     
     @State var ingredientQtyInput : String = ""
+    @State var trashOrAdd: String
     //    @State var selectedUnit : Int
     
-    @State var ingredient: Ingredient
-    @State var trashOrAdd: String
+    let ingredient: Ingredient
     
     init(ingredient : Ingredient, withURL url: String?, trashOrAdd: String) {
         self.ingredient = ingredient
@@ -38,20 +38,36 @@ struct IngredientEditCardView: View {
                     .foregroundColor(Color("Camel"))
                     .cornerRadius(10)
                 
-                Image(uiImage: image)
-                    .resizable()
-                    .frame(width: 65, height: 65)
-                    .cornerRadius(6)
-                    .onReceive(imageLoader.didChange) { data in
-                        self.image = UIImage(data: data) ?? UIImage()
-                        self.ingredient.img = self.image
+                if (ingredient.imgUrl != nil) {
+                    if #available(iOS 15.0, *) {
+                        AsyncImage(url: URL(string: ingredient.imgUrl!)) { image in
+                            image.resizable()
+                        } placeholder: {
+                            ProgressView()
+                        }
+                        .frame(width: 65, height: 65)
+                        .cornerRadius(6)
+                    } else {
+                        // Fallback on earlier versions
+                        Image(uiImage: image)
+                            .resizable()
+                            .frame(width: 65, height: 65)
+                            .cornerRadius(6)
+                            .onReceive(imageLoader.didChange) { data in
+                                self.image = UIImage(data: data) ?? UIImage()
+                            }
                     }
+                } else {
+                    Text("No Image Found")
+                        .frame(width: 65, height: 65)
+                        .cornerRadius(6)
+                        .multilineTextAlignment(.center)
+                }
             }
             .padding(.leading, 10)
             
             VStack(alignment: .leading) {
                 Text(ingredient.food)
-//                Text(ingredient.foodCategory!)
                     .frame(width: 210, height: 30, alignment: .leading)
                     .padding(.leading, 10)
                     .background(Color("MintCream"))
@@ -66,7 +82,17 @@ struct IngredientEditCardView: View {
                             .frame(width: 20, height: 20)
                             .background(Color("Camel"))
                             .cornerRadius(4)
+                            .onTapGesture(count: 2) {
+                                fbInterface.decrementQuantity(ingredient: ingredient, amt: 1)
+                            }
+                            .onLongPressGesture {
+                                fbInterface.decrementQuantity(ingredient: ingredient, amt: 2)
+                            }
+                            .onTapGesture(count: 1) {
+                                fbInterface.decrementQuantity(ingredient: ingredient, amt: 0)
+                            }
                     }
+                    
                     let amtText: String = String(format: "%.2f", ingredient.quantity)
                     Text(amtText)
                         .frame(width: 50, height: 20)
@@ -80,6 +106,15 @@ struct IngredientEditCardView: View {
                             .frame(width: 20, height: 20)
                             .background(Color("Camel"))
                             .cornerRadius(4)
+                            .onTapGesture(count: 2) {
+                                fbInterface.incrementQuantity(ingredient: ingredient, amt: 1)
+                            }
+                            .onLongPressGesture {
+                                fbInterface.incrementQuantity(ingredient: ingredient, amt: 2)
+                            }
+                            .onTapGesture(count: 1) {
+                                fbInterface.incrementQuantity(ingredient: ingredient, amt: 0)
+                            }
                     }
                     
 //                    Picker(selection: $selectedUnit, label: Text(Unit.allCases[selectedUnit].str).foregroundColor(Color("OxfordBlue")),
@@ -113,6 +148,7 @@ struct IngredientEditCardView: View {
                         if (trashOrAdd == "trash") {
                             fbInterface.deleteIngredientFromPersonalList(ingredient: ingredient)
                         } else {
+                            print("add IECV")
                             fbInterface.addIngredientToPersonalList(ingredient: ingredient)
                         }
                     } label: {

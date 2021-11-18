@@ -66,7 +66,7 @@ struct PersonalListView: View {
                                 Image(systemName: addButtonImg)
                                     .frame(width: 30, height: 30)
                                     .background(Color("Camel"))
-                                    .cornerRadius(10)
+                                    .cornerRadius(12)
                             }
                         }
                         .frame(width: 350)
@@ -81,10 +81,8 @@ struct PersonalListView: View {
                                         .foregroundColor(Color("MintCream"))
                                 } else if !searchText.isEmpty && addButtonImg == "plus" {
                                     GroupingListView(ingredientList: fbInterface.searchPersonalList(text: searchText))
-                                        .environmentObject(fbInterface)
                                 } else {
                                     GroupingListView(ingredientList: fbInterface.currentUser!.weeklyUserData[fbInterface.currentUser!.weeklyUserData.count - 1].personalList)
-                                        .environmentObject(fbInterface)
                                 }
                             }
                         }
@@ -105,6 +103,9 @@ struct PersonalListView: View {
                                     }
                                 }
                             }
+                            .onTapGesture {
+                                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                            }
                             .frame(idealWidth: 350, idealHeight: 400)
                             .background(Color("Camel"))
                             .cornerRadius(15)
@@ -122,8 +123,20 @@ struct PersonalListView: View {
 }
 
 struct GroupingListView: View {
-    @EnvironmentObject var fbInterface: FirebaseInterface
-    let ingredientList: [Ingredient]
+    @State var collapsed: [Bool]
+    var ingredientList: [Ingredient]
+    
+    init (ingredientList: [Ingredient]) {
+        self.ingredientList = ingredientList
+        
+        var tmpArr: [Bool] = []
+        for _ in IngType.allCases {
+            print("initializing list")
+            tmpArr.append(true)
+        }
+        self.collapsed = tmpArr
+        print(ingredientList[0].quantity)
+    }
     
     var body: some View {
         ForEach(0 ..< IngType.allCases.count) { index in
@@ -133,21 +146,29 @@ struct GroupingListView: View {
                     .font(.system(size: 24, weight: .semibold, design: .default))
                     .padding(5)
                 
-                ForEach(ingredientList, id: \.id) { ingredient in
-                    if (ingredient.type == IngType.allCases[index]) {
-                        IngredientEditCardView(ingredient: ingredient, withURL: ingredient.imgUrl, trashOrAdd: "trash")
-                            .environmentObject(fbInterface)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 15)
-                                    .stroke(Color("OxfordBlue"), lineWidth: 2)
-                            )
-                            .padding(.bottom, 5)
+                if (!collapsed[index]) {
+                    ForEach(ingredientList, id: \.id) { ingredient in
+                        if (ingredient.type == IngType.allCases[index]) {
+                            IngredientEditCardView(ingredient: ingredient, withURL: ingredient.imgUrl, trashOrAdd: "trash")
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .stroke(Color("OxfordBlue"), lineWidth: 2)
+                                )
+                                .padding(.bottom, 5)
+                        }
                     }
                 }
             }
             .frame(width: 350)
             .background(Color("AirBlue"))
             .cornerRadius(15)
+            .onTapGesture {
+                if (collapsed[index]) {
+                    collapsed[index] = false
+                } else {
+                    collapsed[index] = true
+                }
+            }
         }
     }
 }

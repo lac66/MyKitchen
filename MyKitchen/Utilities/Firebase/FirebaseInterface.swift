@@ -17,6 +17,8 @@ class FirebaseInterface : ObservableObject {
     @Published var signedIn = false
     @Published var currentUser : User? = nil
     
+    var btnCheck: DispatchWorkItem?
+    
     var isSignedIn : Bool {
         return auth.currentUser != nil
     }
@@ -134,6 +136,7 @@ class FirebaseInterface : ObservableObject {
         } catch let error {
             print("Error writing user to Firestore: \(error)")
         }
+        
         self.objectWillChange.send()
     }
     
@@ -276,7 +279,6 @@ class FirebaseInterface : ObservableObject {
     func unsaveRecipe(recipe: Recipe) {
         for index in 0 ..< currentUser!.savedRecipes.count {
             if (currentUser!.savedRecipes[index].id == recipe.id) {
-                print("Unsave: \(index)")
                 currentUser!.savedRecipes.remove(at: index)
                 break
             }
@@ -307,6 +309,64 @@ class FirebaseInterface : ObservableObject {
         
         currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1] = wud
         updateDB()
+    }
+    
+    func incrementQuantity(ingredient: Ingredient, amt: Int) {
+//        if (btnCheck != nil) {
+//            btnCheck!.cancel()
+//            btnCheck = nil
+//        }
+        
+        switch amt {
+            case 0:
+                print("single tap")
+                currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.firstIndex(of: ingredient)!].quantity += 0.01
+            case 1:
+                print("double tap")
+                currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.firstIndex(of: ingredient)!].quantity += 0.1
+            default:
+                print("long press")
+                currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.firstIndex(of: ingredient)!].quantity += 1.0
+        }
+        
+        updateDB()
+//        self.objectWillChange.send()
+//
+//        btnCheck = DispatchWorkItem {
+//            print("update")
+//            self.updateDB()
+//        }
+//        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: btnCheck!)
+        
+    }
+    
+    func decrementQuantity(ingredient: Ingredient, amt: Int) {
+//        if (btnCheck != nil) {
+//            btnCheck!.cancel()
+//            btnCheck = nil
+//        }
+        
+        switch amt {
+            case 0:
+                print("single tap")
+                currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.firstIndex(of: ingredient)!].quantity -= 0.01
+            case 1:
+                print("double tap")
+                currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.firstIndex(of: ingredient)!].quantity -= 0.1
+            default:
+                print("long press")
+                currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.firstIndex(of: ingredient)!].quantity -= 1.0
+        }
+        
+        updateDB()
+//        self.objectWillChange.send()
+//
+//        btnCheck = DispatchWorkItem {
+//            print("update")
+//            self.updateDB()
+//        }
+//        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: btnCheck!)
+        
     }
     
     // Group Methods

@@ -30,14 +30,27 @@ struct RecipeDetailsView: View {
                                 .foregroundColor(Color("Camel"))
                                 .cornerRadius(30)
                             
-                            if (recipe.img != nil) {
-                                Image(uiImage: recipe.img!)
-                                    .resizable()
-                                    .frame(width: 325, height: 325)
-                                    .cornerRadius(25)
+                            if #available(iOS 15.0, *) {
+                                AsyncImage(url: URL(string: recipe.imgUrl)) { image in
+                                    image.resizable()
+                                } placeholder: {
+                                    ProgressView()
+                                }
+                                .frame(width: 325, height: 325)
+                                .cornerRadius(25)
                             } else {
-                                // show default image
-                                Image(uiImage: UIImage())
+                                // Fallback on earlier versions
+                                
+                                if (recipe.img != nil) {
+                                    Image(uiImage: recipe.img!)
+                                        .resizable()
+                                        .frame(width: 325, height: 325)
+                                        .cornerRadius(25)
+                                } else {
+                                    Text("No Image Found")
+                                        .frame(width: 325, height: 325)
+                                        .cornerRadius(25)
+                                }
                             }
                         }
                         

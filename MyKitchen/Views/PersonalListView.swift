@@ -124,7 +124,7 @@ struct PersonalListView: View {
 
 struct GroupingListView: View {
     @State var collapsed: [Bool]
-    var ingredientList: [Ingredient]
+    let ingredientList: [Ingredient]
     
     init (ingredientList: [Ingredient]) {
         self.ingredientList = ingredientList

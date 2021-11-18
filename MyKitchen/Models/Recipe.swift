@@ -8,13 +8,13 @@
 import Foundation
 import SwiftUI
 
-class Recipe : Equatable {
+struct Recipe : Equatable, Identifiable {
     
     let id : String
     let name: String
     let imgUrl : String
     let sourceUrl : String
-    let yield : Int
+    let yield : Double
     let ingString : [String]
     let ingredients : [Ingredient]
     let calories : Double
@@ -23,7 +23,7 @@ class Recipe : Equatable {
     
     var img : UIImage?
     
-    init (id: String, name: String, imgUrl: String, sourceUrl: String, yield: Int, ingString: [String], ingredients: [Ingredient], calories: Double, cuisineType: [String], mealType: [String]) {
+    init (id: String, name: String, imgUrl: String, sourceUrl: String, yield: Double, ingString: [String], ingredients: [Ingredient], calories: Double, cuisineType: [String], mealType: [String]) {
         self.id = id
         self.name = name
         self.imgUrl = imgUrl
@@ -41,7 +41,7 @@ class Recipe : Equatable {
     }
 }
 
-extension Recipe {
+//extension Recipe {
 //    static var data: [Recipe] {
 //        [
 //            Recipe(id: 1, name: "Chili", cookTime: "1 hour", difficulty: "Easy", img: Image("food"), ingredients: ["1 Cup Something", "2 tsp Something else", "3 Gal Something good"], instructions: ["Put all ingredients in a pan", "Stir until it smells and looks good", "Take pan off of burner", "Enjoy!"]),
@@ -63,4 +63,4 @@ extension Recipe {
 //    static func getRecipes() -> [Recipe] {
 //        return Recipe.data
 //    }
-}
+//}

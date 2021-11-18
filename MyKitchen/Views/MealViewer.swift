@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct MealViewer: View {
-    @EnvironmentObject var fbInterface : FirebaseInterface
+    @EnvironmentObject var fbInterface: FirebaseInterface
     
     init() {
         navAppearance.backgroundColor = UIColor(named: "OxfordBlue")
@@ -21,122 +21,57 @@ struct MealViewer: View {
             
             ZStack{
                 Color("OxfordBlue").edgesIgnoringSafeArea(.all)
-                // entire page should be UICollectionView where you can drag from top HStack to bottom V Stack
                 VStack {
+                    //Header
                     Text("Meal Viewer")
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .foregroundColor(Color("MintCream"))
                         .multilineTextAlignment(.center)
                     
-                    //Horizontal Scrollbar with meals
-                    ScrollView(.horizontal, showsIndicators: true){
-                        HStack{
-//                            ForEach(recipes, id: \.id) { recipe in
-//                                MealViewerCardView(recipe: recipe)
-//
-//                            }
-                        }
-                        
-                    }
-                    Spacer()
                     //Days of the week
                     ScrollView(.vertical, showsIndicators: true) {
                         VStack {
-                            Group{
-                                Spacer()
-                                Text("Sunday")
-                                    .font(.largeTitle)
-                                    .underline()
-                                    .foregroundColor(Color("MintCream"))
-                                    .padding(.trailing, 250.0)
-                                
-                                
-                                Spacer()
-                                
-                            }
-                            Group{
-                                HStack {
-                                    Text("Monday")
-                                        .font(.largeTitle)
-                                        .underline()
-                                        .foregroundColor(Color("MintCream"))
-                                        .padding(.trailing, 240.0)
-                                }
-//                                MealViewerCardView(recipe: recipes[0])
-                                Spacer()
-                                
-                            }
-                            Group{
-                                Text("Tuesday")
-                                    .font(.largeTitle)
-                                    .underline()
-                                    .foregroundColor(Color("MintCream"))
-                                    .padding(.trailing, 250.0)
-                                
-                                
-                                Spacer()
-                                
-                            }
-                            
-                            Group{
-                                Text("Wednesday")
-                                    .font(.largeTitle)
-                                    .underline()
-                                    .foregroundColor(Color("MintCream"))
-                                    .padding(.trailing, 200.0)
-                                
-                                Spacer()
-                                
-                            }
-                            
-                            Group{
-                                Text("Thursday")
-                                    .font(.largeTitle)
-                                    .underline()
-                                    .foregroundColor(Color("MintCream"))
-                                    .padding(.trailing, 230.0)
-                                
-                                Spacer()
-                                
-                            }
-                            
-                            Group{
-                                Text("Friday")
-                                    .font(.largeTitle)
-                                    .underline()
-                                    .foregroundColor(Color("MintCream"))
-                                    .padding(.trailing, 280.0)
-                                
-                                Spacer()
-                                
-                            }
-                            
-                            Group{
-                                Text("Saturday")
-                                    .font(.largeTitle)
-                                    .underline()
-                                    .foregroundColor(Color("MintCream"))
-                                    .padding(.trailing, 240.0)
-                                
-                                Spacer()
-                                
-                            }
+                            MealViewerLayoutView(recipesOfWeek: fbInterface.getRecipesOfWeek())
                         }
                         Spacer()
-                    }
-                    
-                    Spacer()
-                    
+                    }.navigationBarHidden(true)
                 }
             }
         }
     }
 }
 
+struct MealViewerLayoutView: View {
+    let recipesOfWeek: [DaysOfWeek:[Recipe]]
+    
+    var body: some View {
+        ForEach(0 ..< DaysOfWeek.allCases.count) { index in
+            VStack {
+                Text(DaysOfWeek.allCases[index].str)
+                    .foregroundColor(Color("MintCream"))
+                    .font(.system(size: 24, weight: .semibold, design: .default))
+                    .padding(5)
+                
+                ScrollView(.horizontal, showsIndicators: true){
+                    HStack{
+                        ForEach(recipesOfWeek[DaysOfWeek.allCases[index]]!, id: \.id) { recipe in
+                            MealViewerCardView(recipe: recipe)
+                        }
+                    }
+                }
+            }
+            .frame(width: 350)
+            .background(Color("AirBlue"))
+            .cornerRadius(15)
+        }
+    }
+}
 
 struct MealViewer_Previews: PreviewProvider {
+//    static var recipes = Recipe.data
     static var previews: some View {
         MealViewer()
+            .background(Color("OxfordBlue"))
     }
 }

@@ -9,8 +9,11 @@ import SwiftUI
 
 struct PersonalListView: View {
     @EnvironmentObject var fbInterface : FirebaseInterface
+    @EnvironmentObject var eInterface : EdamamInterface
+    
     @State var addButtonImg = "plus"
     @State var searchText = ""
+    @State var typingCheck: DispatchWorkItem?
     
     init() {
         navAppearance.backgroundColor = UIColor(named: "OxfordBlue")
@@ -31,55 +34,120 @@ struct PersonalListView: View {
                             .font(.system(size: 32, weight: .bold, design: .default))
                         
                         HStack {
-                            Searchbar(placeholder: Text("Search here"), isForRecipes: false, text: $searchText)
-                                .frame(width: 300)
+                            Searchbar(placeholder: "Search here", isForRecipes: false, text: $searchText)
+                                .onChange(of: searchText) { newValue in
+                                    if (addButtonImg == "xmark") {
+                                        if (typingCheck != nil) {
+                                            typingCheck!.cancel()
+                                            typingCheck = nil
+                                        }
+                                        
+                                        typingCheck = DispatchWorkItem {
+                                            print("search")
+                                            searchApi()
+                                        }
+                                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: typingCheck!)
+                                    }
+                                }
+                                .frame(width: 310)
                                 .foregroundColor(Color("MintCream"))
+                            
+                            Spacer()
                             
                             Button {
                                 if (addButtonImg == "plus") {
                                     addButtonImg = "xmark"
+                                    searchText = ""
                                 } else {
                                     addButtonImg = "plus"
+                                    searchText = ""
                                 }
                             } label: {
                                 Image(systemName: addButtonImg)
                                     .frame(width: 30, height: 30)
                                     .background(Color("Camel"))
-                                    .cornerRadius(4)
+                                    .cornerRadius(10)
                             }
                         }
+                        .frame(width: 350)
                     }
                     .foregroundColor(Color("MintCream"))
-                    .padding(.bottom)
                     
-                    ScrollView {
-                        VStack (spacing: 10) {
-                            // add logic for api vs list search here if/else
-                            ForEach(0 ..< IngType.allCases.count) { index in
-                                VStack {
-                                    Text(IngType.allCases[index].str)
+                    ZStack {
+                        ScrollView {
+                            VStack (spacing: 10) {
+                                if fbInterface.currentUser!.weeklyUserData[fbInterface.currentUser!.weeklyUserData.count - 1].personalList.count == 0 {
+                                    Text("No ingredients in Personal List")
                                         .foregroundColor(Color("MintCream"))
-                                        .font(.system(size: 24, weight: .semibold, design: .default))
-                                        .padding(5)
-                                    
-                                    ForEach(fbInterface.currentUser!.weeklyUserData[fbInterface.currentUser!.weeklyUserData.count - 1].personalList, id: \.id) { ingredient in
-                                        if (ingredient.type == IngType.allCases[index]) {
-                                            IngredientEditCardView(ingredient: ingredient, withURL: ingredient.imgUrl)
+                                } else if !searchText.isEmpty && addButtonImg == "plus" {
+                                    GroupingListView(ingredientList: fbInterface.searchPersonalList(text: searchText))
+                                        .environmentObject(fbInterface)
+                                } else {
+                                    GroupingListView(ingredientList: fbInterface.currentUser!.weeklyUserData[fbInterface.currentUser!.weeklyUserData.count - 1].personalList)
+                                        .environmentObject(fbInterface)
+                                }
+                            }
+                        }
+                        .onTapGesture {
+                            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                        }
+                        .padding(.top)
+                        .padding(.bottom, 10)
+                        
+                        if addButtonImg == "xmark" {
+                            VStack {
+                                ScrollView {
+                                    VStack {
+                                        ForEach(eInterface.ingredients, id: \.id) { ingredient in
+                                            IngredientEditCardView(ingredient: ingredient, withURL: ingredient.imgUrl, trashOrAdd: "plus")
+                                                .padding(5)
                                         }
                                     }
                                 }
-                                .background(Color("AirBlue"))
-                                .cornerRadius(15)
                             }
+                            .frame(idealWidth: 350, idealHeight: 400)
+                            .background(Color("Camel"))
+                            .cornerRadius(15)
                         }
                     }
-                    .onTapGesture {
-                        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                    }
-                    .padding(.bottom, 10)
                 }
                 .navigationBarHidden(true)
             }
+        }
+    }
+    
+    func searchApi() {
+        eInterface.searchWithApi(text: searchText, isForRecipes: false)
+    }
+}
+
+struct GroupingListView: View {
+    @EnvironmentObject var fbInterface: FirebaseInterface
+    let ingredientList: [Ingredient]
+    
+    var body: some View {
+        ForEach(0 ..< IngType.allCases.count) { index in
+            VStack {
+                Text(IngType.allCases[index].str)
+                    .foregroundColor(Color("MintCream"))
+                    .font(.system(size: 24, weight: .semibold, design: .default))
+                    .padding(5)
+                
+                ForEach(ingredientList, id: \.id) { ingredient in
+                    if (ingredient.type == IngType.allCases[index]) {
+                        IngredientEditCardView(ingredient: ingredient, withURL: ingredient.imgUrl, trashOrAdd: "trash")
+                            .environmentObject(fbInterface)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 15)
+                                    .stroke(Color("OxfordBlue"), lineWidth: 2)
+                            )
+                            .padding(.bottom, 5)
+                    }
+                }
+            }
+            .frame(width: 350)
+            .background(Color("AirBlue"))
+            .cornerRadius(15)
         }
     }
 }

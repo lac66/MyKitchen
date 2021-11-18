@@ -30,22 +30,19 @@ class FirebaseInterface : ObservableObject {
             }
             
             //success
-            self?.getUser() {
-                print("get user Completed")
-            }
+            self?.getUser()
         }
     }
     
     func signUp(name: String, email: String, password: String) {
         auth.createUser(withEmail: email, password: password) { [weak self] result, error in
             guard result != nil, error == nil else {
-                print(error?.localizedDescription)
+                print(error!.localizedDescription)
                 return
             }
             
             //success
             if (self?.auth.currentUser != nil) {
-                print("setting up database")
                 self?.userDBSetup(id: (self?.auth.currentUser!.uid)!, name: name, email: email)
             } else {
                 print("currentUser not ready")
@@ -69,7 +66,7 @@ class FirebaseInterface : ObservableObject {
     
     // User Methods
     
-    func getUser(completionHandler: () -> Void) {
+    func getUser() {
         let docRef = db.collection("accounts").document(auth.currentUser!.uid)
         
         docRef.getDocument { (document, error) in
@@ -80,7 +77,6 @@ class FirebaseInterface : ObservableObject {
             switch result {
                 case .success(let user):
                     if let user = user {
-                        print(user)
                         self.convertUserDBtoUser(userDb: user)
                         // groupID != nil get group
                     } else {
@@ -128,10 +124,7 @@ class FirebaseInterface : ObservableObject {
             if let err = err {
                 print("Error writing document: \(err)")
             } else {
-                print("Document successfully written")
-                self.getUser() {
-                    
-                }
+                self.getUser()
             }
         }
     }
@@ -144,44 +137,39 @@ class FirebaseInterface : ObservableObject {
         } catch let error {
             print("Error writing user to Firestore: \(error)")
         }
-        
-        // might not be necessary
         self.objectWillChange.send()
     }
     
-//    func getRealtimePersonalList() {
-//        db.collection("accounts").document(currentUser!.id).addSnapshotListener { (documentSnapshop, error) in
-//            guard let document = documentSnapshop else {
-//                print("No doucments. Error: \(error!)")
-//                return
-//            }
-//            guard let data = document.data() else {
-//                print("Document data was empty.")
-//                return
-//            }
-//            
-//            print(data)
-//        }
-//    }
+    //    func getRealtimePersonalList() {
+    //        db.collection("accounts").document(currentUser!.id).addSnapshotListener { (documentSnapshop, error) in
+    //            guard let document = documentSnapshop else {
+    //                print("No doucments. Error: \(error!)")
+    //                return
+    //            }
+    //            guard let data = document.data() else {
+    //                print("Document data was empty.")
+    //                return
+    //            }
+    //
+    //            print(data)
+    //        }
+    //    }
     
     // Conversion Methods -- From DB to App
     
     func convertUserDBtoUser(userDb: UserDB) {
-        print("start conversion")
         let ingArray = self.convertApitoIngs(ingsApi: userDb.pantryList)
         let savedRecipes = self.convertApitoRecipeArray(recArr: userDb.savedRecipes)
         let wud = convertWUDDBtoWUD(wud: userDb.weeklyUserData)
         self.currentUser = User(id: auth.currentUser!.uid, email: userDb.email, name: userDb.name, pantryList: ingArray, savedRecipes: savedRecipes, weeklyUserData: wud)
-        print("currentUser:")
-        print(self.currentUser!.toString())
+        
         self.signedIn = true
-        print("converUserDBtoUser completed")
     }
     
     func convertApitoIngs(ingsApi: [IngredientApi]) -> [Ingredient] {
         var ings: [Ingredient] = []
         for ing in ingsApi {
-            ings.append(Ingredient(id: ing.foodId!, text: ing.text!, quantity: ing.quantity!, measure: ing.measure, food: ing.food!, weight: ing.weight!, foodCategory: ing.foodCategory!, imgUrl: ing.image!))
+            ings.append(Ingredient(id: ing.foodId!, text: ing.text!, quantity: ing.quantity!, measure: ing.measure, food: ing.food!, weight: ing.weight!, foodCategory: ing.foodCategory!, imgUrl: ing.image))
         }
         return ings
     }
@@ -257,6 +245,13 @@ class FirebaseInterface : ObservableObject {
         return wudDb
     }
     
+    // Get User Data Methods
+    
+    func getRecipesOfWeek() -> [DaysOfWeek:[Recipe]] {
+        return currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].recipesOfWeek
+    }
+    
+    
     // Mutate CurrentUser Methods
     
     func addRecipeToWeeklyData(recipe: Recipe) {
@@ -272,14 +267,48 @@ class FirebaseInterface : ObservableObject {
         }
         
         currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1] = wud
-        currentUser!.objectWillChange.send()
         updateDB()
     }
     
     func saveRecipe(recipe: Recipe) {
-        currentUser?.savedRecipes.append(recipe)
-        print("recipe saved")
+        currentUser!.savedRecipes.append(recipe)
         
+        updateDB()
+    }
+    
+    func unsaveRecipe(recipe: Recipe) {
+        for index in 0 ..< currentUser!.savedRecipes.count {
+            if (currentUser!.savedRecipes[index].id == recipe.id) {
+                print("Unsave: \(index)")
+                currentUser!.savedRecipes.remove(at: index)
+                break
+            }
+        }
+        
+        updateDB()
+    }
+    
+    func addIngredientToPersonalList(ingredient: Ingredient) {
+        if (currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.contains(ingredient)) {
+            currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.firstIndex(of: ingredient)!].quantity += ingredient.quantity
+        } else {
+            currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.append(ingredient)
+        }
+        
+        updateDB()
+    }
+    
+    func deleteIngredientFromPersonalList(ingredient: Ingredient) {
+        var wud = currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1]
+        
+        for index in 0 ..< wud.personalList.count {
+            if (wud.personalList[index].id == ingredient.id) {
+                wud.personalList.remove(at: index)
+                break
+            }
+        }
+        
+        currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1] = wud
         updateDB()
     }
     
@@ -410,12 +439,25 @@ class FirebaseInterface : ObservableObject {
     // Misc Methods
     
     func searchSavedRecipes(text: String) -> [Recipe] {
+        let lowerText = text.lowercased()
         var searchedRecipes: [Recipe] = []
         for recipe in currentUser!.savedRecipes {
-            if recipe.name.contains(text) {
+            if recipe.name.lowercased().contains(lowerText) {
                 searchedRecipes.append(recipe)
             }
         }
         return searchedRecipes
+    }
+    
+    func searchPersonalList(text: String) -> [Ingredient] {
+        let lowerText = text.lowercased()
+        var searchedIngredient: [Ingredient] = []
+        for ingredient in currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList {
+            print(ingredient.food)
+            if ingredient.food.lowercased().contains(lowerText) {
+                searchedIngredient.append(ingredient)
+            }
+        }
+        return searchedIngredient
     }
 }

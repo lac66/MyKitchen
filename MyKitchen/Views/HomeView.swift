@@ -9,9 +9,27 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var fbInterface : FirebaseInterface
+    @EnvironmentObject var eInterface : EdamamInterface
+    @State var task: DispatchWorkItem?
     
     var body: some View {
-        VStack {}
+        VStack {
+            Button {
+                print("pressed")
+                if (task != nil) {
+                    task!.cancel()
+                    task = nil
+                }
+                
+                task = DispatchWorkItem {
+                    print("search")
+                    eInterface.searchWithApi(text: "Chicken", isForRecipes: true)
+                }
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: task!)
+            } label: {
+                Text("Press Me")
+            }
+        }
 //        NavigationView {
 //            ZStack {
 //                VStack {

@@ -11,22 +11,27 @@ import SwiftUI
 //  var url = "https://api.edamam.com/api/recipes/v2/chili?app_id=" + appId + "&app_key=" + appKey;
 
 struct Searchbar: View {
-    @EnvironmentObject var eInterface : EdamamInterface
-    
     let placeholder: Text
     var isForRecipes: Bool
     @Binding var text: String
+    @State var typingCheck: DispatchWorkItem?
+    
+    init(placeholder: String, isForRecipes: Bool, text: Binding<String>) {
+        self.placeholder = Text(placeholder)
+        self.isForRecipes = isForRecipes
+        self._text = text
+    }
     
     var body: some View {
         HStack {
             Image(systemName: "magnifyingglass")
                 .padding(.leading, 6)
             
-            ZStack (alignment: .leading) {
-                if text.isEmpty { placeholder }
-                TextField("", text: $text, onEditingChanged: self.search)
-            }
-            .frame(height: 30)
+            TextField("", text: $text)
+                .placeholder(when: text.isEmpty, placeholder: {
+                    Text("Search here")
+                })
+                .frame(height: 30)
             
             if !text.isEmpty {
                 Button {
@@ -45,10 +50,6 @@ struct Searchbar: View {
     func clearText() {
         text = ""
     }
-    
-    func search(changed: Bool) {
-        eInterface.searchWithApi(text: text, isForRecipes: isForRecipes)
-    }
 }
 
 struct Searchbar_Previews: PreviewProvider {
@@ -56,6 +57,6 @@ struct Searchbar_Previews: PreviewProvider {
     @State static var searchBool = true
     
     static var previews: some View {
-        Searchbar(placeholder: Text("Search here"), isForRecipes: true, text: $emptyText)
+        Searchbar(placeholder: "Search Here", isForRecipes: true, text: $emptyText)
     }
 }

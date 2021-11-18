@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Groups: ObservableObject {
+struct Groups {
     let groupID : String
     var groupList : [Ingredient]
     let leaderID : String

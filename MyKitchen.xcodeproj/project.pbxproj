@@ -376,6 +376,7 @@
 				9B74A07D273ED9C700190398 /* GroupsInitial.swift */,
 				9B99FE7C272B6538009E6B62 /* GroupsHomeView.swift */,
 				9B14C48E273FFCE50068614D /* JoinGroup.swift */,
+				9B99FE72272B1F0F009E6B62 /* GroupsView.swift */,
 			);
 			path = Groups;
 			sourceTree = "<group>";

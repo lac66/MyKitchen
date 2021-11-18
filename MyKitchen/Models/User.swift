@@ -15,6 +15,16 @@ struct User {
     var savedRecipes : [Recipe]
     var weeklyUserData: [WeeklyUserData]
     var groupID : String?
+    
+    init(id: String, email: String, name: String, pantryList: [Ingredient], savedRecipes: [Recipe], weeklyUserData: [WeeklyUserData]) {
+        self.id = id
+        self.email = email
+        self.name = name
+        self.pantryList = pantryList
+        self.savedRecipes = savedRecipes
+        self.weeklyUserData = weeklyUserData
+        self.groupID = nil
+    }
 
 //    init(id: String, email: String, name: String, pantryList: [Ingredient], savedRecipes: [Recipe], weeklyUserData: [WeeklyUserData], groupID: String?) {
 //        self.id = id

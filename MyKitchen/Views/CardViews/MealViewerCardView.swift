@@ -8,8 +8,15 @@ import SwiftUI
 
 struct MealViewerCardView: View {
     let recipe: Recipe
+    let tmpDay: DaysOfWeek
     @State private var showListSelection = false
-    @State private var selectedDay: DaysOfWeek = .Unassigned
+    @State var selectedDay: DaysOfWeek
+    
+    init(recipe: Recipe, selectedDay: DaysOfWeek) {
+        self.recipe = recipe
+        self.selectedDay = selectedDay
+        self.tmpDay = selectedDay
+    }
     
     var body: some View {
         
@@ -82,7 +89,7 @@ struct MealViewerCardView_Previews: PreviewProvider {
 //    static var recipe = Recipe.data[0]
     static let recipe = Recipe(id: "id", name: "name", imgUrl: "imgUrl", sourceUrl: "sourceUrl", yield: 1, ingString: ["ingArr"], ingredients: [Ingredient(id: "id", text: "text", quantity: 1.0, measure: "measure", food: "food", weight: 1.0, foodCategory: "foodCategory", imgUrl: "https://www.edamam.com/food-img/627/627582f390a350d98c367f89c3a943fe.jpg")], calories: 1.0, cuisineType: ["cuisineType"], mealType: ["mealType"])
     static var previews: some View {
-        MealViewerCardView(recipe: recipe)
+        MealViewerCardView(recipe: recipe, selectedDay: .Unassigned)
             .background(Color.white)
             .previewLayout(.fixed(width: 400, height: 175))
     }

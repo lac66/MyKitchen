@@ -56,7 +56,7 @@ struct MealViewerLayoutView: View {
                 ScrollView(.horizontal, showsIndicators: true){
                     HStack{
                         ForEach(recipesOfWeek[DaysOfWeek.allCases[index]]!, id: \.id) { recipe in
-                            MealViewerCardView(recipe: recipe)
+                            MealViewerCardView(recipe: recipe, selectedDay: DaysOfWeek.allCases[index])
                         }
                     }
                 }

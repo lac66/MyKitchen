@@ -9,8 +9,9 @@ import SwiftUI
 
 struct GroupsHomeView: View {
     @EnvironmentObject var fbInterface : FirebaseInterface
+    
 //    let groceries: [Ingredient]
-//    let users: [UserModel]
+//    let usersTest: [UserModel]
     
     var body: some View {
 //        Color("OxfordBlue")
@@ -22,30 +23,37 @@ struct GroupsHomeView: View {
 //            Text("Hello")
 //         }
         NavigationView{
-            if(!fbInterface.inGroup()){
-//                Text("Here")
+            if(!self.fbInterface.inGroup()){
                 GroupsInitial()
             }
             else{
-            
         ZStack{
-            
+//            Text(fbInterface.currentUser?.groupID ?? "None found")
             Color("OxfordBlue")
                 .ignoresSafeArea()
             
             VStack{
                 HStack {
                 Text("Group homepage")
-                    
-                
+                    NavigationLink(destination: GroupsInitial().onAppear{
+                        self.fbInterface.leaveGroup()
+                    }.navigationBarBackButtonHidden(true)){
+                        Text("leave group")
+                    }
+                    .foregroundColor(Color("MintCream"))
                 }
-                .foregroundColor(Color("MintCream"))
-                VStack{
+//                    Button("leave") {
+//                        fbInterface.getMembers(id: fbInterface.currentUser?.groupID)
+//                        fbInterface.getGroup()
+//                    }
+                
+//                .foregroundColor(Color("MintCream"))
                     
 //                    List(groceries, children: \.items) { row in
 //                        Text(row.name)
 //                    }
-                    ZStack{
+                    HStack{
+                        ZStack{
                         Rectangle()
                             .frame(width: 350, height: 110)
                             .foregroundColor(Color("AirBlue"))
@@ -55,45 +63,51 @@ struct GroupsHomeView: View {
                             .frame(width: 330, height: 90)
                             .foregroundColor(Color("MintCream"))
                             .cornerRadius(15)
-                        
-                        HStack {
+//                        HStack {
 //                            ForEach(users, id: \.self){ user in
 //                                SmallMemberCards(user: user)
 //                                    .frame(width: 60, height: 80)
 //                            }
 //                            .frame(width: 100, height: 10, alignment: .center)
+//                        }
                         }
+                        
                     }
                     .background(Color("OxfordBlue"))
-                        
-                    ZStack{
-                        HStack{
-                            Rectangle()
-                                .frame(width: 130, height: 22)
-                                .foregroundColor(Color("AirBlue"))
-                                .cornerRadius(10)
-                            Rectangle()
-                                .frame(width: 80, height: 0)
-                                .hidden()
-                            Rectangle()
-                                .frame(width: 130, height: 22)
-                                .foregroundColor(Color("AirBlue"))
-                                .cornerRadius(10)
-                        }
-                        }
-                        }
+                    NavigationLink(destination: GroupsHomeView()){
+                        Text("Edit group")
                     }
                 }
-            .navigationBarHidden(true)
+//                ZStack{
+//                    HStack{
+//                        Rectangle()
+//                        Text("Edit group")
+//
+//                            .frame(width: 130, height: 22)
+//                            .foregroundColor(Color("AirBlue"))
+//                            .cornerRadius(10)
+//                        Rectangle()
+//                            .frame(width: 80, height: 0)
+//                            .hidden()
+//                        Rectangle()
+//                            .frame(width: 130, height: 22)
+//                            .foregroundColor(Color("AirBlue"))
+//                            .cornerRadius(10)
+//                            }
+//                        }
+                    }
+                }
             }
+        .navigationBarHidden(true)
         }
+        
     }
-}
 
-struct GroupsHomeView_Previews: PreviewProvider {
-    let groceries: [Ingredient]
-    let users: [UserModel]
-    static var previews: some View {
-        GroupsHomeView()
-    }
-}
+
+//struct GroupsHomeView_Previews: PreviewProvider {
+//    let groceries: [Ingredient]
+//    let usersTest: [UserModel]
+//    static var previews: some View {
+//        GroupsHomeView(groupList:usersTest)
+//    }
+//}

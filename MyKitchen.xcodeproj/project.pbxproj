@@ -302,7 +302,6 @@
 				3DB44B822719282B00DACF0E /* CardViews */,
 				3DB44B7B271918B400DACF0E /* HomeView.swift */,
 				3DD93C3427222CA6005AE1CC /* NavBar.swift */,
-				9B99FE72272B1F0F009E6B62 /* GroupsView.swift */,
 				3D4EB767272318340049CAF1 /* MealViewer.swift */,
 				3DB85DFD2733462600695D1F /* PersonalListView.swift */,
 			);
@@ -376,6 +375,7 @@
 				9B74A07D273ED9C700190398 /* GroupsInitial.swift */,
 				9B99FE7C272B6538009E6B62 /* GroupsHomeView.swift */,
 				9B14C48E273FFCE50068614D /* JoinGroup.swift */,
+				9B99FE72272B1F0F009E6B62 /* GroupsView.swift */,
 			);
 			path = Groups;
 			sourceTree = "<group>";

@@ -113,12 +113,15 @@ class FirebaseInterface : ObservableObject {
         
         let weeklyUserDataArray = [weeklyUserData]
         
+        let groupID = ""
+        
         let user : [String: Any] = [
             "name": name,
             "email": email,
             "pantryList": [],
             "savedRecipes": [],
-            "weeklyUserData": weeklyUserDataArray
+            "weeklyUserData": weeklyUserDataArray,
+            "groupID": groupID
         ]
         
         db.collection("accounts").document(id).setData(user) { err in
@@ -282,18 +285,125 @@ class FirebaseInterface : ObservableObject {
     
     // Group Methods
     
+    typealias FIRQuerySnapshotBlock = (QuerySnapshot?, Error?) -> Void
+    
     func createGroup() {
-        let leaderID = currentUser?.id
-        print(leaderID ?? "No id")
-        var g = Groups(groupID: "test", groupList: [], leaderID: leaderID ?? "nil", members: [])
+        print(self.currentUser?.groupID ?? "")
+        if(self.currentUser?.groupID != nil){
+            print("alread in group")
+            print(self.currentUser?.groupID ?? "No groupID found")
+            return
+        } else {
+            let leaderID = currentUser?.id
+            let groupID = UUID().uuidString
+            var group = Groups(groupID: groupID, groupList: [], leaderID: currentUser?.id ?? "No userID", members: [])
+            print(leaderID ?? "No id")
+            let g : [String: Any] = [
+                "groupID": groupID,
+                "groupList": [],
+                "leaderID": leaderID ?? "No ID found",
+                "members": group.members
+            ]
+            db.collection("groups").document(groupID).setData(g) { err in
+                if let err = err {
+                    print("Error writing document: \(err)")
+                } else {
+                    print("Document successfully written!")
+                    self.currentUser?.groupID = groupID
+                    self.updateDB()
+                    
+                    let dbRef = self.db.collection("groups").document(groupID).documentID
+                    print("<---- DBREF ---->")
+                    print(dbRef)
+                    print("<--------------->")
+                    print(self.currentUser?.groupID ?? "No groupID")
+                    print("<--------------->")
+                }
+            }
+        }
+        
+    }
+    
+    func getGroupID() -> String {
+        let docRef = self.db.collection("groups").document().documentID
+        print("in getGroupID")
+        print(docRef)
+        return docRef
+        
+//        docRef.getDocument { (document, error) in
+//            let result = Result {
+//                try document?.data(as: Group)
+//            }
+//
+//            switch result {
+//                case .success(let user):
+//                    if let user = user {
+//                        print(user)
+//                        self.convertUserDBtoUser(userDb: user)
+//                        // groupID != nil get group
+//                    } else {
+//                        // let user know eventually
+//                        print("document does not exist")
+//                    }
+//                case .failure(let error):
+//                    print("Error decoding user: \(error)")
+//            }
+//        }
     }
     
     func inGroup() -> Bool {
-        if(currentUser?.groupID != nil){
-            return true
+        print("in isgroup()")
+//        db.collection("groups").whereField("leaderID", isEqualTo: self.currentUser?.id)
+//            .getDocuments() { (querySnapshot, err) in
+//                if let err = err {
+//                    print("Error getting documents: \(err)")
+//                } else {
+//                    for document in querySnapshot!.documents {
+//                        print("\(document.documentID) => \(document.data())")
+//                    }
+//                }
+//        }
+        if(self.currentUser?.groupID == nil){
+            return false
         }
         else {
-            return false
+            return true
+        }
+    }
+    
+    func leaveGroup() {
+        print("in leave group")
+        print(self.currentUser?.groupID ?? "No groupID")
+        self.currentUser?.groupID = nil
+        self.updateDB()
+        print(self.currentUser?.groupID ?? "No groupID")
+    }
+    
+//    let docRef = db.collection("users").document(name)
+//
+//           docRef.getDocument(source: .cache) { (document, error) in
+//               if let document = document {
+//                   let property = document.get(field)
+//               } else {
+//                   print("Document does not exist in cache")
+//               }
+    
+    func setMembers(user: User){
+        
+    }
+    
+    func getMember(id: String) {
+        let docRef = db.collection("groups").document(id)
+        if(self.currentUser?.groupID == id) {
+            docRef.getDocument(source: .cache) { (document, err) in
+                if let document = document {
+                    let prop = document.get("members")
+                    print(prop ?? "No value")
+                } else {
+                    print("Document does not exist")
+                }
+            }
+            
         }
     }
     

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct GroupsInitial: View {
     @EnvironmentObject var fbInterface : FirebaseInterface
-    
+    @State private var showingGroupHome = false
     init() {
         navAppearance.backgroundColor = UIColor(named: "OxfordBlue")
         
@@ -36,22 +36,37 @@ struct GroupsInitial: View {
                             .foregroundColor(Color("OxfordBlue"))
                             .frame(width: 275, height: 325)
                     }
-                    Button("UserID"){
-                        fbInterface.createGroup()
-                    }
+                    
                     HStack{
-                        
-                        NavigationLink(destination: GroupsHomeView()) {
-                            Text("Create Group")
-                                .frame(width: 130, height: 35)
-                                .background(Color("MintCream"))
-                                .cornerRadius(15)
-                                .foregroundColor(Color("OxfordBlue"))
+                        NavigationLink(destination: GroupsHomeView().onAppear{
+                            self.fbInterface.createGroup()
+                        }.navigationBarBackButtonHidden(true)){
+                            Text("Create group")
                         }
-                        .frame(width: 145, height: 45)
-                        .background(Color("AirBlue"))
-                        .cornerRadius(15)
-                        
+                        .foregroundColor(Color("MintCream"))
+//                        Button("UserID"){
+//                            if(fbInterface.currentUser?.groupID == ""){
+//                                showingGroupHome = true
+//                                fbInterface.createGroup()
+//                            }
+//                        }
+//                        .frame(width: 130, height: 35)
+//                        .background(Color("MintCream"))
+//                        .cornerRadius(15)
+//                        .foregroundColor(Color("OxfordBlue"))
+//                        NavigationLink(destination: GroupsHomeView()) {
+//                            Text("Create group")
+//                                .frame(width: 130, height: 35)
+//                                .background(Color("MintCream"))
+//                                .cornerRadius(15)
+//                                .foregroundColor(Color("OxfordBlue"))
+//                        }.onTapGesture {
+//                            fbInterface.createGroup()
+//                        }
+//                        .frame(width: 145, height: 45)
+//                        .background(Color("AirBlue"))
+//                        .cornerRadius(15)
+//
                         NavigationLink(destination: JoinGroup()) {
                             Text("Join Group")
                                 .frame(width: 130, height: 35)

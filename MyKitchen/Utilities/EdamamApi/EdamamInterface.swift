@@ -82,6 +82,7 @@ class EdamamInterface : ObservableObject {
                     self.recipes.append(newRecipe)
                 }
             }
+            
         })
         
         task.resume()

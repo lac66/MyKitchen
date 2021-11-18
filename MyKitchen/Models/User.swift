@@ -7,7 +7,7 @@
 
 import Foundation
 
-class User : ObservableObject {
+struct User {
     let id : String
     let email : String
     let name : String
@@ -16,25 +16,25 @@ class User : ObservableObject {
     var weeklyUserData: [WeeklyUserData]
     var groupID : String?
 
-    init(id: String, email: String, name: String, pantryList: [Ingredient], savedRecipes: [Recipe], weeklyUserData: [WeeklyUserData], groupID: String?) {
-        self.id = id
-        self.email = email
-        self.name = name
-        self.pantryList = pantryList
-        self.savedRecipes = savedRecipes
-        self.weeklyUserData = weeklyUserData
-        self.groupID = groupID
-    }
-    
-    init(id: String, email: String, name: String, pantryList: [Ingredient], savedRecipes: [Recipe], weeklyUserData: [WeeklyUserData]) {
-        self.id = id
-        self.email = email
-        self.name = name
-        self.pantryList = pantryList
-        self.savedRecipes = savedRecipes
-        self.weeklyUserData = weeklyUserData
-        self.groupID = nil
-    }
+//    init(id: String, email: String, name: String, pantryList: [Ingredient], savedRecipes: [Recipe], weeklyUserData: [WeeklyUserData], groupID: String?) {
+//        self.id = id
+//        self.email = email
+//        self.name = name
+//        self.pantryList = pantryList
+//        self.savedRecipes = savedRecipes
+//        self.weeklyUserData = weeklyUserData
+//        self.groupID = groupID
+//    }
+//
+//    init(id: String, email: String, name: String, pantryList: [Ingredient], savedRecipes: [Recipe], weeklyUserData: [WeeklyUserData]) {
+//        self.id = id
+//        self.email = email
+//        self.name = name
+//        self.pantryList = pantryList
+//        self.savedRecipes = savedRecipes
+//        self.weeklyUserData = weeklyUserData
+//        self.groupID = nil
+//    }
     
     
     func toString() -> String {

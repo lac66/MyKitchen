@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-class Ingredient: Identifiable, Equatable {
+struct Ingredient: Identifiable, Equatable {
     let id : String
     let text : String
     var quantity : Double
@@ -44,9 +44,9 @@ class Ingredient: Identifiable, Equatable {
             return IngType.fnv
         } else if tmp == "cheese" || tmp == "dairy" || tmp == "milk" {
             return IngType.dairy
-        } else if tmp == "grains" {
+        } else if tmp == "grains" || tmp == "bread, rolls and tortillas" {
             return IngType.grains
-        } else if tmp == "cocktails and liquors" || tmp == "water" || tmp == "non-dairy beverages" {
+        } else if tmp == "cocktails and liquors" || tmp == "liquors and cocktails" || tmp == "water" || tmp == "non-dairy beverages" || tmp == "wines" {
             return IngType.drink
         } else {
             return IngType.misc

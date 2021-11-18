@@ -37,7 +37,7 @@ class FirebaseInterface : ObservableObject {
     func signUp(name: String, email: String, password: String) {
         auth.createUser(withEmail: email, password: password) { [weak self] result, error in
             guard result != nil, error == nil else {
-                print(error?.localizedDescription)
+                print(error!.localizedDescription)
                 return
             }
             
@@ -134,6 +134,7 @@ class FirebaseInterface : ObservableObject {
         } catch let error {
             print("Error writing user to Firestore: \(error)")
         }
+        self.objectWillChange.send()
     }
     
     //    func getRealtimePersonalList() {
@@ -242,6 +243,7 @@ class FirebaseInterface : ObservableObject {
     }
     
     // Get User Data Methods
+    
     func getRecipesOfWeek() -> [DaysOfWeek:[Recipe]] {
         return currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].recipesOfWeek
     }
@@ -262,13 +264,48 @@ class FirebaseInterface : ObservableObject {
         }
         
         currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1] = wud
-        currentUser!.objectWillChange.send()
         updateDB()
     }
     
     func saveRecipe(recipe: Recipe) {
-        currentUser?.savedRecipes.append(recipe)
+        currentUser!.savedRecipes.append(recipe)
         
+        updateDB()
+    }
+    
+    func unsaveRecipe(recipe: Recipe) {
+        for index in 0 ..< currentUser!.savedRecipes.count {
+            if (currentUser!.savedRecipes[index].id == recipe.id) {
+                print("Unsave: \(index)")
+                currentUser!.savedRecipes.remove(at: index)
+                break
+            }
+        }
+        
+        updateDB()
+    }
+    
+    func addIngredientToPersonalList(ingredient: Ingredient) {
+        if (currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.contains(ingredient)) {
+            currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.firstIndex(of: ingredient)!].quantity += ingredient.quantity
+        } else {
+            currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.append(ingredient)
+        }
+        
+        updateDB()
+    }
+    
+    func deleteIngredientFromPersonalList(ingredient: Ingredient) {
+        var wud = currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1]
+        
+        for index in 0 ..< wud.personalList.count {
+            if (wud.personalList[index].id == ingredient.id) {
+                wud.personalList.remove(at: index)
+                break
+            }
+        }
+        
+        currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1] = wud
         updateDB()
     }
     
@@ -277,6 +314,8 @@ class FirebaseInterface : ObservableObject {
     func createGroup() {
         let leaderID = currentUser?.id
         print(leaderID ?? "No id")
+        // leaderID cannot be nil, the only way it would be is if the user is not signed in(though all
+        // users need to be signed in) If leaderID is nil, that will lead to a lot of problems later on
         var g = Groups(groupID: "test", groupList: [], leaderID: leaderID ?? "nil", members: [])
     }
     

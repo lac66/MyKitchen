@@ -76,14 +76,15 @@ struct PersonalListView: View {
                     ZStack {
                         ScrollView {
                             VStack (spacing: 10) {
-                                // add logic for api vs list search here if/else
                                 if fbInterface.currentUser!.weeklyUserData[fbInterface.currentUser!.weeklyUserData.count - 1].personalList.count == 0 {
                                     Text("No ingredients in Personal List")
                                         .foregroundColor(Color("MintCream"))
                                 } else if !searchText.isEmpty && addButtonImg == "plus" {
                                     GroupingListView(ingredientList: fbInterface.searchPersonalList(text: searchText))
+                                        .environmentObject(fbInterface)
                                 } else {
                                     GroupingListView(ingredientList: fbInterface.currentUser!.weeklyUserData[fbInterface.currentUser!.weeklyUserData.count - 1].personalList)
+                                        .environmentObject(fbInterface)
                                 }
                             }
                         }
@@ -98,7 +99,7 @@ struct PersonalListView: View {
                                 ScrollView {
                                     VStack {
                                         ForEach(eInterface.ingredients, id: \.id) { ingredient in
-                                            IngredientEditCardView(ingredient: ingredient, withURL: ingredient.imgUrl, width: 340)
+                                            IngredientEditCardView(ingredient: ingredient, withURL: ingredient.imgUrl, trashOrAdd: "plus")
                                                 .padding(5)
                                         }
                                     }
@@ -121,6 +122,7 @@ struct PersonalListView: View {
 }
 
 struct GroupingListView: View {
+    @EnvironmentObject var fbInterface: FirebaseInterface
     let ingredientList: [Ingredient]
     
     var body: some View {
@@ -133,7 +135,8 @@ struct GroupingListView: View {
                 
                 ForEach(ingredientList, id: \.id) { ingredient in
                     if (ingredient.type == IngType.allCases[index]) {
-                        IngredientEditCardView(ingredient: ingredient, withURL: ingredient.imgUrl, width: 340)
+                        IngredientEditCardView(ingredient: ingredient, withURL: ingredient.imgUrl, trashOrAdd: "trash")
+                            .environmentObject(fbInterface)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 15)
                                     .stroke(Color("OxfordBlue"), lineWidth: 2)

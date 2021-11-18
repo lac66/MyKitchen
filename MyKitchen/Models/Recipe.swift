@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-class Recipe : Equatable, Identifiable {
+struct Recipe : Equatable, Identifiable {
     
     let id : String
     let name: String
@@ -41,7 +41,7 @@ class Recipe : Equatable, Identifiable {
     }
 }
 
-extension Recipe {
+//extension Recipe {
 //    static var data: [Recipe] {
 //        [
 //            Recipe(id: 1, name: "Chili", cookTime: "1 hour", difficulty: "Easy", img: Image("food"), ingredients: ["1 Cup Something", "2 tsp Something else", "3 Gal Something good"], instructions: ["Put all ingredients in a pan", "Stir until it smells and looks good", "Take pan off of burner", "Enjoy!"]),
@@ -63,4 +63,4 @@ extension Recipe {
 //    static func getRecipes() -> [Recipe] {
 //        return Recipe.data
 //    }
-}
+//}

@@ -6,36 +6,22 @@
 //
 
 
-
-
-
-//
-//
-//
-//                  todo
-//
-//                  Ingredient object does not update with picker atm
-//
-//
-//
-//
-//
-
 import SwiftUI
 
 struct IngredientEditCardView: View {
+    @EnvironmentObject var fbInterface: FirebaseInterface
     @ObservedObject var imageLoader: ImageLoader
     @State var image: UIImage = UIImage()
     
     @State var ingredientQtyInput : String = ""
     //    @State var selectedUnit : Int
     
-    let ingredient: Ingredient
-    let cardWidth: Double
+    @State var ingredient: Ingredient
+    @State var trashOrAdd: String
     
-    init(ingredient : Ingredient, withURL url: String?, width: Double) {
+    init(ingredient : Ingredient, withURL url: String?, trashOrAdd: String) {
         self.ingredient = ingredient
-        self.cardWidth = width
+        self.trashOrAdd = trashOrAdd
 //        self._selectedUnit = State(initialValue: Unit.allCases.firstIndex(of: ingredient.qty!.getUnit())!)
         if (url == nil) {
             imageLoader = ImageLoader(urlString: "")
@@ -43,9 +29,6 @@ struct IngredientEditCardView: View {
             imageLoader = ImageLoader(urlString: url!)
         }
     }
-    
-//    var editingChanged: (Bool)->() = { _ in }
-//    var commit: ()->() = {}
     
     var body: some View {
         HStack {
@@ -109,20 +92,31 @@ struct IngredientEditCardView: View {
 //                    })
 //                    .pickerStyle(MenuPickerStyle())
                     
-                    if (ingredient.foodCategory != nil) {
-                        Text(ingredient.foodCategory!)
+                    if (ingredient.measure != nil) {
+                        Text("\(ingredient.measure!)")
+                            .frame(width: 80, height: 25, alignment: .center)
+                            .background(Color("MintCream"))
+                            .foregroundColor(Color("OxfordBlue"))
+                            .padding(.leading)
+                    } else {
+                        Text("Units")
                             .frame(width: 80, height: 25, alignment: .center)
                             .background(Color("MintCream"))
                             .foregroundColor(Color("OxfordBlue"))
                             .padding(.leading)
                     }
                     
+                    
                     Spacer()
                     
                     Button {
-//                        print(ingredient.qty!.getUnit())
+                        if (trashOrAdd == "trash") {
+                            fbInterface.deleteIngredientFromPersonalList(ingredient: ingredient)
+                        } else {
+                            fbInterface.addIngredientToPersonalList(ingredient: ingredient)
+                        }
                     } label: {
-                        Image(systemName: "trash")
+                        Image(systemName: trashOrAdd)
                             .resizable()
                             .frame(width: 20, height: 20)
                             .padding(2)
@@ -139,7 +133,7 @@ struct IngredientEditCardView: View {
             
             Spacer()
         }
-        .frame(width: CGFloat(cardWidth), height: 90)
+        .frame(width: 340, height: 90)
         .background(Color("AirBlue"))
         .foregroundColor(Color("MintCream"))
         .cornerRadius(8)
@@ -149,8 +143,8 @@ struct IngredientEditCardView: View {
 struct IngredientEditCardView_Previews: PreviewProvider {
     static var ingredient = Ingredient(id: "id", text: "text", quantity: 1.0, measure: "measure", food: "food", weight: 1.0, foodCategory: "foodCategory", imgUrl: "https://www.edamam.com/food-img/46a/46a132e96626d7989b4d6ed8c91f4da0.jpg")
     static var previews: some View {
-        IngredientEditCardView(ingredient: ingredient, withURL: ingredient.imgUrl!, width: 350)
-            .previewLayout(.fixed(width: 350, height: 90))
+        IngredientEditCardView(ingredient: ingredient, withURL: ingredient.imgUrl!, trashOrAdd: "trash")
+            .previewLayout(.fixed(width: 340, height: 90))
     }
 }
 

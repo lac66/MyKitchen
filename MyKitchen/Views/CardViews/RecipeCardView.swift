@@ -12,7 +12,7 @@ struct RecipeCardView: View {
     @ObservedObject var imageLoader: ImageLoader
     @State var image: UIImage = UIImage()
     
-    let recipe: Recipe
+    @State var recipe: Recipe
     let heartImg: String
     
     init(recipe: Recipe, withURL url: String, heartImg: String) {
@@ -59,7 +59,11 @@ struct RecipeCardView: View {
                 
                 Button {
                     // saved to favorites
-                    fbInterface.saveRecipe(recipe: recipe)
+                    if (heartImg == "heart.fill") {
+                        fbInterface.unsaveRecipe(recipe: recipe)
+                    } else {
+                        fbInterface.saveRecipe(recipe: recipe)
+                    }
                 } label: {
                     Image(systemName: heartImg)
                         .frame(width: 20, height: 20)

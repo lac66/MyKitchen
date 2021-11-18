@@ -164,7 +164,7 @@ class FirebaseInterface : ObservableObject {
         let ingArray = self.convertApitoIngs(ingsApi: userDb.pantryList)
         let savedRecipes = self.convertApitoRecipeArray(recArr: userDb.savedRecipes)
         let wud = convertWUDDBtoWUD(wud: userDb.weeklyUserData)
-        self.currentUser = User(id: auth.currentUser!.uid, email: userDb.email, name: userDb.name, pantryList: ingArray, savedRecipes: savedRecipes, weeklyUserData: wud)
+        self.currentUser = User(id: auth.currentUser!.uid, email: userDb.email, name: userDb.name, pantryList: ingArray, savedRecipes: savedRecipes, weeklyUserData: wud, groupID: userDb.groupID)
         
         self.signedIn = true
     }
@@ -377,7 +377,7 @@ class FirebaseInterface : ObservableObject {
     typealias FIRQuerySnapshotBlock = (QuerySnapshot?, Error?) -> Void
     
     func createGroup() {
-        print(self.currentUser?.groupID ?? "")
+        print(self.currentUser!.groupID!)
         if(self.currentUser?.groupID != nil){
             print("alread in group")
             print(self.currentUser?.groupID ?? "No groupID found")
@@ -385,7 +385,7 @@ class FirebaseInterface : ObservableObject {
         } else {
             let leaderID = currentUser?.id
             let groupID = UUID().uuidString
-            var group = Groups(groupID: groupID, groupList: [], leaderID: currentUser?.id ?? "No userID", members: [])
+            var group = Groups(groupID: groupID, groupList: [], leaderID: currentUser!.id, members: [])
             print(leaderID ?? "No id")
             let g : [String: Any] = [
                 "groupID": groupID,
@@ -462,9 +462,19 @@ class FirebaseInterface : ObservableObject {
     
     func leaveGroup() {
         print("in leave group")
-        print(self.currentUser?.groupID ?? "No groupID")
-        self.currentUser?.groupID = nil
-        self.updateDB()
+        print(self.currentUser!.groupID)
+//        self.currentUser?.groupID = nil
+        db.collection("accounts").document(currentUser!.groupID!).updateData([
+            "groupID": FieldValue.delete(),
+        ]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                print("Document successfully updated")
+                self.updateDB()
+            }
+        }
+        updateDB()
         print(self.currentUser?.groupID ?? "No groupID")
     }
     

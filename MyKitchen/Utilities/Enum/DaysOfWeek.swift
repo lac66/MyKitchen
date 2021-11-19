@@ -7,7 +7,9 @@
 
 import Foundation
 
-enum DaysOfWeek : String, Codable, CaseIterable {//Hashable, CaseIterable {
+enum DaysOfWeek : String, Codable, CaseIterable, Identifiable {//Hashable, CaseIterable {
+    var id: String { self.rawValue }
+
     case Unassigned
     case Sunday
     case Monday

@@ -7,6 +7,8 @@
 import SwiftUI
 
 struct MealViewerCardView: View {
+    @EnvironmentObject var fbInterface: FirebaseInterface
+
     let recipe: Recipe
     let tmpDay: DaysOfWeek
     @State private var showListSelection = false
@@ -60,10 +62,12 @@ struct MealViewerCardView: View {
                 if showListSelection {
                     VStack {
                         Picker("Choose a day to add the recipe to", selection: $selectedDay){ //}, selection: $selectedDay.onChange(changeDay)) {
-                            ForEach(DaysOfWeek.allCases, id: \.self) { //, id: \.self
-                                Text($0.rawValue)
+                            ForEach(DaysOfWeek.allCases) { day in//, id: \.self
+                                Text(day.rawValue).tag(day)
                             }
-                        }
+                        }.onChange(of: selectedDay, perform: { tag in
+                            changeDay(tag)
+                        })
                     }
                     .foregroundColor(Color("MintCream"))
                     .frame(height: 60)
@@ -83,6 +87,11 @@ struct MealViewerCardView: View {
         .foregroundColor(Color("MintCream"))
         .cornerRadius(15)
     }
+    
+    func changeDay(_ tag: DaysOfWeek) {
+        print("Entered change Day")
+        fbInterface.updateUserRecipesOfWeek(initialDay: tmpDay, newDay: selectedDay, recipe: recipe)
+    }
 }
 
 struct MealViewerCardView_Previews: PreviewProvider {
@@ -94,15 +103,15 @@ struct MealViewerCardView_Previews: PreviewProvider {
             .previewLayout(.fixed(width: 400, height: 175))
     }
 }
-/*
- extension Binding {
- func onChange(_ handler: @escaping (Value) -> Void) -> Binding<Value> {
- return Binding(
- get: { self.wrappedValue },
- set: { selection in
- self.wrappedValue = selection
- handler(selection)
- })
- }
- }
- */
+
+extension Binding {
+    func onChange(_ handler: @escaping (Value) -> Void) -> Binding<Value> {
+        return Binding(
+            get: { self.wrappedValue },
+            set: { selection in
+                self.wrappedValue = selection
+                handler(selection)
+            })
+    }
+}
+ 

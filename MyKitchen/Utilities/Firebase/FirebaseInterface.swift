@@ -17,8 +17,6 @@ class FirebaseInterface : ObservableObject {
     @Published var signedIn = false
     @Published var currentUser : User? = nil
     
-    var btnCheck: DispatchWorkItem?
-    
     var isSignedIn : Bool {
         return auth.currentUser != nil
     }
@@ -55,7 +53,8 @@ class FirebaseInterface : ObservableObject {
     func signOut () -> Bool {
         do {
             try Auth.auth().signOut()
-            self.currentUser = nil
+//            self.currentUser = nil
+            self.signedIn = false
             return true
         } catch {
             return false
@@ -172,9 +171,9 @@ class FirebaseInterface : ObservableObject {
     func convertApitoIngs(ingsApi: [IngredientApi]) -> [Ingredient] {
         var ings: [Ingredient] = []
         for ing in ingsApi {
-            ings.append(Ingredient(id: ing.foodId!, text: ing.text!, quantity: ing.quantity!, measure: ing.measure, food: ing.food!, weight: ing.weight!, foodCategory: ing.foodCategory!, imgUrl: ing.image))
+            ings.append(Ingredient(id: ing.foodId!, text: ing.text!, quantity: ing.quantity!, measure: ing.measure, food: ing.food!, weight: ing.weight!, foodCategory: ing.foodCategory, imgUrl: ing.image))
         }
-        return ings
+        return ings.sorted(by: { $0.food.lowercased() < $1.food.lowercased() })
     }
     
     func convertApitoRecipe(recApi: RecipeApi) -> Recipe {
@@ -256,6 +255,27 @@ class FirebaseInterface : ObservableObject {
     
     
     // Mutate CurrentUser Methods
+    func updateUserRecipesOfWeek(initialDay: DaysOfWeek, newDay: DaysOfWeek, recipe: Recipe){
+        var recipesOfWeek = getRecipesOfWeek()
+        var recipeDayList: [Recipe]
+        //remove from initial day
+        if recipesOfWeek[initialDay] != nil {
+            recipeDayList = recipesOfWeek[initialDay]!
+            if recipeDayList.firstIndex(of: recipe) != -1 {
+                let indexToRemove = recipeDayList.firstIndex(where: { $0.name == recipe.name })
+                recipeDayList.remove(at: indexToRemove!)
+                recipesOfWeek[initialDay] = recipeDayList
+            }
+        }
+        //add to new day
+        recipeDayList = recipesOfWeek[newDay]!
+        recipeDayList.append(recipe)
+        recipesOfWeek[newDay] = recipeDayList
+
+        currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].recipesOfWeek = recipesOfWeek
+        updateDB()
+    }
+    
     
     func addRecipeToWeeklyData(recipe: Recipe) {
         var wud = currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1]
@@ -265,7 +285,18 @@ class FirebaseInterface : ObservableObject {
             if (wud.personalList.contains(ingredient)) {
                 wud.personalList[wud.personalList.firstIndex(of: ingredient)!].quantity += ingredient.quantity
             } else {
-                wud.personalList.append(ingredient)
+                var changed = false
+                for (index, ing) in wud.personalList.enumerated() {
+                    if (ing.id == ingredient.id) {
+                        // same ingredient different quantities
+                        // will need to change in the future
+                        wud.personalList[index].quantity += ingredient.quantity
+                        changed = true
+                    }
+                }
+                if (!changed) {
+                    wud.personalList.append(ingredient)
+                }
             }
         }
         
@@ -291,16 +322,29 @@ class FirebaseInterface : ObservableObject {
     }
     
     func addIngredientToPersonalList(ingredient: Ingredient) {
+        print("addIngredientToPersonalList called")
         if (currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.contains(ingredient)) {
             currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.firstIndex(of: ingredient)!].quantity += ingredient.quantity
         } else {
-            currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.append(ingredient)
+            var changed = false
+            for (index, ing) in currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.enumerated() {
+                if (ing.id == ingredient.id) {
+                    // same ingredient different quantities
+                    // will need to change in the future
+                    currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[index].quantity += ingredient.quantity
+                    changed = true
+                }
+            }
+            if (!changed) {
+                currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.append(ingredient)
+            }
         }
         
         updateDB()
     }
     
     func deleteIngredientFromPersonalList(ingredient: Ingredient) {
+        print("deleteIngredientFromPersonalList called")
         var wud = currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1]
         
         for index in 0 ..< wud.personalList.count {
@@ -311,6 +355,32 @@ class FirebaseInterface : ObservableObject {
         }
         
         currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1] = wud
+        updateDB()
+    }
+    
+    func addIngredientToPantryList(ingredient: Ingredient) {
+        print("addIngredientToPantryList called")
+        if (currentUser!.pantryList.contains(ingredient)) {
+            currentUser!.pantryList[currentUser!.pantryList.firstIndex(of: ingredient)!].quantity += ingredient.quantity
+        } else {
+            currentUser!.pantryList.append(ingredient)
+        }
+        
+        updateDB()
+    }
+    
+    func deleteIngredientFromPantryList(ingredient: Ingredient) {
+        print("deleteIngredientFromPantryList called")
+        var pl = currentUser!.pantryList
+        
+        for index in 0 ..< pl.count {
+            if (pl[index].id == ingredient.id) {
+                pl.remove(at: index)
+                break
+            }
+        }
+        
+        currentUser!.pantryList = pl
         updateDB()
     }
     
@@ -514,6 +584,18 @@ class FirebaseInterface : ObservableObject {
         let lowerText = text.lowercased()
         var searchedIngredient: [Ingredient] = []
         for ingredient in currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList {
+            print(ingredient.food)
+            if ingredient.food.lowercased().contains(lowerText) {
+                searchedIngredient.append(ingredient)
+            }
+        }
+        return searchedIngredient
+    }
+    
+    func searchPantryList(text: String) -> [Ingredient] {
+        let lowerText = text.lowercased()
+        var searchedIngredient: [Ingredient] = []
+        for ingredient in currentUser!.pantryList {
             print(ingredient.food)
             if ingredient.food.lowercased().contains(lowerText) {
                 searchedIngredient.append(ingredient)

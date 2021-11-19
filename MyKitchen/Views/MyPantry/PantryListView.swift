@@ -30,7 +30,7 @@ struct PantryListView: View {
                 
                 VStack {
                     VStack (alignment: .leading) {
-                        Text("Personal List")
+                        Text("Pantry List")
                             .font(.system(size: 32, weight: .bold, design: .default))
                         
                         HStack {

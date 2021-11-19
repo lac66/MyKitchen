@@ -19,7 +19,7 @@ struct HomeView: View {
         self.name = name
         
         navAppearance.backgroundColor = UIColor(named: "OxfordBlue")
-        navAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor(named: "MintCream") as Any]
+        navAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor(named: "MintCream")!]
 //        let attributes = [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Light", size: 24)!]
 //
 //        UINavigationBar.appearance().titleTextAttributes = attributes
@@ -105,9 +105,11 @@ struct HomeView: View {
                     ToolbarItem(placement: .navigationBarLeading) {
                         if (name != nil) {
                             Text("Welcome, \(name!)")
+                                .foregroundColor(Color("MintCream"))
                                 .font(.system(size: 36, weight: .bold, design: .default))
                         } else {
                             Text("Welcome")
+                                .foregroundColor(Color("MintCream"))
                                 .font(.system(size: 36, weight: .bold, design: .default))
                         }
                     }

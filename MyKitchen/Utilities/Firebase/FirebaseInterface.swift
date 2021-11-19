@@ -76,16 +76,16 @@ class FirebaseInterface : ObservableObject {
             }
             
             switch result {
-                case .success(let user):
-                    if let user = user {
-                        self.convertUserDBtoUser(userDb: user)
-                        // groupID != nil get group
-                    } else {
-                        // let user know eventually
-                        print("document does not exist")
-                    }
-                case .failure(let error):
-                    print("Error decoding user: \(error)")
+            case .success(let user):
+                if let user = user {
+                    self.convertUserDBtoUser(userDb: user)
+                    // groupID != nil get group
+                } else {
+                    // let user know eventually
+                    print("document does not exist")
+                }
+            case .failure(let error):
+                print("Error decoding user: \(error)")
             }
         }
     }
@@ -385,35 +385,61 @@ class FirebaseInterface : ObservableObject {
     }
     
     func incrementQuantity(ingredient: Ingredient, amt: Int) {
+        //        if (btnCheck != nil) {
+        //            btnCheck!.cancel()
+        //            btnCheck = nil
+        //        }
+        
         switch amt {
-            case 0:
-                print("single tap")
-                currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.firstIndex(of: ingredient)!].quantity += 0.01
-            case 1:
-                print("double tap")
-                currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.firstIndex(of: ingredient)!].quantity += 0.1
-            default:
-                print("long press")
-                currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.firstIndex(of: ingredient)!].quantity += 1.0
+        case 0:
+            print("single tap")
+            currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.firstIndex(of: ingredient)!].quantity += 0.01
+        case 1:
+            print("double tap")
+            currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.firstIndex(of: ingredient)!].quantity += 0.1
+        default:
+            print("long press")
+            currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.firstIndex(of: ingredient)!].quantity += 1.0
         }
         
         updateDB()
+        //        self.objectWillChange.send()
+        //
+        //        btnCheck = DispatchWorkItem {
+        //            print("update")
+        //            self.updateDB()
+        //        }
+        //        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: btnCheck!)
+        
     }
     
     func decrementQuantity(ingredient: Ingredient, amt: Int) {
+        //        if (btnCheck != nil) {
+        //            btnCheck!.cancel()
+        //            btnCheck = nil
+        //        }
+        
         switch amt {
-            case 0:
-                print("single tap")
-                currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.firstIndex(of: ingredient)!].quantity -= 0.01
-            case 1:
-                print("double tap")
-                currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.firstIndex(of: ingredient)!].quantity -= 0.1
-            default:
-                print("long press")
-                currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.firstIndex(of: ingredient)!].quantity -= 1.0
+        case 0:
+            print("single tap")
+            currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.firstIndex(of: ingredient)!].quantity -= 0.01
+        case 1:
+            print("double tap")
+            currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.firstIndex(of: ingredient)!].quantity -= 0.1
+        default:
+            print("long press")
+            currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.firstIndex(of: ingredient)!].quantity -= 1.0
         }
         
         updateDB()
+        //        self.objectWillChange.send()
+        //
+        //        btnCheck = DispatchWorkItem {
+        //            print("update")
+        //            self.updateDB()
+        //        }
+        //        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: btnCheck!)
+        
     }
     
     // Group Methods
@@ -464,39 +490,39 @@ class FirebaseInterface : ObservableObject {
         print(docRef)
         return docRef
         
-//        docRef.getDocument { (document, error) in
-//            let result = Result {
-//                try document?.data(as: Group)
-//            }
-//
-//            switch result {
-//                case .success(let user):
-//                    if let user = user {
-//                        print(user)
-//                        self.convertUserDBtoUser(userDb: user)
-//                        // groupID != nil get group
-//                    } else {
-//                        // let user know eventually
-//                        print("document does not exist")
-//                    }
-//                case .failure(let error):
-//                    print("Error decoding user: \(error)")
-//            }
-//        }
+        //        docRef.getDocument { (document, error) in
+        //            let result = Result {
+        //                try document?.data(as: Group)
+        //            }
+        //
+        //            switch result {
+        //                case .success(let user):
+        //                    if let user = user {
+        //                        print(user)
+        //                        self.convertUserDBtoUser(userDb: user)
+        //                        // groupID != nil get group
+        //                    } else {
+        //                        // let user know eventually
+        //                        print("document does not exist")
+        //                    }
+        //                case .failure(let error):
+        //                    print("Error decoding user: \(error)")
+        //            }
+        //        }
     }
     
     func inGroup() -> Bool {
         print("in isgroup()")
-//        db.collection("groups").whereField("leaderID", isEqualTo: self.currentUser?.id)
-//            .getDocuments() { (querySnapshot, err) in
-//                if let err = err {
-//                    print("Error getting documents: \(err)")
-//                } else {
-//                    for document in querySnapshot!.documents {
-//                        print("\(document.documentID) => \(document.data())")
-//                    }
-//                }
-//        }
+        //        db.collection("groups").whereField("leaderID", isEqualTo: self.currentUser?.id)
+        //            .getDocuments() { (querySnapshot, err) in
+        //                if let err = err {
+        //                    print("Error getting documents: \(err)")
+        //                } else {
+        //                    for document in querySnapshot!.documents {
+        //                        print("\(document.documentID) => \(document.data())")
+        //                    }
+        //                }
+        //        }
         if(self.currentUser?.groupID == nil){
             return false
         }
@@ -507,20 +533,20 @@ class FirebaseInterface : ObservableObject {
     
     func leaveGroup() {
         print("in leave group")
-//        print(self.currentUser!.groupID)
+        //        print(self.currentUser!.groupID)
         currentUser!.groupID! = ""
         updateDB()
         print(self.currentUser?.groupID ?? "No groupID")
     }
     
-//    let docRef = db.collection("users").document(name)
-//
-//           docRef.getDocument(source: .cache) { (document, error) in
-//               if let document = document {
-//                   let property = document.get(field)
-//               } else {
-//                   print("Document does not exist in cache")
-//               }
+    //    let docRef = db.collection("users").document(name)
+    //
+    //           docRef.getDocument(source: .cache) { (document, error) in
+    //               if let document = document {
+    //                   let property = document.get(field)
+    //               } else {
+    //                   print("Document does not exist in cache")
+    //               }
     
     func setMembers(user: User){
         

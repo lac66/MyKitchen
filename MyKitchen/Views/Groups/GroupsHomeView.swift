@@ -29,9 +29,14 @@ struct GroupsHomeView: View {
             
                     VStack{
                         HStack {
-                            Text("Group homepage")
-                    
+                            VStack{
+                                Text("Group homepage")
+                                Text("Current user group ID: ")
+                                Text(self.fbInterface.currentUser!.groupID!)
+                            }
                         }
+                        .foregroundColor(Color("MintCream"))
+                        
                     
 //                    List(groceries, children: \.items) { row in
 //                        Text(row.name)

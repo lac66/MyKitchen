@@ -260,15 +260,11 @@ class FirebaseInterface : ObservableObject {
         var recipeDayList: [Recipe]
         //remove from initial day
         if recipesOfWeek[initialDay] != nil {
-            //print("recipes of day is not null...")
             recipeDayList = recipesOfWeek[initialDay]!
             if recipeDayList.firstIndex(of: recipe) != -1 {
-                //print("recipe was found in day...")
-                //print("Length of recipes of day before is: \(recipeDayList.count)")
                 let indexToRemove = recipeDayList.firstIndex(where: { $0.name == recipe.name })
                 recipeDayList.remove(at: indexToRemove!)
-                //print("Length of recipes of day after is: \(recipeDayList.count)")
-
+                recipesOfWeek[initialDay] = recipeDayList
             }
         }
         //add to new day

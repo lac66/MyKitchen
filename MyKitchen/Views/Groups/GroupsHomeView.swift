@@ -14,11 +14,6 @@ struct GroupsHomeView: View {
 //    let usersTest: [UserModel]
     
     var body: some View {
-//        Color("OxfordBlue")
-//            .ignoresSafeArea()
-//        let groupByCategory = Dictionary(grouping: Ingredient.data) { $0.type }
-    
-        
 //        List(groupByCategory, children: \.item) { row in
 //            Text("Hello")
 //         }
@@ -27,84 +22,55 @@ struct GroupsHomeView: View {
                 GroupsInitial()
             }
             else{
-        ZStack{
+                ZStack{
 //            Text(fbInterface.currentUser?.groupID ?? "None found")
-            Color("OxfordBlue")
-                .ignoresSafeArea()
+                    Color("OxfordBlue")
+                        .ignoresSafeArea()
             
-            VStack{
-                HStack {
-                Text("Group homepage")
+                    VStack{
+                        HStack {
+                            Text("Group homepage")
                     
-                }
-//                    Button("leave") {
-//                        fbInterface.getMembers(id: fbInterface.currentUser?.groupID)
-//                        fbInterface.getGroup()
-//                    }
-                
-//                .foregroundColor(Color("MintCream"))
+                        }
                     
 //                    List(groceries, children: \.items) { row in
 //                        Text(row.name)
 //                    }
-                    HStack{
-                        ZStack{
-                        Rectangle()
-                            .frame(width: 350, height: 110)
-                            .foregroundColor(Color("AirBlue"))
-                            .cornerRadius(15)
+                        HStack{
+                            ZStack{
+                                Rectangle()
+                                    .frame(width: 350, height: 110)
+                                    .foregroundColor(Color("AirBlue"))
+                                    .cornerRadius(15)
                         
-                        Rectangle()
-                            .frame(width: 330, height: 90)
+                                Rectangle()
+                                    .frame(width: 330, height: 90)
+                                    .foregroundColor(Color("MintCream"))
+                                    .cornerRadius(15)
+                            }
+                            
+                        }
+                        .background(Color("OxfordBlue"))
+                        HStack{
+                            NavigationLink(destination: GroupsInitial().onAppear{
+                                self.fbInterface.leaveGroup()
+                            }.navigationBarBackButtonHidden(true)){
+                                Text("leave group")
+                            }
                             .foregroundColor(Color("MintCream"))
-                            .cornerRadius(15)
-//                        HStack {
-//                            ForEach(users, id: \.self){ user in
-//                                SmallMemberCards(user: user)
-//                                    .frame(width: 60, height: 80)
-//                            }
-//                            .frame(width: 100, height: 10, alignment: .center)
-//                        }
-                        }
-                        
-                    }
-                    .background(Color("OxfordBlue"))
-                HStack{
-                    NavigationLink(destination: GroupsInitial().onAppear{
-                        self.fbInterface.leaveGroup()
-                    }.navigationBarBackButtonHidden(true)){
-                        Text("leave group")
-                    }
-                    .foregroundColor(Color("MintCream"))
-                        NavigationLink(destination: GroupsHomeView()){
-                            Text("Edit group")
+                            NavigationLink(destination: GroupsHomeView()){
+                                Text("Edit group")
+                            }
                         }
                     }
-                }
-//                ZStack{
-//                    HStack{
-//                        Rectangle()
-//                        Text("Edit group")
-//
-//                            .frame(width: 130, height: 22)
-//                            .foregroundColor(Color("AirBlue"))
-//                            .cornerRadius(10)
-//                        Rectangle()
-//                            .frame(width: 80, height: 0)
-//                            .hidden()
-//                        Rectangle()
-//                            .frame(width: 130, height: 22)
-//                            .foregroundColor(Color("AirBlue"))
-//                            .cornerRadius(10)
-//                            }
-//                        }
-                    }
+                    
                 }
             }
-        .navigationBarHidden(true)
         }
-        
+        .navigationBarHidden(true)
     }
+    
+}
 
 
 //struct GroupsHomeView_Previews: PreviewProvider {

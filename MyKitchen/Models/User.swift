@@ -16,14 +16,14 @@ struct User {
     var weeklyUserData: [WeeklyUserData]
     var groupID : String?
     
-    init(id: String, email: String, name: String, pantryList: [Ingredient], savedRecipes: [Recipe], weeklyUserData: [WeeklyUserData]) {
+    init(id: String, email: String, name: String, pantryList: [Ingredient], savedRecipes: [Recipe], weeklyUserData: [WeeklyUserData], groupID: String) {
         self.id = id
         self.email = email
         self.name = name
         self.pantryList = pantryList
         self.savedRecipes = savedRecipes
         self.weeklyUserData = weeklyUserData
-        self.groupID = nil
+        self.groupID = "" 
     }
 
 //    init(id: String, email: String, name: String, pantryList: [Ingredient], savedRecipes: [Recipe], weeklyUserData: [WeeklyUserData], groupID: String?) {

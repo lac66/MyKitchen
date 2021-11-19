@@ -15,6 +15,7 @@ struct UserDB : Codable {
     var pantryList : [IngredientApi]
     var savedRecipes : [RecipeApi]
     var weeklyUserData: [WeeklyUserDataDB]
+    var groupID : String
     
     enum CodingKeys: String, CodingKey {
         case email
@@ -22,5 +23,6 @@ struct UserDB : Codable {
         case pantryList
         case savedRecipes
         case weeklyUserData
+        case groupID
     }
 }

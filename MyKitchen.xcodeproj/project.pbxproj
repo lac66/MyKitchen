@@ -129,7 +129,7 @@
 		9B74A07D273ED9C700190398 /* GroupsInitial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsInitial.swift; sourceTree = "<group>"; };
 		9B74A07F273EE4E900190398 /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		9B99FE6B272B1C71009E6B62 /* MyKitchen.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyKitchen.entitlements; sourceTree = "<group>"; };
-		9B99FE72272B1F0F009E6B62 /* GroupsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsView.swift; sourceTree = "<group>"; };
+		9B99FE72272B1F0F009E6B62 /* GroupsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GroupsView.swift; path = MyKitchen/Views/Groups/GroupsView.swift; sourceTree = SOURCE_ROOT; };
 		9B99FE74272B2344009E6B62 /* MemberCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCards.swift; sourceTree = "<group>"; };
 		9B99FE78272B30B1009E6B62 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		9B99FE7C272B6538009E6B62 /* GroupsHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsHomeView.swift; sourceTree = "<group>"; };
@@ -304,7 +304,6 @@
 				3DB9B074274591ED0031FCD1 /* HomeView.swift */,
 				3DB9B078274592400031FCD1 /* PersonalListView.swift */,
 				3D4EB767272318340049CAF1 /* MealViewer.swift */,
-				9B99FE72272B1F0F009E6B62 /* GroupsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -373,10 +372,10 @@
 		9B14C48D273FFCAD0068614D /* Groups */ = {
 			isa = PBXGroup;
 			children = (
+				9B99FE72272B1F0F009E6B62 /* GroupsView.swift */,
 				9B74A07D273ED9C700190398 /* GroupsInitial.swift */,
 				9B99FE7C272B6538009E6B62 /* GroupsHomeView.swift */,
 				9B14C48E273FFCE50068614D /* JoinGroup.swift */,
-				9B99FE72272B1F0F009E6B62 /* GroupsView.swift */,
 			);
 			path = Groups;
 			sourceTree = "<group>";

@@ -67,17 +67,10 @@ struct GroupsInitial: View {
 //                        .background(Color("AirBlue"))
 //                        .cornerRadius(15)
 //
-                        NavigationLink(destination: JoinGroup()) {
-                            Text("Join Group")
-                                .frame(width: 130, height: 35)
-                                .background(Color("MintCream"))
-                                .cornerRadius(15)
-                                .foregroundColor(Color("OxfordBlue"))
-                                
+                        NavigationLink(destination: GroupsHomeView().navigationBarBackButtonHidden(true)){
+                            Text("Join group")
                         }
-                        .frame(width: 145, height: 45)
-                        .background(Color("AirBlue"))
-                        .cornerRadius(15)
+                        .foregroundColor(Color("MintCream"))
                         
                     }
                     

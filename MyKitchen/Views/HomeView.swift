@@ -10,96 +10,129 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject var fbInterface : FirebaseInterface
     @EnvironmentObject var eInterface : EdamamInterface
-    @State var task: DispatchWorkItem?
+    
+    @Binding var tabSelection: Int
+    let name: String?
+    
+    init(tabSelection: Binding<Int>, name: String?) {
+        self._tabSelection = tabSelection
+        self.name = name
+        
+        navAppearance.backgroundColor = UIColor(named: "OxfordBlue")
+        navAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor(named: "MintCream") as Any]
+//        let attributes = [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Light", size: 24)!]
+//
+//        UINavigationBar.appearance().titleTextAttributes = attributes
+        UINavigationBar.appearance().standardAppearance = navAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = navAppearance
+    }
     
     var body: some View {
-        VStack {
-            Button {
-                print("pressed")
-                if (task != nil) {
-                    task!.cancel()
-                    task = nil
-                }
+        NavigationView {
+            ZStack {
+                Color("OxfordBlue").edgesIgnoringSafeArea(.all)
                 
-                task = DispatchWorkItem {
-                    print("search")
-                    eInterface.searchWithApi(text: "Chicken", isForRecipes: true)
+                VStack (spacing: 10) {
+                    HStack (spacing: 10) {
+//                        NavigationLink(destination: PlanningView()){
+                            Text("Planning")
+                                .frame(width: 170, height: 230)
+                                .background(Color("AirBlue"))
+                                .font(.system(size: 20, weight: .bold, design: .default))
+                                .cornerRadius(10)
+                                .onTapGesture {
+                                    tabSelection = 0
+                                }
+                            
+//                        }
+                        
+//                        NavigationLink(destination: PersonalListView()) {
+                            Text("Personal List")
+                                .frame(width: 170, height: 230)
+                                .background(Color("AirBlue"))
+                                .font(.system(size: 20, weight: .bold, design: .default))
+                                .cornerRadius(10)
+                                .onTapGesture {
+                                    tabSelection = 1
+                                }
+//                        }
+                    }
+                    
+                    HStack (spacing: 10) {
+//                        NavigationLink(destination: MealViewer()) {
+                            Text("Meal Viewer")
+                                .frame(width: 170, height: 230)
+                                .background(Color("AirBlue"))
+                                .font(.system(size: 20, weight: .bold, design: .default))
+                                .cornerRadius(10)
+                                .onTapGesture {
+                                    tabSelection = 3
+                                }
+//                        }
+                        
+//                        NavigationLink(destination: GroupsHomeView()) {
+                            Text("Group List")
+                                .frame(width: 170, height: 230)
+                                .background(Color("AirBlue"))
+                                .font(.system(size: 20, weight: .bold, design: .default))
+                                .cornerRadius(10)
+                                .onTapGesture {
+                                    tabSelection = 4
+                                }
+//                        }
+                    }
+                    
+                    NavigationLink(destination: Text("I'm Shopping")){
+                        Text("I'm Shopping")
+                            .frame(width: 350, height: 60)
+                            .background(Color("AirBlue"))
+                            .font(.system(size: 20, weight: .bold, design: .default))
+                            .cornerRadius(10)
+                    }
+                    
+                    NavigationLink(destination: PantryListView()) {
+                        Text("Pantry")
+                            .frame(width: 350, height: 50)
+                            .background(Color("AirBlue"))
+                            .font(.system(size: 20, weight: .bold, design: .default))
+                            .cornerRadius(10)
+                    }
                 }
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: task!)
-            } label: {
-                Text("Press Me")
+                .frame(width: 350, height: 600)
+                .foregroundColor(Color("MintCream"))
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        if (name != nil) {
+                            Text("Welcome, \(name!)")
+                                .font(.system(size: 36, weight: .bold, design: .default))
+                        } else {
+                            Text("Welcome")
+                                .font(.system(size: 36, weight: .bold, design: .default))
+                        }
+                    }
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            fbInterface.signOut()
+                        } label: {
+                            Image(systemName: "rectangle.portrait.and.arrow.right")
+                        }
+                    }
+                }
+            }
+            .onAppear() {
+//                name = fbInterface.currentUser?.name
             }
         }
-//        NavigationView {
-//            ZStack {
-//                VStack {
-//                    HStack {
-//                        NavigationLink(destination: PlanningView(recipeList: Recipe.getRecipes())){
-//                            Text("Planning")
-//                                .frame(width: 360, height: 100)
-//                                .background(Color.green)
-//                                .font(.system(size: 20, weight: .bold, design: .default))
-//                                .cornerRadius(10)
-//                                .padding()
-//
-//                            }
-//
-//                    }
-//                    HStack {
-////                        Temp link to HomeView while we don't have 'peronal list' set up yet
-//                        NavigationLink(destination: HomeView(recipes: recp)) {
-//                            Text("Personal List")
-//                                .frame(width: 100, height: 150)
-//                                .background(Color.green)
-//                                .font(.system(size: 20, weight: .bold, design: .default))
-//                                .cornerRadius(10)
-//                        }
-////                        Temp link to Home view while we don't have 'i'm shopping' set up yet
-//                        NavigationLink(destination: HomeView(recipes: recp)){
-//                            Text("I'm Shopping")
-//                                .frame(width: 150, height: 150)
-//                                .background(Color.green)
-//                                .font(.system(size: 20, weight: .bold, design: .default))
-//                                .cornerRadius(75)
-//    //                            .padding(.horizontal, 5)
-//                        }
-////                        Temp link to HomeView while we don't have 'groups' set up yet
-//                        NavigationLink(destination: HomeView(recipes: recp)) {
-//                            Text("Group List")
-//                                .frame(width: 100, height: 150)
-//                                .background(Color.green)
-//                                .font(.system(size: 20, weight: .bold, design: .default))
-//                                .cornerRadius(10)
-//                        }
-//                    }
-////                    Both temp links pages not set up yet
-//                    HStack {
-//                        NavigationLink(destination: HomeView(recipes: recp)) {
-//                            Text("Meal Viewer")
-//                                .frame(width: 160, height: 100)
-//                                .background(Color.green)
-//                                .font(.system(size: 20, weight: .bold, design: .default))
-//                                .cornerRadius(10)
-//                                .padding()
-//                        }
-//                    NavigationLink(destination: HomeView(recipes: recp)) {
-//                            Text("Pantry")
-//                                .frame(width: 160, height: 100)
-//                                .background(Color.green)
-//                                .font(.system(size: 20, weight: .bold, design: .default))
-//                                .cornerRadius(10)
-//                                .padding()
-//                        }
-//                    }
-//                }
-//            }
-//        }
     }
 }
 
 
 struct HomeView_Previews: PreviewProvider {
+    @State static var tab = 2
+    @State static var n = "Name"
+    
     static var previews: some View {
-        HomeView()
+        HomeView(tabSelection: $tab, name: n)
     }
 }

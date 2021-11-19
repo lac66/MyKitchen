@@ -1,13 +1,13 @@
 //
-//  PersonalListView.swift
+//  PantryListView.swift
 //  MyKitchen
 //
-//  Created by Levi Carpenter on 11/3/21.
+//  Created by Levi Carpenter on 11/18/21.
 //
 
 import SwiftUI
 
-struct PersonalListView: View {
+struct PantryListView: View {
     @EnvironmentObject var fbInterface : FirebaseInterface
     @EnvironmentObject var eInterface : EdamamInterface
     
@@ -76,13 +76,13 @@ struct PersonalListView: View {
                     ZStack {
                         ScrollView {
                             VStack (spacing: 10) {
-                                if fbInterface.currentUser!.weeklyUserData[fbInterface.currentUser!.weeklyUserData.count - 1].personalList.count == 0 {
-                                    Text("No ingredients in Personal List")
+                                if fbInterface.currentUser!.pantryList.count == 0 {
+                                    Text("No ingredients in Pantry List")
                                         .foregroundColor(Color("MintCream"))
                                 } else if !searchText.isEmpty && addButtonImg == "plus" {
-                                    GroupingListView(ingredientList: fbInterface.searchPersonalList(text: searchText))
+                                    PantryGroupingListView(ingredientList: fbInterface.searchPantryList(text: searchText))
                                 } else {
-                                    GroupingListView(ingredientList: fbInterface.currentUser!.weeklyUserData[fbInterface.currentUser!.weeklyUserData.count - 1].personalList)
+                                    PantryGroupingListView(ingredientList: fbInterface.currentUser!.pantryList)
                                 }
                             }
                         }
@@ -97,7 +97,7 @@ struct PersonalListView: View {
                                 ScrollView {
                                     VStack {
                                         ForEach(eInterface.ingredients, id: \.id) { ingredient in
-                                            IngredientEditCardView(ingredient: ingredient, withURL: ingredient.imgUrl, trashOrAdd: "plus", isPersonalList: true)
+                                            IngredientEditCardView(ingredient: ingredient, withURL: ingredient.imgUrl, trashOrAdd: "plus", isPersonalList: false)
                                                 .padding(5)
                                         }
                                     }
@@ -125,7 +125,7 @@ struct PersonalListView: View {
     }
 }
 
-struct GroupingListView: View {
+struct PantryGroupingListView: View {
     @State var collapsed: [Bool]
     let ingredientList: [Ingredient]
     
@@ -150,7 +150,7 @@ struct GroupingListView: View {
                 if (collapsed[index]) {
                     ForEach(ingredientList, id: \.id) { ingredient in
                         if (ingredient.type == IngType.allCases[index]) {
-                            IngredientEditCardView(ingredient: ingredient, withURL: ingredient.imgUrl, trashOrAdd: "trash", isPersonalList: true)
+                            IngredientEditCardView(ingredient: ingredient, withURL: ingredient.imgUrl, trashOrAdd: "trash", isPersonalList: false)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 15)
                                         .stroke(Color("OxfordBlue"), lineWidth: 2)
@@ -174,9 +174,9 @@ struct GroupingListView: View {
     }
 }
 
-struct PersonalListView_Previews: PreviewProvider {
+struct PantryListView_Previews: PreviewProvider {
     static var previews: some View {
-        PersonalListView()
+        PantryListView()
     }
 }
 

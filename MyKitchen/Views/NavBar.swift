@@ -10,7 +10,7 @@ import SwiftUI
 struct NavBar: View {
     @EnvironmentObject var eInterface : EdamamInterface
     @EnvironmentObject var fbInterface : FirebaseInterface
-    @State var initialIndex = 2
+    @State private var tabSelection = 2
     
     init() {
         if #available(iOS 15, *) {
@@ -30,34 +30,46 @@ struct NavBar: View {
     }
     
     var body: some View {
-        TabView (selection: $initialIndex) {
+        TabView (selection: $tabSelection) {
             PlanningView()
                 .tabItem {
                     Label("Planning", systemImage: "magnifyingglass")
                 }
+                .tag(0)
                 .environmentObject(fbInterface)
                 .environmentObject(eInterface)
             PersonalListView()
                 .tabItem {
                     Label("Personal", systemImage: "scroll.fill")
                 }
+                .tag(1)
                 .environmentObject(fbInterface)
                 .environmentObject(eInterface)
-            HomeView()
+            HomeView(tabSelection: $tabSelection, name: fbInterface.currentUser?.name)
                 .tabItem {
                     Label("Home", systemImage: "house.fill")
                 }
+                .tag(2)
                 .environmentObject(fbInterface)
             MealViewer()
                 .tabItem {
                     Label("MealViewer", systemImage: "calendar")
                 }
+                .tag(3)
                 .environmentObject(fbInterface)
             GroupsHomeView()
                 .tabItem {
                     Label("Group", systemImage: "person.3.fill")
                 }
+                .tag(4)
                 .environmentObject(fbInterface)
+        }
+        .onAppear() {
+//            let value = tabSelection
+//            tabSelection = -1
+//            DispatchQueue.main.async {
+//                tabSelection = value
+//            }
         }
     }
 }

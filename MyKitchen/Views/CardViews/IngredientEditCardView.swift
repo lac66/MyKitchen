@@ -15,13 +15,15 @@ struct IngredientEditCardView: View {
     
     @State var ingredientQtyInput : String = ""
     @State var trashOrAdd: String
+    let isPersonalList: Bool
     //    @State var selectedUnit : Int
     
     let ingredient: Ingredient
     
-    init(ingredient : Ingredient, withURL url: String?, trashOrAdd: String) {
+    init(ingredient : Ingredient, withURL url: String?, trashOrAdd: String, isPersonalList: Bool) {
         self.ingredient = ingredient
         self.trashOrAdd = trashOrAdd
+        self.isPersonalList = isPersonalList
 //        self._selectedUnit = State(initialValue: Unit.allCases.firstIndex(of: ingredient.qty!.getUnit())!)
         if (url == nil) {
             imageLoader = ImageLoader(urlString: "")
@@ -146,10 +148,17 @@ struct IngredientEditCardView: View {
                     
                     Button {
                         if (trashOrAdd == "trash") {
-                            fbInterface.deleteIngredientFromPersonalList(ingredient: ingredient)
+                            if isPersonalList {
+                                fbInterface.deleteIngredientFromPersonalList(ingredient: ingredient)
+                            } else {
+                                fbInterface.deleteIngredientFromPantryList(ingredient: ingredient)
+                            }
                         } else {
-                            print("add IECV")
-                            fbInterface.addIngredientToPersonalList(ingredient: ingredient)
+                            if isPersonalList {
+                                fbInterface.addIngredientToPersonalList(ingredient: ingredient)
+                            } else {
+                                fbInterface.addIngredientToPantryList(ingredient: ingredient)
+                            }
                         }
                     } label: {
                         Image(systemName: trashOrAdd)
@@ -179,7 +188,7 @@ struct IngredientEditCardView: View {
 struct IngredientEditCardView_Previews: PreviewProvider {
     static var ingredient = Ingredient(id: "id", text: "text", quantity: 1.0, measure: "measure", food: "food", weight: 1.0, foodCategory: "foodCategory", imgUrl: "https://www.edamam.com/food-img/46a/46a132e96626d7989b4d6ed8c91f4da0.jpg")
     static var previews: some View {
-        IngredientEditCardView(ingredient: ingredient, withURL: ingredient.imgUrl!, trashOrAdd: "trash")
+        IngredientEditCardView(ingredient: ingredient, withURL: ingredient.imgUrl!, trashOrAdd: "trash", isPersonalList: true)
             .previewLayout(.fixed(width: 340, height: 90))
     }
 }

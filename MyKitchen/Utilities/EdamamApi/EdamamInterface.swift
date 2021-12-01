@@ -20,9 +20,10 @@ class EdamamInterface : ObservableObject {
     
     @Published var recipes : [Recipe] = []
     @Published var ingredients : [Ingredient] = []
+//    @Published var addIngredient: Ingredient? = nil
     
     func searchWithApi(text: String, isForRecipes: Bool) {
-//        print("changed")
+        print("search called")
         if (text.isEmpty) {
             return
         }
@@ -137,7 +138,64 @@ class EdamamInterface : ObservableObject {
                 for ing in ingArr {
                     self.ingredients.append(ing)
                 }
-//                print(self.ingredients)
+            }
+        })
+        
+        task.resume()
+        print("check")
+        self.objectWillChange.send()
+    }
+    
+    func getIngredientForAdd(from url: String, searchText: String) {
+        let task = URLSession.shared.dataTask(with: URL(string: url)!, completionHandler: {data, response, error in
+            guard let data = data, error == nil else {
+                print("Something went wrong")
+                return
+            }
+            
+            //            print("JSON String: ")
+            //            print("\(String(data: data, encoding: .utf8))")
+            
+            var result: RecipeApiResponse?
+            
+            do {
+                result = try JSONDecoder().decode(RecipeApiResponse?.self, from: data)
+            } catch {
+                print("failed to convert \(error.localizedDescription)")
+                print(String(describing: error))
+            }
+            
+            guard let json = result else {
+                return
+            }
+            
+            //            print(json)
+            
+            DispatchQueue.main.async {
+                self.ingredients.removeAll()
+            }
+            
+            var ingArr: [Ingredient] = []
+            
+            for subRecipe in json.hits! {
+                let tmp = subRecipe.recipe!
+                let searchTextLower = searchText.lowercased()
+                
+                for ing in tmp.ingredients! {
+                    if ing.food!.contains(searchTextLower) {
+                        let newIngredient = Ingredient(id: ing.foodId!, text: ing.text!, quantity: ing.quantity!, measure: ing.measure, food: ing.food!, weight: ing.weight!, foodCategory: ing.foodCategory, imgUrl: ing.image)
+                        
+                        if !ingArr.contains(newIngredient) {
+                            ingArr.append(newIngredient)
+                        }
+                    }
+                }
+            }
+            DispatchQueue.main.async {
+                for ing in ingArr {
+                    self.ingredients.append(ing)
+                }
+                //                print(self.ingredients)
             }
         })
         

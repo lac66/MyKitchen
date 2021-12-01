@@ -163,7 +163,7 @@ struct PantryGroupingListView: View {
             .frame(width: 350)
             .background(Color("AirBlue"))
             .cornerRadius(15)
-            .onTapGesture {
+            .onTapGesture(count: 2) {
                 if (collapsed[index]) {
                     collapsed[index] = false
                 } else {

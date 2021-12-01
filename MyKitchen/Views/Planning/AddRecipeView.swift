@@ -8,20 +8,19 @@
 import SwiftUI
 
 struct AddRecipeView: View {
-    let placeholder = Text("Recipe Name")
+    @EnvironmentObject var eInterface: EdamamInterface
+    
     let instructionPlaceholder = "Enter instructions here..." //Text("Enter instructions here...")
     @State var nameInput: String = ""
     @State var selectedQty: Int = 14
     @State var amtInput: String = ""
     @State var ingredientNameInput: String = ""
     @State var recipeInstructionsInput: String = "Enter instructions here..."
+    @State var errorMsg: String = ""
     @State var showAddPanel: Bool = false
+    @State var hasError: Bool = false
     @State var offsetAmt: CGFloat = -80
-    @State var id : Int = 0
     @State var ingredients : [Ingredient] = []
-    
-    var editingChanged: (Bool)->() = { _ in }
-    var commit: ()->() = {}
     
     init() {
         UITextView.appearance().backgroundColor = .clear
@@ -38,35 +37,39 @@ struct AddRecipeView: View {
             
             ScrollView {
                 VStack (spacing: 20) {
-                    ZStack (alignment: .leading) {
-                        if nameInput.isEmpty { placeholder.font(.system(size: 18, weight: .semibold, design: .default)) }
-                        TextField("", text: $nameInput, onEditingChanged: editingChanged, onCommit: commit)
-                            .navigationBarTitle("Add Recipe", displayMode: .inline)
-                    }
-                    .padding(.leading)
-                    .frame(width: 350, height: 50)
-                    .foregroundColor(Color("OxfordBlue"))
-                    .background(Color("MintCream"))
-                    .cornerRadius(15)
-                    .padding(.top)
+                    TextField("", text: $nameInput)
+                        .navigationBarTitle("Add Recipe", displayMode: .inline)
+                        .placeholder(when: nameInput.isEmpty, placeholder: {
+                            Text("Recipe Name")
+                        })
+                        .padding(.leading)
+                        .frame(width: 350, height: 50)
+                        .foregroundColor(Color("OxfordBlue"))
+                        .background(Color("MintCream"))
+                        .cornerRadius(15)
+                        .padding(.top)
                     
                     VStack (spacing: 0) {
                         VStack (alignment: .leading) {
                             Text("Ingredient")
                                 .font(.system(size: 18, weight: .semibold, design: .default))
                                 .padding()
-                                .multilineTextAlignment(.leading)
 
                             if (ingredients.count > 0) {
-                                VStack {
+                                VStack (alignment: .leading) {
                                     ForEach(ingredients, id: \.id) { ingredient in
-//                                        Text("\(ingredient.qty!.toString())     \(ingredient.name)")
-//                                            .padding(.leading, 25)
+                                        Text("\(ingredient.food)")
+                                            .padding(.leading, 25)
                                     }
                                     .padding(.bottom, 1)
-                                    .multilineTextAlignment(.leading)
                                 }
                                 .padding(.bottom)
+                            }
+                            
+                            if (hasError) {
+                                Text(errorMsg)
+                                    .frame(width: 350, alignment: .center)
+                                    .foregroundColor(Color.red)
                             }
                         }
                         .zIndex(1)
@@ -94,11 +97,11 @@ struct AddRecipeView: View {
                                 
                                 
                                 Picker(selection: $selectedQty,
-                                       label: Text(Unit.allCases[selectedQty].str)
+                                       label: Text(CustomUnit.allCases[selectedQty].str)
                                         .foregroundColor(Color("OxfordBluePlaceholder")),
                                        content: {
-                                            ForEach(0 ..< Unit.allCases.count) { index in
-                                                Text(Unit.allCases[index].str)
+                                            ForEach(0 ..< CustomUnit.allCases.count) { index in
+                                                Text(CustomUnit.allCases[index].str)
                                                     .frame(width: 80, height: 25)
                                                     .foregroundColor(Color("OxfordBlue"))
                                             }
@@ -129,14 +132,26 @@ struct AddRecipeView: View {
                         ZStack {
                             Button {
                                 if (showAddPanel) {
-//                                    ingredients.append(Ingredient(name: ingredientNameInput, qty: Quantity(amt: Double(amtInput)!, unit: Unit.allCases[selectedQty])))
-                                    amtInput = ""
-                                    selectedQty = 14
-                                    ingredientNameInput = ""
-                                    // add to ingredients above
-                                    offsetAmt = -80
-                                    showAddPanel = false
-                                    id += 1
+                                    if (amtInput.isEmpty && ingredientNameInput.isEmpty) {
+                                        selectedQty = 14
+                                        showAddPanel = false
+                                        offsetAmt = -80
+                                        return;
+                                    }
+                                    let tmpAmtInput = Double(amtInput)
+                                    if (tmpAmtInput == nil) {
+                                        errorMsg = "Quantity input must be a number"
+                                        hasError = true
+                                    } else if (ingredientNameInput.isEmpty) {
+                                        errorMsg = "Ingredient name must have a value"
+                                        hasError = true
+                                    } else {
+                                        eInterface.searchWithApi(text: ingredientNameInput, isForRecipes: false)
+                                        // add to ingredients above
+                                        offsetAmt = -80
+                                        hasError = false
+                                        showAddPanel = false
+                                    }
                                 } else {
                                     offsetAmt = -20
                                     showAddPanel = true
@@ -200,20 +215,40 @@ struct AddRecipeView: View {
                             .foregroundColor(Color("AirBlue"))
                             .cornerRadius(15)
                         
-                        HStack {
-                            Image(systemName: "tray.and.arrow.down.fill")
-                                .resizable()
-                                .frame(width: 40, height: 40)
-                            Text("Save Recipe")
-                                .font(.system(size: 36, weight: .bold, design: .default))
+                        Button {
+                            
+                        } label: {
+                            HStack {
+                                Image(systemName: "tray.and.arrow.down.fill")
+                                    .resizable()
+                                    .frame(width: 40, height: 40)
+                                Text("Save Recipe")
+                                    .font(.system(size: 36, weight: .bold, design: .default))
+                            }
+                            .frame(width: 300, height: 60)
+                            .foregroundColor(Color("MintCream"))
+                            .background(Color("Marigold"))
+                            .cornerRadius(15)
                         }
-                        .frame(width: 300, height: 60)
-                        .foregroundColor(Color("MintCream"))
-                        .background(Color("Marigold"))
-                        .cornerRadius(15)
                     }
                     .offset(y: (offsetAmt - 20))
                 }
+            }
+        }
+        .onChange(of: eInterface.ingredients) { newValue in
+            if (!ingredientNameInput.isEmpty) {
+                for ing in eInterface.ingredients {
+                    if ing.food.lowercased() == ingredientNameInput.lowercased() {
+                        ingredients.append(Ingredient(id: ing.id, text: ing.text, quantity: Double(amtInput)!, measure: CustomUnit.allCases[selectedQty].str, food: ing.food, weight: ing.weight, foodCategory: ing.foodCategory, imgUrl: ing.imgUrl))
+                        amtInput = ""
+                        selectedQty = 14
+                        ingredientNameInput = ""
+                        eInterface.ingredients.removeAll()
+                        return
+                    }
+                }
+                hasError = true
+                errorMsg = "Ingredient not found"
             }
         }
     }

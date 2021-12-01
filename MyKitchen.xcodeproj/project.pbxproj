@@ -15,6 +15,7 @@
 		3D25911F27477DFE00BD1EE4 /* IngredientEditCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D25911E27477DFE00BD1EE4 /* IngredientEditCardView.swift */; };
 		3D25912127477E2100BD1EE4 /* NavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D25912027477E2100BD1EE4 /* NavBar.swift */; };
 		3D25912327477E4A00BD1EE4 /* PersonalListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D25912227477E4A00BD1EE4 /* PersonalListView.swift */; };
+		3D311E1F2756CE42005CD0F9 /* UnitConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D311E1E2756CE42005CD0F9 /* UnitConverter.swift */; };
 		3D4EB768272318340049CAF1 /* MealViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4EB767272318340049CAF1 /* MealViewer.swift */; };
 		3D5557CD2719E355009D5E7D /* RecipeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5557CC2719E355009D5E7D /* RecipeCardView.swift */; };
 		3D69E7A32736EE6C00709BCA /* RecipeApiResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D69E7A22736EE6C00709BCA /* RecipeApiResponse.swift */; };
@@ -26,7 +27,7 @@
 		3D934C722738CEFF005552B4 /* WeeklyUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D934C712738CEFF005552B4 /* WeeklyUserData.swift */; };
 		3DA182FD2736FF0600956FDD /* IngredientApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA182FC2736FF0600956FDD /* IngredientApi.swift */; };
 		3DA9E2A32733145300476227 /* Quantity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA9E2A22733145300476227 /* Quantity.swift */; };
-		3DA9E2A52733145E00476227 /* Unit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA9E2A42733145E00476227 /* Unit.swift */; };
+		3DA9E2A52733145E00476227 /* CustomUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA9E2A42733145E00476227 /* CustomUnit.swift */; };
 		3DA9E2A92733158B00476227 /* AddRecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA9E2A82733158B00476227 /* AddRecipeView.swift */; };
 		3DB44B50271911A600DACF0E /* MyKitchenApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB44B4F271911A600DACF0E /* MyKitchenApp.swift */; };
 		3DB44B52271911A600DACF0E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB44B51271911A600DACF0E /* ContentView.swift */; };
@@ -89,6 +90,7 @@
 		3D25911E27477DFE00BD1EE4 /* IngredientEditCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IngredientEditCardView.swift; sourceTree = "<group>"; };
 		3D25912027477E2100BD1EE4 /* NavBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavBar.swift; sourceTree = "<group>"; };
 		3D25912227477E4A00BD1EE4 /* PersonalListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonalListView.swift; sourceTree = "<group>"; };
+		3D311E1E2756CE42005CD0F9 /* UnitConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitConverter.swift; sourceTree = "<group>"; };
 		3D4EB767272318340049CAF1 /* MealViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealViewer.swift; sourceTree = "<group>"; };
 		3D5557CC2719E355009D5E7D /* RecipeCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeCardView.swift; sourceTree = "<group>"; };
 		3D69E7A22736EE6C00709BCA /* RecipeApiResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeApiResponse.swift; sourceTree = "<group>"; };
@@ -100,7 +102,7 @@
 		3D934C712738CEFF005552B4 /* WeeklyUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyUserData.swift; sourceTree = "<group>"; };
 		3DA182FC2736FF0600956FDD /* IngredientApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientApi.swift; sourceTree = "<group>"; };
 		3DA9E2A22733145300476227 /* Quantity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Quantity.swift; sourceTree = "<group>"; };
-		3DA9E2A42733145E00476227 /* Unit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Unit.swift; sourceTree = "<group>"; };
+		3DA9E2A42733145E00476227 /* CustomUnit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomUnit.swift; sourceTree = "<group>"; };
 		3DA9E2A82733158B00476227 /* AddRecipeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddRecipeView.swift; sourceTree = "<group>"; };
 		3DB44B4C271911A600DACF0E /* MyKitchen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyKitchen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DB44B4F271911A600DACF0E /* MyKitchenApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyKitchenApp.swift; sourceTree = "<group>"; };
@@ -210,8 +212,8 @@
 		3D934C732738CFF9005552B4 /* Enum */ = {
 			isa = PBXGroup;
 			children = (
+				3DA9E2A42733145E00476227 /* CustomUnit.swift */,
 				A327A1D5272C688F001B7627 /* DaysOfWeek.swift */,
-				3DA9E2A42733145E00476227 /* Unit.swift */,
 				3DB85DFF2733839200695D1F /* IngType.swift */,
 			);
 			path = Enum;
@@ -224,6 +226,7 @@
 				3D934C6E2738CB0F005552B4 /* Firebase */,
 				3D934C6D2738CB01005552B4 /* EdamamApi */,
 				3D0763F0273CC41E00960322 /* ImageLoader.swift */,
+				3D311E1E2756CE42005CD0F9 /* UnitConverter.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -664,10 +667,11 @@
 				3D25912327477E4A00BD1EE4 /* PersonalListView.swift in Sources */,
 				3DB44B50271911A600DACF0E /* MyKitchenApp.swift in Sources */,
 				3D934C6C2738CA8C005552B4 /* UserDB.swift in Sources */,
-				3DA9E2A52733145E00476227 /* Unit.swift in Sources */,
+				3DA9E2A52733145E00476227 /* CustomUnit.swift in Sources */,
 				A327A1D6272C688F001B7627 /* DaysOfWeek.swift in Sources */,
 				3D4EB768272318340049CAF1 /* MealViewer.swift in Sources */,
 				3D934C702738CC94005552B4 /* WeeklyUserDataDB.swift in Sources */,
+				3D311E1F2756CE42005CD0F9 /* UnitConverter.swift in Sources */,
 				9B99FE75272B2344009E6B62 /* MemberCards.swift in Sources */,
 				3DB9B06F2745917A0031FCD1 /* PlanningView.swift in Sources */,
 				3DA9E2A92733158B00476227 /* AddRecipeView.swift in Sources */,

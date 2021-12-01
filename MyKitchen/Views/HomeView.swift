@@ -31,7 +31,7 @@ struct HomeView: View {
         NavigationView {
             ZStack {
                 Color("OxfordBlue").edgesIgnoringSafeArea(.all)
-                
+
                 VStack (spacing: 10) {
                     HStack (spacing: 10) {
 //                        NavigationLink(destination: PlanningView()){
@@ -43,9 +43,9 @@ struct HomeView: View {
                                 .onTapGesture {
                                     tabSelection = 0
                                 }
-                            
+
 //                        }
-                        
+
 //                        NavigationLink(destination: PersonalListView()) {
                             Text("Personal List")
                                 .frame(width: 170, height: 230)
@@ -57,7 +57,7 @@ struct HomeView: View {
                                 }
 //                        }
                     }
-                    
+
                     HStack (spacing: 10) {
 //                        NavigationLink(destination: MealViewer()) {
                             Text("Meal Viewer")
@@ -69,7 +69,7 @@ struct HomeView: View {
                                     tabSelection = 3
                                 }
 //                        }
-                        
+
 //                        NavigationLink(destination: GroupsHomeView()) {
                             Text("Group List")
                                 .frame(width: 170, height: 230)
@@ -81,7 +81,7 @@ struct HomeView: View {
                                 }
 //                        }
                     }
-                    
+
                     NavigationLink(destination: Text("I'm Shopping")){
                         Text("I'm Shopping")
                             .frame(width: 350, height: 60)
@@ -89,7 +89,7 @@ struct HomeView: View {
                             .font(.system(size: 20, weight: .bold, design: .default))
                             .cornerRadius(10)
                     }
-                    
+
                     NavigationLink(destination: PantryListView()) {
                         Text("Pantry")
                             .frame(width: 350, height: 50)
@@ -121,9 +121,6 @@ struct HomeView: View {
                         }
                     }
                 }
-            }
-            .onAppear() {
-//                name = fbInterface.currentUser?.name
             }
         }
     }

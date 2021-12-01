@@ -18,8 +18,10 @@ struct Ingredient: Identifiable, Equatable {
     let foodCategory: String?
     let imgUrl: String?
     
+    var unit: CustomUnit?
     var type: IngType?
     var img: UIImage?
+    var qty: Quantity?
     
     init(id: String, text: String, quantity: Double, measure: String?, food: String, weight: Double, foodCategory: String?, imgUrl: String?) {
         self.id = id
@@ -31,6 +33,8 @@ struct Ingredient: Identifiable, Equatable {
         self.foodCategory = foodCategory
         self.imgUrl = imgUrl
         
+        self.unit = getUnits(unitStr: measure)
+        self.qty = Quantity(amt: quantity, unit: getUnits(unitStr: measure))
         if foodCategory != nil {
             self.type = getType(category: foodCategory!)
         }
@@ -53,8 +57,47 @@ struct Ingredient: Identifiable, Equatable {
         }
     }
     
+    func getUnits(unitStr: String?) -> CustomUnit {
+        if (unitStr == nil) {
+            return CustomUnit.unit
+        }
+        
+        let tmp = unitStr!.lowercased()
+        if tmp == "pound" || tmp == CustomUnit.lb.str {
+            return CustomUnit.lb
+        } else if tmp == "ounce" || tmp == CustomUnit.oz.str {
+            return CustomUnit.oz
+        } else if tmp == "teaspoon" || tmp == CustomUnit.tsp.str {
+            return CustomUnit.tsp
+        } else if tmp == "tablespoon" || tmp == CustomUnit.Tbsp.str {
+            return CustomUnit.Tbsp
+        } else if tmp == "fluid ounce" || tmp == CustomUnit.fl_oz.str {
+            return CustomUnit.fl_oz
+        } else if tmp == "cup" || tmp == CustomUnit.cup.str {
+            return CustomUnit.cup
+        } else if tmp == "pint" || tmp == CustomUnit.pt.str {
+            return CustomUnit.pt
+        } else if tmp == "quart" || tmp == CustomUnit.qt.str {
+            return CustomUnit.qt
+        } else if tmp == "gallon" || tmp == CustomUnit.gal.str {
+            return CustomUnit.gal
+        } else if tmp == "milligram" || tmp == CustomUnit.mg.str {
+            return CustomUnit.mg
+        } else if tmp == "gram" || tmp == CustomUnit.g.str {
+            return CustomUnit.g
+        } else if tmp == "kilogram" || tmp == CustomUnit.kg.str {
+            return CustomUnit.kg
+        } else if tmp == "milliliter" || tmp == CustomUnit.ml.str {
+            return CustomUnit.ml
+        } else if tmp == "liter" || tmp == CustomUnit.l.str {
+            return CustomUnit.l
+        } else {
+            return CustomUnit.unit
+        }
+    }
+    
     static func == (lhs: Ingredient, rhs: Ingredient) -> Bool {
-        return lhs.id == rhs.id
+        return (lhs.id == rhs.id) && (lhs.quantity == rhs.quantity) && (lhs.unit == rhs.unit) && (lhs.measure == rhs.measure) && (lhs.qty == rhs.qty)
     }
 }
 

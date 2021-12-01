@@ -15,21 +15,24 @@ struct IngredientEditCardView: View {
     
     @State var ingredientQtyInput : String = ""
     @State var trashOrAdd: String
-    let isPersonalList: Bool
-    //    @State var selectedUnit : Int
+    @State var selectedUnit : Int
+    @State var tmpAmt : Double
     
+    let isPersonalList: Bool
     let ingredient: Ingredient
     
     init(ingredient : Ingredient, withURL url: String?, trashOrAdd: String, isPersonalList: Bool) {
         self.ingredient = ingredient
+        self.tmpAmt = ingredient.quantity
         self.trashOrAdd = trashOrAdd
         self.isPersonalList = isPersonalList
-//        self._selectedUnit = State(initialValue: Unit.allCases.firstIndex(of: ingredient.qty!.getUnit())!)
+        self._selectedUnit = State(initialValue: CustomUnit.allCases.firstIndex(of: ingredient.unit!)!)
         if (url == nil) {
             imageLoader = ImageLoader(urlString: "")
         } else {
             imageLoader = ImageLoader(urlString: url!)
         }
+//        print("Updating ingredient card named \(ingredient.food) qty \(ingredient.qty!)")
     }
     
     var body: some View {
@@ -78,71 +81,120 @@ struct IngredientEditCardView: View {
                 
                 HStack (spacing: 0) {
                     Button {
-//                        ingredient.qty!.decrementAmt()
                     } label: {
                         Image(systemName: "minus")
                             .frame(width: 20, height: 20)
                             .background(Color("Camel"))
                             .cornerRadius(4)
                             .onTapGesture(count: 2) {
-                                fbInterface.decrementQuantity(ingredient: ingredient, amt: 1)
+                                if trashOrAdd == "trash" {
+                                    if isPersonalList {
+                                        fbInterface.decrementQuantity(ingredient: ingredient, amt: 1)
+                                    } else {
+                                        fbInterface.decrementQuantityPantry(ingredient: ingredient, amt: 1)
+                                    }
+                                } else {
+                                    tmpAmt -= 0.1
+                                }
                             }
                             .onLongPressGesture {
-                                fbInterface.decrementQuantity(ingredient: ingredient, amt: 2)
+                                if trashOrAdd == "trash" {
+                                    if isPersonalList {
+                                        fbInterface.decrementQuantity(ingredient: ingredient, amt: 2)
+                                    } else {
+                                        fbInterface.decrementQuantityPantry(ingredient: ingredient, amt: 2)
+                                    }
+                                } else {
+                                    tmpAmt -= 1.0
+                                }
                             }
                             .onTapGesture(count: 1) {
-                                fbInterface.decrementQuantity(ingredient: ingredient, amt: 0)
+                                if trashOrAdd == "trash" {
+                                    if isPersonalList {
+                                        fbInterface.decrementQuantity(ingredient: ingredient, amt: 0)
+                                    } else {
+                                        fbInterface.decrementQuantityPantry(ingredient: ingredient, amt: 0)
+                                    }
+                                } else {
+                                    tmpAmt -= 0.01
+                                }
                             }
                     }
                     
-                    let amtText: String = String(format: "%.2f", ingredient.quantity)
-                    Text(amtText)
-                        .frame(width: 50, height: 20)
-                        .background(Color("MintCream"))
-                        .foregroundColor(Color("OxfordBlue"))
+                    if trashOrAdd == "trash" {
+                        let amtText: String = String(format: "%.2f", ingredient.quantity)
+                        Text(amtText)
+                            .frame(width: 50, height: 20)
+                            .background(Color("MintCream"))
+                            .foregroundColor(Color("OxfordBlue"))
+                    } else {
+                        let amtText: String = String(format: "%.2f", tmpAmt)
+                        Text(amtText)
+                            .frame(width: 50, height: 20)
+                            .background(Color("MintCream"))
+                            .foregroundColor(Color("OxfordBlue"))
+                    }
                     
                     Button {
-//                        ingredient.qty!.incrementAmt()
                     } label: {
                         Image(systemName: "plus")
                             .frame(width: 20, height: 20)
                             .background(Color("Camel"))
                             .cornerRadius(4)
                             .onTapGesture(count: 2) {
-                                fbInterface.incrementQuantity(ingredient: ingredient, amt: 1)
+                                if trashOrAdd == "trash" {
+                                    if isPersonalList {
+                                        fbInterface.incrementQuantity(ingredient: ingredient, amt: 1)
+                                    } else {
+                                        fbInterface.incrementQuantityPantry(ingredient: ingredient, amt: 1)
+                                    }
+                                } else {
+                                    tmpAmt += 0.1
+                                }
                             }
                             .onLongPressGesture {
-                                fbInterface.incrementQuantity(ingredient: ingredient, amt: 2)
+                                if trashOrAdd == "trash" {
+                                    if isPersonalList {
+                                        fbInterface.incrementQuantity(ingredient: ingredient, amt: 2)
+                                    } else {
+                                        fbInterface.incrementQuantityPantry(ingredient: ingredient, amt: 2)
+                                    }
+                                } else {
+                                    tmpAmt += 1.0
+                                }
                             }
                             .onTapGesture(count: 1) {
-                                fbInterface.incrementQuantity(ingredient: ingredient, amt: 0)
+                                if trashOrAdd == "trash" {
+                                    if isPersonalList {
+                                        fbInterface.incrementQuantity(ingredient: ingredient, amt: 0)
+                                    } else {
+                                        fbInterface.incrementQuantityPantry(ingredient: ingredient, amt: 0)
+                                    }
+                                } else {
+                                    tmpAmt += 0.01
+                                }
                             }
                     }
                     
-//                    Picker(selection: $selectedUnit, label: Text(Unit.allCases[selectedUnit].str).foregroundColor(Color("OxfordBlue")),
-//                           content: {
-//                            ForEach(0 ..< Unit.allCases.count) { index in
-//                                Text(Unit.allCases[index].str)
-//                                .frame(width: 80, height: 25)
-//                                .foregroundColor(Color("OxfordBlue"))
-//                        }
-//                    })
-//                    .pickerStyle(MenuPickerStyle())
                     
-                    if (ingredient.measure != nil) {
-                        Text("\(ingredient.measure!)")
-                            .frame(width: 80, height: 25, alignment: .center)
-                            .background(Color("MintCream"))
-                            .foregroundColor(Color("OxfordBlue"))
-                            .padding(.leading)
-                    } else {
-                        Text("Units")
-                            .frame(width: 80, height: 25, alignment: .center)
-                            .background(Color("MintCream"))
-                            .foregroundColor(Color("OxfordBlue"))
-                            .padding(.leading)
+                    Picker(selection: $selectedUnit, label: Text(CustomUnit.allCases[selectedUnit].str), content: {
+                        ForEach(0 ..< CustomUnit.allCases.count) { index in
+                            Text(CustomUnit.allCases[index].str)
+                                .frame(width: 80, height: 25)
+                                .foregroundColor(Color("OxfordBlue"))
+                        }
+                    })
+                    .pickerStyle(MenuPickerStyle())
+                    .frame(width: 80, height: 25, alignment: .center)
+                    .background(Color("MintCream"))
+                    .accentColor(Color("OxfordBlue"))
+                    .padding(.leading)
+                    .onChange(of: selectedUnit) { newValue in
+                        if trashOrAdd == "trash" {
+                            changeUnit(newUnit: CustomUnit.allCases[selectedUnit])
+                        } else {
+                        }
                     }
-                    
                     
                     Spacer()
                     
@@ -155,9 +207,11 @@ struct IngredientEditCardView: View {
                             }
                         } else {
                             if isPersonalList {
-                                fbInterface.addIngredientToPersonalList(ingredient: ingredient)
+                                let ing = Ingredient(id: ingredient.id, text: ingredient.text, quantity: tmpAmt, measure: CustomUnit.allCases[selectedUnit].str, food: ingredient.food, weight: ingredient.weight, foodCategory: ingredient.foodCategory, imgUrl: ingredient.imgUrl)
+                                print(ing)
+                                fbInterface.addIngredientToPersonalList(ingredient: Ingredient(id: ingredient.id, text: ingredient.text, quantity: tmpAmt, measure: CustomUnit.allCases[selectedUnit].str, food: ingredient.food, weight: ingredient.weight, foodCategory: ingredient.foodCategory, imgUrl: ingredient.imgUrl))
                             } else {
-                                fbInterface.addIngredientToPantryList(ingredient: ingredient)
+                                fbInterface.addIngredientToPantryList(ingredient: Ingredient(id: ingredient.id, text: ingredient.text, quantity: tmpAmt, measure: CustomUnit.allCases[selectedUnit].str, food: ingredient.food, weight: ingredient.weight, foodCategory: ingredient.foodCategory, imgUrl: ingredient.imgUrl))
                             }
                         }
                     } label: {
@@ -182,6 +236,14 @@ struct IngredientEditCardView: View {
         .background(Color("AirBlue"))
         .foregroundColor(Color("MintCream"))
         .cornerRadius(8)
+    }
+    
+    func changeUnit(newUnit: CustomUnit) {
+        if isPersonalList {
+            fbInterface.changeIngredientUnit(ingredient: ingredient, newUnit: newUnit)
+        } else {
+            fbInterface.changeIngredientUnitPantry(ingredient: ingredient, newUnit: newUnit)
+        }
     }
 }
 

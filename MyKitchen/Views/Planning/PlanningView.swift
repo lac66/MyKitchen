@@ -69,7 +69,7 @@ struct PlanningView: View {
                             .background(Color("Camel"))
                             
                             NavigationLink(
-                                destination: AddRecipeView(),
+                                destination: AddRecipeView().environmentObject(eInterface),
                                 label: {
                                     Image(systemName: "plus")
                                         .frame(width: 30, height: 30)

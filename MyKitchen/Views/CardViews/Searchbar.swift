@@ -14,7 +14,6 @@ struct Searchbar: View {
     let placeholder: Text
     var isForRecipes: Bool
     @Binding var text: String
-    @State var typingCheck: DispatchWorkItem?
     
     init(placeholder: String, isForRecipes: Bool, text: Binding<String>) {
         self.placeholder = Text(placeholder)

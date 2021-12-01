@@ -288,9 +288,16 @@ class FirebaseInterface : ObservableObject {
                 var changed = false
                 for (index, ing) in wud.personalList.enumerated() {
                     if (ing.id == ingredient.id) {
-                        // same ingredient different quantities
-                        // will need to change in the future
-                        wud.personalList[index].quantity += ingredient.quantity
+                        var newQty : Quantity
+                        if (!UnitConverter.isConvertable(q1: ing.qty!, q2: ingredient.qty!)) {
+                            break;
+                        }
+                        newQty = UnitConverter.convertUnit(q1: ing.qty!, q2: ingredient.qty!)
+                        
+                        wud.personalList[index].qty = newQty
+                        wud.personalList[index].quantity = newQty.amt
+                        wud.personalList[index].unit = newQty.unit
+                        wud.personalList[index].measure = newQty.unit.str
                         changed = true
                     }
                 }
@@ -329,9 +336,16 @@ class FirebaseInterface : ObservableObject {
             var changed = false
             for (index, ing) in currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.enumerated() {
                 if (ing.id == ingredient.id) {
-                    // same ingredient different quantities
-                    // will need to change in the future
-                    currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[index].quantity += ingredient.quantity
+                    var newQty : Quantity
+                    if (!UnitConverter.isConvertable(q1: ing.qty!, q2: ingredient.qty!)) {
+                        break;
+                    }
+                    newQty = UnitConverter.convertUnit(q1: ing.qty!, q2: ingredient.qty!)
+                    
+                    currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[index].qty = newQty
+                    currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[index].quantity = newQty.amt
+                    currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[index].unit = newQty.unit
+                    currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[index].measure = newQty.unit.str
                     changed = true
                 }
             }
@@ -363,7 +377,25 @@ class FirebaseInterface : ObservableObject {
         if (currentUser!.pantryList.contains(ingredient)) {
             currentUser!.pantryList[currentUser!.pantryList.firstIndex(of: ingredient)!].quantity += ingredient.quantity
         } else {
-            currentUser!.pantryList.append(ingredient)
+            var changed = false
+            for (index, ing) in currentUser!.pantryList.enumerated() {
+                if (ing.id == ingredient.id) {
+                    var newQty : Quantity
+                    if (!UnitConverter.isConvertable(q1: ing.qty!, q2: ingredient.qty!)) {
+                        break;
+                    }
+                    newQty = UnitConverter.convertUnit(q1: ing.qty!, q2: ingredient.qty!)
+                    
+                    currentUser!.pantryList[index].qty = newQty
+                    currentUser!.pantryList[index].quantity = newQty.amt
+                    currentUser!.pantryList[index].unit = newQty.unit
+                    currentUser!.pantryList[index].measure = newQty.unit.str
+                    changed = true
+                }
+            }
+            if (!changed) {
+                currentUser!.pantryList.append(ingredient)
+            }
         }
         
         updateDB()
@@ -385,11 +417,6 @@ class FirebaseInterface : ObservableObject {
     }
     
     func incrementQuantity(ingredient: Ingredient, amt: Int) {
-        //        if (btnCheck != nil) {
-        //            btnCheck!.cancel()
-        //            btnCheck = nil
-        //        }
-        
         switch amt {
         case 0:
             print("single tap")
@@ -403,22 +430,9 @@ class FirebaseInterface : ObservableObject {
         }
         
         updateDB()
-        //        self.objectWillChange.send()
-        //
-        //        btnCheck = DispatchWorkItem {
-        //            print("update")
-        //            self.updateDB()
-        //        }
-        //        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: btnCheck!)
-        
     }
     
     func decrementQuantity(ingredient: Ingredient, amt: Int) {
-        //        if (btnCheck != nil) {
-        //            btnCheck!.cancel()
-        //            btnCheck = nil
-        //        }
-        
         switch amt {
         case 0:
             print("single tap")
@@ -432,14 +446,59 @@ class FirebaseInterface : ObservableObject {
         }
         
         updateDB()
-        //        self.objectWillChange.send()
-        //
-        //        btnCheck = DispatchWorkItem {
-        //            print("update")
-        //            self.updateDB()
-        //        }
-        //        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: btnCheck!)
+    }
+    
+    func incrementQuantityPantry(ingredient: Ingredient, amt: Int) {
+        switch amt {
+            case 0:
+                print("single tap")
+                currentUser!.pantryList[currentUser!.pantryList.firstIndex(of: ingredient)!].quantity += 0.01
+            case 1:
+                print("double tap")
+                currentUser!.pantryList[currentUser!.pantryList.firstIndex(of: ingredient)!].quantity += 0.1
+            default:
+                print("long press")
+                currentUser!.pantryList[currentUser!.pantryList.firstIndex(of: ingredient)!].quantity += 1.0
+        }
         
+        updateDB()
+    }
+    
+    func decrementQuantityPantry(ingredient: Ingredient, amt: Int) {
+        switch amt {
+            case 0:
+                print("single tap")
+                currentUser!.pantryList[currentUser!.pantryList.firstIndex(of: ingredient)!].quantity -= 0.01
+            case 1:
+                print("double tap")
+                currentUser!.pantryList[currentUser!.pantryList.firstIndex(of: ingredient)!].quantity -= 0.1
+            default:
+                print("long press")
+                currentUser!.pantryList[currentUser!.pantryList.firstIndex(of: ingredient)!].quantity -= 1.0
+        }
+        
+        updateDB()
+    }
+    
+    func changeIngredientUnit(ingredient: Ingredient, newUnit: CustomUnit) {
+        // change measure here too
+        let index = currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.firstIndex(of: ingredient)!
+        
+        currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[index].unit = newUnit
+        currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[index].measure = newUnit.str
+        currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[index].qty = Quantity(amt: ingredient.quantity, unit: newUnit)
+        
+        updateDB()
+    }
+    
+    func changeIngredientUnitPantry(ingredient: Ingredient, newUnit: CustomUnit) {
+        let index = currentUser!.pantryList.firstIndex(of: ingredient)!
+        
+        currentUser!.pantryList[index].unit = newUnit
+        currentUser!.pantryList[index].measure = newUnit.str
+        currentUser!.pantryList[index].qty = Quantity(amt: ingredient.quantity, unit: newUnit)
+        
+        updateDB()
     }
     
     // Group Methods

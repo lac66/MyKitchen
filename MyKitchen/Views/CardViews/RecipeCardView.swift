@@ -10,15 +10,19 @@ import SwiftUI
 struct RecipeCardView: View {
     @EnvironmentObject var fbInterface: FirebaseInterface
     @ObservedObject var imageLoader: ImageLoader
-    @State var image: UIImage = UIImage()
+    @State var image: UIImage?
     
     @State var recipe: Recipe
     let heartImg: String
     
-    init(recipe: Recipe, withURL url: String, heartImg: String) {
+    init(recipe: Recipe, withURL url: String?, heartImg: String) {
         self.recipe = recipe
         self.heartImg = heartImg
-        imageLoader = ImageLoader(urlString: url)
+        if (url != nil) {
+            imageLoader = ImageLoader(urlString: url!)
+        } else {
+            imageLoader = ImageLoader(urlString: "")
+        }
     }
     
     var body: some View {
@@ -30,14 +34,20 @@ struct RecipeCardView: View {
                     .cornerRadius(10)
                 
                 // need to load image from url
-                Image(uiImage: image)
-                    .resizable()
-                    .frame(width: 65, height: 65)
-                    .cornerRadius(6)
-                    .onReceive(imageLoader.didChange) { data in
-                        self.image = UIImage(data: data) ?? UIImage()
-                        self.recipe.img = self.image
-                    }
+                if (image != nil) {
+                    Image(uiImage: image!)
+                        .resizable()
+                        .frame(width: 65, height: 65)
+                        .cornerRadius(6)
+                } else {
+                    Text("No image available")
+                        .frame(width: 65, height: 65)
+                        .cornerRadius(6)
+                }
+            }
+            .onReceive(imageLoader.didChange) { data in
+                self.image = UIImage(data: data) ?? UIImage()
+                self.recipe.img = self.image
             }
             .padding(.leading, 10)
             
@@ -91,9 +101,9 @@ struct RecipeCardView: View {
 }
 
 struct RecipeCardView_Previews: PreviewProvider {
-    static let recipe = Recipe(id: "id", name: "name", imgUrl: "imgUrl", sourceUrl: "sourceUrl", yield: 1, ingString: ["ingArr"], ingredients: [Ingredient(id: "id", text: "text", quantity: 1.0, measure: "measure", food: "food", weight: 1.0, foodCategory: "foodCategory", imgUrl: "https://www.edamam.com/food-img/627/627582f390a350d98c367f89c3a943fe.jpg")], calories: 1.0, cuisineType: ["cuisineType"], mealType: ["mealType"])
+    static let recipe = Recipe(id: "id", name: "name", imgUrl: "imgUrl", sourceUrl: "sourceUrl", yield: 1, ingString: ["ingArr"], ingredients: [Ingredient(id: "id", text: "text", quantity: 1.0, measure: "measure", food: "food", weight: 1.0, foodCategory: "foodCategory", imgUrl: "https://www.edamam.com/food-img/627/627582f390a350d98c367f89c3a943fe.jpg")], calories: 1.0, cuisineType: ["cuisineType"], mealType: ["mealType"], recipeInstructions: nil)
     static var previews: some View {
-        RecipeCardView(recipe: recipe, withURL: recipe.imgUrl, heartImg: "heart")
+        RecipeCardView(recipe: recipe, withURL: recipe.imgUrl!, heartImg: "heart")
             .previewLayout(.fixed(width: 350, height: 90))
     }
 }

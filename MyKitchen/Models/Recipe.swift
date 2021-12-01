@@ -12,18 +12,19 @@ struct Recipe : Equatable, Identifiable {
     
     let id : String
     let name: String
-    let imgUrl : String
-    let sourceUrl : String
+    let imgUrl : String?
+    let sourceUrl : String?
     let yield : Double
-    let ingString : [String]
+    let ingString : [String]?
     let ingredients : [Ingredient]
-    let calories : Double
-    let cuisineType : [String]
-    let mealType : [String]
+    let calories : Double?
+    let cuisineType : [String]?
+    let mealType : [String]?
     
+    let recipeInstructions: String?
     var img : UIImage?
     
-    init (id: String, name: String, imgUrl: String, sourceUrl: String, yield: Double, ingString: [String], ingredients: [Ingredient], calories: Double, cuisineType: [String], mealType: [String]) {
+    init (id: String, name: String, imgUrl: String?, sourceUrl: String?, yield: Double, ingString: [String]?, ingredients: [Ingredient], calories: Double?, cuisineType: [String]?, mealType: [String]?, recipeInstructions: String?) {
         self.id = id
         self.name = name
         self.imgUrl = imgUrl
@@ -34,6 +35,7 @@ struct Recipe : Equatable, Identifiable {
         self.calories = calories
         self.cuisineType = cuisineType
         self.mealType = mealType
+        self.recipeInstructions = recipeInstructions
     }
     
     static func == (lhs: Recipe, rhs: Recipe) -> Bool {

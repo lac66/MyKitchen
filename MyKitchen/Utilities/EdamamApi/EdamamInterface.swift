@@ -77,7 +77,7 @@ class EdamamInterface : ObservableObject {
                     newIngredients.append(Ingredient(id: ing.foodId!, text: ing.text!, quantity: ing.quantity!, measure: ing.measure, food: ing.food!, weight: ing.weight!, foodCategory: ing.foodCategory, imgUrl: ing.image))
                 }
                 
-                let newRecipe = Recipe(id: tmp.uri!, name: tmp.label!, imgUrl: tmp.image!, sourceUrl: tmp.url!, yield: tmp.yield!, ingString: tmp.ingredientLines!, ingredients: newIngredients, calories: tmp.calories!, cuisineType: tmp.cuisineType!, mealType: tmp.mealType!)
+                let newRecipe = Recipe(id: tmp.uri!, name: tmp.label!, imgUrl: tmp.image!, sourceUrl: tmp.url!, yield: tmp.yield!, ingString: tmp.ingredientLines!, ingredients: newIngredients, calories: tmp.calories!, cuisineType: tmp.cuisineType!, mealType: tmp.mealType!, recipeInstructions: nil)
                 
                 DispatchQueue.main.async {
                     self.recipes.append(newRecipe)

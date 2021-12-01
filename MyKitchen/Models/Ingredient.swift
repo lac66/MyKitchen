@@ -97,7 +97,7 @@ struct Ingredient: Identifiable, Equatable {
     }
     
     static func == (lhs: Ingredient, rhs: Ingredient) -> Bool {
-        return (lhs.id == rhs.id) && (lhs.quantity == rhs.quantity) && (lhs.unit == rhs.unit) && (lhs.measure == rhs.measure) && (lhs.qty == rhs.qty)
+        return (lhs.id == rhs.id) && (lhs.quantity == rhs.quantity) && (lhs.unit == rhs.unit) && (lhs.qty == rhs.qty)
     }
 }
 

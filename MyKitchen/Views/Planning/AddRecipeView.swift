@@ -8,18 +8,27 @@
 import SwiftUI
 
 struct AddRecipeView: View {
+    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var eInterface: EdamamInterface
+    @EnvironmentObject var fbInterface: FirebaseInterface
     
-    let instructionPlaceholder = "Enter instructions here..." //Text("Enter instructions here...")
     @State var nameInput: String = ""
+    @State var yieldInput: String = ""
+    
     @State var selectedQty: Int = 14
     @State var amtInput: String = ""
     @State var ingredientNameInput: String = ""
+    
+    let instructionPlaceholder = "Enter instructions here..."
     @State var recipeInstructionsInput: String = "Enter instructions here..."
+    
     @State var errorMsg: String = ""
+    @State var hasErrorAddIngredient: Bool = false
+    @State var hasErrorSaveRecipe: Bool = false
+    
     @State var showAddPanel: Bool = false
-    @State var hasError: Bool = false
     @State var offsetAmt: CGFloat = -80
+    
     @State var ingredients : [Ingredient] = []
     
     init() {
@@ -42,12 +51,23 @@ struct AddRecipeView: View {
                         .placeholder(when: nameInput.isEmpty, placeholder: {
                             Text("Recipe Name")
                         })
+                        .font(.system(size: 18, weight: .semibold, design: .default))
                         .padding(.leading)
                         .frame(width: 350, height: 50)
-                        .foregroundColor(Color("OxfordBlue"))
+                        .foregroundColor(Color("OxfordBluePlaceholder"))
                         .background(Color("MintCream"))
                         .cornerRadius(15)
                         .padding(.top)
+                    
+                    TextField("", text: $yieldInput)
+                        .placeholder(when: yieldInput.isEmpty, placeholder: {
+                            Text("Yield Amount")
+                        })
+                        .padding(.leading)
+                        .frame(width: 350, height: 50)
+                        .foregroundColor(Color("OxfordBluePlaceholder"))
+                        .background(Color("MintCream"))
+                        .cornerRadius(15)
                     
                     VStack (spacing: 0) {
                         VStack (alignment: .leading) {
@@ -58,18 +78,29 @@ struct AddRecipeView: View {
                             if (ingredients.count > 0) {
                                 VStack (alignment: .leading) {
                                     ForEach(ingredients, id: \.id) { ingredient in
-                                        Text("\(ingredient.food)")
-                                            .padding(.leading, 25)
+                                        let amtText: String = String(format: "%.2f", ingredient.quantity)
+                                        HStack {
+                                            Text(amtText)
+                                                .frame(width: 60, alignment: .trailing)
+                                            Text(ingredient.unit!.str)
+                                                .frame(width: 50, alignment: .leading)
+                                            Text(ingredient.food)
+                                            Spacer()
+                                            Button {
+                                                ingredients.remove(at: ingredients.firstIndex(of: ingredient)!)
+                                            } label: {
+                                                Image(systemName: "xmark.app.fill")
+                                                    .resizable()
+                                                    .frame(width: 20, height: 20)
+                                                    .foregroundColor(Color.red)
+                                            }
+                                            .padding(.trailing)
+                                        }
+                                        .padding(.leading, 25)
                                     }
                                     .padding(.bottom, 1)
                                 }
                                 .padding(.bottom)
-                            }
-                            
-                            if (hasError) {
-                                Text(errorMsg)
-                                    .frame(width: 350, alignment: .center)
-                                    .foregroundColor(Color.red)
                             }
                         }
                         .zIndex(1)
@@ -141,15 +172,15 @@ struct AddRecipeView: View {
                                     let tmpAmtInput = Double(amtInput)
                                     if (tmpAmtInput == nil) {
                                         errorMsg = "Quantity input must be a number"
-                                        hasError = true
+                                        hasErrorAddIngredient = true
+                                    } else if (tmpAmtInput! < 0) {
+                                        errorMsg = "Quantity input must be positive number"
                                     } else if (ingredientNameInput.isEmpty) {
                                         errorMsg = "Ingredient name must have a value"
-                                        hasError = true
+                                        hasErrorAddIngredient = true
                                     } else {
                                         eInterface.searchWithApi(text: ingredientNameInput, isForRecipes: false)
-                                        // add to ingredients above
                                         offsetAmt = -80
-                                        hasError = false
                                         showAddPanel = false
                                     }
                                 } else {
@@ -168,6 +199,9 @@ struct AddRecipeView: View {
                                 .foregroundColor(Color("MintCream"))
                                 .background(Color("Camel"))
                                 .cornerRadius(30)
+                            }
+                            .alert(isPresented: $hasErrorAddIngredient) {
+                                Alert(title: Text("Add Ingredient Error"), message: Text(errorMsg), dismissButton: .default(Text("Ok")))
                             }
                             .frame(width: 350, height: 60)
                             .background(Color("MintCream"))
@@ -193,6 +227,7 @@ struct AddRecipeView: View {
                                     .frame(width: 300)
                                     .padding(.horizontal)
                                     .padding(.bottom)
+                                    .foregroundColor(Color("OxfordBluePlaceholder"))
                                     .onTapGesture {
                                         if recipeInstructionsInput == instructionPlaceholder {
                                             recipeInstructionsInput = ""
@@ -216,7 +251,27 @@ struct AddRecipeView: View {
                             .cornerRadius(15)
                         
                         Button {
-                            
+                            let tmpYieldInput = Double(yieldInput)
+                            if (nameInput.isEmpty) {
+                                errorMsg = "Recipe name must have a value"
+                                hasErrorSaveRecipe = true
+                            } else if (tmpYieldInput == nil) {
+                                errorMsg = "Yield input must be a number"
+                                hasErrorSaveRecipe = true
+                            } else if (tmpYieldInput! < 0) {
+                                errorMsg = "Yield input must be a positive number"
+                                hasErrorSaveRecipe = true
+                            } else if (ingredients.count == 0) {
+                                errorMsg = "Recipe must have ingredients"
+                                hasErrorSaveRecipe = true
+                            } else if (recipeInstructionsInput.isEmpty) {
+                                errorMsg = "Recipe instructions must have a value"
+                                hasErrorSaveRecipe = true
+                            } else {
+                                let newRecipe = Recipe(id: UUID().uuidString, name: nameInput, imgUrl: nil, sourceUrl: nil, yield: tmpYieldInput!, ingString: nil, ingredients: ingredients, calories: nil, cuisineType: nil, mealType: nil, recipeInstructions: recipeInstructionsInput)
+                                fbInterface.saveRecipe(recipe: newRecipe)
+                                self.presentationMode.wrappedValue.dismiss()
+                            }
                         } label: {
                             HStack {
                                 Image(systemName: "tray.and.arrow.down.fill")
@@ -229,6 +284,9 @@ struct AddRecipeView: View {
                             .foregroundColor(Color("MintCream"))
                             .background(Color("Marigold"))
                             .cornerRadius(15)
+                        }
+                        .alert(isPresented: $hasErrorSaveRecipe) {
+                            Alert(title: Text("Save Recipe Error"), message: Text(errorMsg), dismissButton: .default(Text("Ok")))
                         }
                     }
                     .offset(y: (offsetAmt - 20))
@@ -247,7 +305,7 @@ struct AddRecipeView: View {
                         return
                     }
                 }
-                hasError = true
+                hasErrorAddIngredient = true
                 errorMsg = "Ingredient not found"
             }
         }

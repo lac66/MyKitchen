@@ -17,6 +17,8 @@ class FirebaseInterface : ObservableObject {
     @Published var signedIn = false
     @Published var currentUser : User? = nil
     
+    var changeCheck: DispatchWorkItem?
+    
     var isSignedIn : Bool {
         return auth.currentUser != nil
     }
@@ -131,15 +133,25 @@ class FirebaseInterface : ObservableObject {
     }
     
     func updateDB() {
-        let userdb : UserDB = convertUserToUserDB()
-        
-        do {
-            try db.collection("accounts").document(userdb.id!).setData(from: userdb)
-        } catch let error {
-            print("Error writing user to Firestore: \(error)")
+        if (changeCheck != nil) {
+            changeCheck!.cancel()
+            changeCheck = nil
         }
+        print("update called")
         
-        self.objectWillChange.send()
+        changeCheck = DispatchWorkItem {
+            print("executed")
+            let userdb : UserDB = self.convertUserToUserDB()
+            
+            do {
+                try self.db.collection("accounts").document(userdb.id!).setData(from: userdb)
+            } catch let error {
+                print("Error writing user to Firestore: \(error)")
+            }
+            
+            self.objectWillChange.send()
+        }
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: changeCheck!)
     }
     
     //    func getRealtimePersonalList() {
@@ -178,7 +190,7 @@ class FirebaseInterface : ObservableObject {
     
     func convertApitoRecipe(recApi: RecipeApi) -> Recipe {
         let ingArray = self.convertApitoIngs(ingsApi: recApi.ingredients!)
-        return Recipe(id: recApi.uri!, name: recApi.label!, imgUrl: recApi.image!, sourceUrl: recApi.url!, yield: recApi.yield!, ingString: recApi.ingredientLines!, ingredients: ingArray, calories: recApi.calories!, cuisineType: recApi.cuisineType!, mealType: recApi.mealType!)
+        return Recipe(id: recApi.uri!, name: recApi.label!, imgUrl: recApi.image, sourceUrl: recApi.url, yield: recApi.yield!, ingString: recApi.ingredientLines, ingredients: ingArray, calories: recApi.calories, cuisineType: recApi.cuisineType, mealType: recApi.mealType, recipeInstructions: recApi.recipeInstructions)
     }
     
     func convertApitoRecipeArray(recArr: [RecipeApi]) -> [Recipe] {
@@ -222,7 +234,7 @@ class FirebaseInterface : ObservableObject {
     
     func convertRecipetoApi(rec: Recipe) -> RecipeApi {
         let ingArray = self.convertIngsToApi(ings: rec.ingredients)
-        return RecipeApi(uri: rec.id, label: rec.name, image: rec.imgUrl, source: nil, url: rec.sourceUrl, shareAs: nil, yield: rec.yield, dietLabels: nil, healthLabels: nil, cautions: nil, ingredientLines: rec.ingString, ingredients: ingArray, calories: rec.calories, glycemicIndex: nil, totalCO2Emissions: nil, co2EmissionsClass: nil, totalWeight: nil, cuisineType: rec.cuisineType, mealType: rec.mealType, dishType: nil, totalNutrients: nil, totalDaily: nil, digest: nil)
+        return RecipeApi(uri: rec.id, label: rec.name, image: rec.imgUrl, source: nil, url: rec.sourceUrl, shareAs: nil, yield: rec.yield, dietLabels: nil, healthLabels: nil, cautions: nil, ingredientLines: rec.ingString, ingredients: ingArray, calories: rec.calories, glycemicIndex: nil, totalCO2Emissions: nil, co2EmissionsClass: nil, totalWeight: nil, cuisineType: rec.cuisineType, mealType: rec.mealType, dishType: nil, totalNutrients: nil, totalDaily: nil, digest: nil, recipeInstructions: rec.recipeInstructions)
     }
     
     func convertRecipeArraytoApi(recArr: [Recipe]) -> [RecipeApi] {
@@ -283,21 +295,28 @@ class FirebaseInterface : ObservableObject {
         
         for ingredient in recipe.ingredients {
             if (wud.personalList.contains(ingredient)) {
-                wud.personalList[wud.personalList.firstIndex(of: ingredient)!].quantity += ingredient.quantity
+                let i = wud.personalList.firstIndex(of: ingredient)!
+                wud.personalList[i].quantity += ingredient.quantity
+                wud.personalList[i].qty = Quantity(amt: wud.personalList[i].quantity, unit: wud.personalList[i].unit!)
             } else {
                 var changed = false
                 for (index, ing) in wud.personalList.enumerated() {
                     if (ing.id == ingredient.id) {
-                        var newQty : Quantity
-                        if (!UnitConverter.isConvertable(q1: ing.qty!, q2: ingredient.qty!)) {
-                            break;
+                        if (ing.unit == ingredient.unit) {
+                            wud.personalList[index].quantity += ingredient.quantity
+                            wud.personalList[index].qty = Quantity(amt: wud.personalList[index].quantity, unit: wud.personalList[index].unit!)
+                        } else {
+                            var newQty : Quantity
+                            if (!UnitConverter.isConvertable(q1: ing.qty!, q2: ingredient.qty!)) {
+                                break;
+                            }
+                            newQty = UnitConverter.convertUnit(q1: ing.qty!, q2: ingredient.qty!)
+                            
+                            wud.personalList[index].qty = newQty
+                            wud.personalList[index].quantity = newQty.amt
+                            wud.personalList[index].unit = newQty.unit
+                            wud.personalList[index].measure = newQty.unit.str
                         }
-                        newQty = UnitConverter.convertUnit(q1: ing.qty!, q2: ingredient.qty!)
-                        
-                        wud.personalList[index].qty = newQty
-                        wud.personalList[index].quantity = newQty.amt
-                        wud.personalList[index].unit = newQty.unit
-                        wud.personalList[index].measure = newQty.unit.str
                         changed = true
                     }
                 }
@@ -331,21 +350,28 @@ class FirebaseInterface : ObservableObject {
     func addIngredientToPersonalList(ingredient: Ingredient) {
         print("addIngredientToPersonalList called")
         if (currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.contains(ingredient)) {
-            currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.firstIndex(of: ingredient)!].quantity += ingredient.quantity
+            let i = currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.firstIndex(of: ingredient)!
+            currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[i].quantity += ingredient.quantity
+            currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[i].qty = Quantity(amt: currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[i].quantity, unit: currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[i].unit!)
         } else {
             var changed = false
             for (index, ing) in currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.enumerated() {
                 if (ing.id == ingredient.id) {
-                    var newQty : Quantity
-                    if (!UnitConverter.isConvertable(q1: ing.qty!, q2: ingredient.qty!)) {
-                        break;
+                    if (ing.unit == ingredient.unit) {
+                        currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[index].quantity += ingredient.quantity
+                        currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[index].qty = Quantity(amt: currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[index].quantity, unit: currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[index].unit!)
+                    } else {
+                        var newQty : Quantity
+                        if (!UnitConverter.isConvertable(q1: ing.qty!, q2: ingredient.qty!)) {
+                            break;
+                        }
+                        newQty = UnitConverter.convertUnit(q1: ing.qty!, q2: ingredient.qty!)
+                        
+                        currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[index].qty = newQty
+                        currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[index].quantity = newQty.amt
+                        currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[index].unit = newQty.unit
+                        currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[index].measure = newQty.unit.str
                     }
-                    newQty = UnitConverter.convertUnit(q1: ing.qty!, q2: ingredient.qty!)
-                    
-                    currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[index].qty = newQty
-                    currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[index].quantity = newQty.amt
-                    currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[index].unit = newQty.unit
-                    currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[index].measure = newQty.unit.str
                     changed = true
                 }
             }
@@ -375,21 +401,28 @@ class FirebaseInterface : ObservableObject {
     func addIngredientToPantryList(ingredient: Ingredient) {
         print("addIngredientToPantryList called")
         if (currentUser!.pantryList.contains(ingredient)) {
-            currentUser!.pantryList[currentUser!.pantryList.firstIndex(of: ingredient)!].quantity += ingredient.quantity
+            let i = currentUser!.pantryList.firstIndex(of: ingredient)!
+            currentUser!.pantryList[i].quantity += ingredient.quantity
+            currentUser!.pantryList[i].qty = Quantity(amt: currentUser!.pantryList[i].quantity, unit: currentUser!.pantryList[i].unit!)
         } else {
             var changed = false
             for (index, ing) in currentUser!.pantryList.enumerated() {
                 if (ing.id == ingredient.id) {
-                    var newQty : Quantity
-                    if (!UnitConverter.isConvertable(q1: ing.qty!, q2: ingredient.qty!)) {
-                        break;
+                    if (ing.unit == ingredient.unit) {
+                        currentUser!.pantryList[index].quantity += ingredient.quantity
+                        currentUser!.pantryList[index].qty = Quantity(amt: currentUser!.pantryList[index].quantity, unit: currentUser!.pantryList[index].unit!)
+                    } else {
+                        var newQty : Quantity
+                        if (!UnitConverter.isConvertable(q1: ing.qty!, q2: ingredient.qty!)) {
+                            break;
+                        }
+                        newQty = UnitConverter.convertUnit(q1: ing.qty!, q2: ingredient.qty!)
+                        
+                        currentUser!.pantryList[index].qty = newQty
+                        currentUser!.pantryList[index].quantity = newQty.amt
+                        currentUser!.pantryList[index].unit = newQty.unit
+                        currentUser!.pantryList[index].measure = newQty.unit.str
                     }
-                    newQty = UnitConverter.convertUnit(q1: ing.qty!, q2: ingredient.qty!)
-                    
-                    currentUser!.pantryList[index].qty = newQty
-                    currentUser!.pantryList[index].quantity = newQty.amt
-                    currentUser!.pantryList[index].unit = newQty.unit
-                    currentUser!.pantryList[index].measure = newQty.unit.str
                     changed = true
                 }
             }

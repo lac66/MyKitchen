@@ -30,72 +30,83 @@ struct RecipeDetailsView: View {
                                 .foregroundColor(Color("Camel"))
                                 .cornerRadius(30)
                             
-                            if #available(iOS 15.0, *) {
-                                AsyncImage(url: URL(string: recipe.imgUrl)) { image in
-                                    image.resizable()
-                                } placeholder: {
-                                    ProgressView()
-                                }
-                                .frame(width: 325, height: 325)
-                                .cornerRadius(25)
-                            } else {
-                                // Fallback on earlier versions
-                                
-                                if (recipe.img != nil) {
-                                    Image(uiImage: recipe.img!)
-                                        .resizable()
-                                        .frame(width: 325, height: 325)
-                                        .cornerRadius(25)
+                            if recipe.imgUrl != nil {
+                                if #available(iOS 15.0, *) {
+                                    AsyncImage(url: URL(string: recipe.imgUrl!)) { image in
+                                        image.resizable()
+                                    } placeholder: {
+                                        ProgressView()
+                                    }
+                                    .frame(width: 325, height: 325)
+                                    .cornerRadius(25)
                                 } else {
-                                    Text("No Image Found")
-                                        .frame(width: 325, height: 325)
-                                        .cornerRadius(25)
+                                    // Fallback on earlier versions
+                                    
+                                    if (recipe.img != nil) {
+                                        Image(uiImage: recipe.img!)
+                                            .resizable()
+                                            .frame(width: 325, height: 325)
+                                            .cornerRadius(25)
+                                    } else {
+                                        Text("No Image Found")
+                                            .frame(width: 325, height: 325)
+                                            .cornerRadius(25)
+                                    }
                                 }
+                            } else {
+                                Text("No Image Found")
+                                    .frame(width: 325, height: 325)
+                                    .cornerRadius(25)
                             }
                         }
                         
-                        ZStack (alignment: .leading) {
+                        ZStack {
                             Rectangle()
                                 .frame(width: 350)
                                 .foregroundColor(Color("AirBlue"))
                                 .cornerRadius(30)
                             
-                            VStack (alignment: .leading) {
+                            VStack {
                                 Text("Ingredients")
                                     .padding(.bottom)
                                     .font(.system(size: 24, weight: .semibold, design: .default))
-                                
-                                ForEach(recipe.ingredients, id: \.id) { ingredient in
-                                    Text(ingredient.text)
-                                        .fixedSize(horizontal: false, vertical: true)
-                                        .padding(1)
-                                        .padding(.leading)
-//                                        .padding(.trailing)
+                                VStack (alignment: .leading) {
+                                    ForEach(recipe.ingredients, id: \.id) { ingredient in
+                                        let amtText: String = String(format: "%.2f", ingredient.quantity)
+                                        HStack {
+                                            Text(amtText)
+                                                .frame(width: 60)
+                                            Text(ingredient.unit!.str)
+                                                .frame(width: 50, alignment: .leading)
+                                            Text(ingredient.food)
+                                        }
+                                    }
                                 }
                             }
                             .frame(width: 300)
                             .padding(12)
-                            .padding(.leading, 12)
                         }
                         
-                        ZStack (alignment: .leading) {
+                        ZStack {
                             Rectangle()
                                 .frame(width: 350)
                                 .foregroundColor(Color("AirBlue"))
                                 .cornerRadius(30)
                             
-                            VStack (alignment: .leading) {
+                            VStack (alignment: .center) {
                                 Text("Instructions")
                                     .padding(.bottom)
                                     .font(.system(size: 24, weight: .semibold, design: .default))
                                 
-                                Link( "Click Here", destination: URL(string: recipe.sourceUrl)!)
-                                    .padding(1)
-                                    .padding(.leading)
+                                if (recipe.sourceUrl != nil) {
+                                    Link( "Click Here", destination: URL(string: recipe.sourceUrl!)!)
+                                        .padding(1)
+                                } else {
+                                    Text(recipe.recipeInstructions!)
+                                }
                             }
                             .frame(width: 300)
                             .padding(12)
-                            .padding(.leading, 12)
                         }
                     }
                     .foregroundColor(Color("MintCream"))
@@ -119,7 +130,7 @@ struct RecipeDetailsView: View {
 }
 
 struct RecipeDetailsView_Previews: PreviewProvider {
-    static let recipe = Recipe(id: "id", name: "name", imgUrl: "imgUrl", sourceUrl: "sourceUrl", yield: 1, ingString: ["ingArr"], ingredients: [Ingredient(id: "id", text: "text", quantity: 1.0, measure: "measure", food: "food", weight: 1.0, foodCategory: "foodCategory", imgUrl: "https://www.edamam.com/food-img/627/627582f390a350d98c367f89c3a943fe.jpg")], calories: 1.0, cuisineType: ["cuisineType"], mealType: ["mealType"])
+    static let recipe = Recipe(id: "id", name: "name", imgUrl: "imgUrl", sourceUrl: "sourceUrl", yield: 1, ingString: ["ingArr"], ingredients: [Ingredient(id: "id", text: "text", quantity: 1.0, measure: "measure", food: "food", weight: 1.0, foodCategory: "foodCategory", imgUrl: "https://www.edamam.com/food-img/627/627582f390a350d98c367f89c3a943fe.jpg")], calories: 1.0, cuisineType: ["cuisineType"], mealType: ["mealType"], recipeInstructions: nil)
     static var previews: some View {
         RecipeDetailsView(recipe: recipe)
     }

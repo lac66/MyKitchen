@@ -46,7 +46,6 @@
 		3DB9B07B274592810031FCD1 /* EdamamInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB9B07A274592810031FCD1 /* EdamamInterface.swift */; };
 		3DB9B07D274592AB0031FCD1 /* RecipeApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB9B07C274592AB0031FCD1 /* RecipeApi.swift */; };
 		3DCFA871272BA9D4009184DA /* RecipeDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCFA86D272BA9D4009184DA /* RecipeDetailsView.swift */; };
-		3DCFA872272BA9D4009184DA /* RecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCFA86E272BA9D4009184DA /* RecipeView.swift */; };
 		485931B99296313DE5BB5AA8 /* Pods_MyKitchen.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D65EF92E8891D9C3813721AF /* Pods_MyKitchen.framework */; };
 		9B14C48F273FFCE50068614D /* JoinGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B14C48E273FFCE50068614D /* JoinGroup.swift */; };
 		9B74A07E273ED9C700190398 /* GroupsInitial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B74A07D273ED9C700190398 /* GroupsInitial.swift */; };
@@ -127,7 +126,6 @@
 		3DB9B07A274592810031FCD1 /* EdamamInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EdamamInterface.swift; sourceTree = "<group>"; };
 		3DB9B07C274592AB0031FCD1 /* RecipeApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeApi.swift; sourceTree = "<group>"; };
 		3DCFA86D272BA9D4009184DA /* RecipeDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeDetailsView.swift; sourceTree = "<group>"; };
-		3DCFA86E272BA9D4009184DA /* RecipeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeView.swift; sourceTree = "<group>"; };
 		8D442E1CE9ACE7736F9CF5FD /* Pods-MyKitchenTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyKitchenTests.debug.xcconfig"; path = "Target Support Files/Pods-MyKitchenTests/Pods-MyKitchenTests.debug.xcconfig"; sourceTree = "<group>"; };
 		9B14C48E273FFCE50068614D /* JoinGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinGroup.swift; sourceTree = "<group>"; };
 		9B74A07D273ED9C700190398 /* GroupsInitial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsInitial.swift; sourceTree = "<group>"; };
@@ -356,7 +354,6 @@
 				3DB9B06E2745917A0031FCD1 /* PlanningView.swift */,
 				3DA9E2A82733158B00476227 /* AddRecipeView.swift */,
 				3DCFA86D272BA9D4009184DA /* RecipeDetailsView.swift */,
-				3DCFA86E272BA9D4009184DA /* RecipeView.swift */,
 			);
 			path = Planning;
 			sourceTree = "<group>";
@@ -642,7 +639,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DA9E2A32733145300476227 /* Quantity.swift in Sources */,
-				3DCFA872272BA9D4009184DA /* RecipeView.swift in Sources */,
 				3DB85DFC273338F900695D1F /* Ingredient.swift in Sources */,
 				3D1126BC272C467D0090888B /* MealViewerCardView.swift in Sources */,
 				9B74A080273EE4E900190398 /* Group.swift in Sources */,

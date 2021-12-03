@@ -534,6 +534,13 @@ class FirebaseInterface : ObservableObject {
         updateDB()
     }
     
+    func finishedShopping(checkedOffList: [Ingredient]) {
+        for ing in checkedOffList {
+            currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.remove(at: currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.firstIndex(of: ing)!)
+            currentUser!.pantryList.append(ing)
+        }
+    }
+    
     // Group Methods
     
     typealias FIRQuerySnapshotBlock = (QuerySnapshot?, Error?) -> Void

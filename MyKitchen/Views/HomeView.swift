@@ -82,7 +82,7 @@ struct HomeView: View {
 //                        }
                     }
 
-                    NavigationLink(destination: Text("I'm Shopping")){
+                    NavigationLink(destination: ShoppingView()){
                         Text("I'm Shopping")
                             .frame(width: 350, height: 60)
                             .background(Color("AirBlue"))

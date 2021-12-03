@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct JoinGroup: View {
+struct JoinGroupView: View {
     @State var groupSearch = ""
     var body: some View {
         ZStack{
@@ -38,6 +38,6 @@ struct JoinGroup: View {
 
 struct JoinGroup_Previews: PreviewProvider {
     static var previews: some View {
-        JoinGroup()
+        JoinGroupView()
     }
 }

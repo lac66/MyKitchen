@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct GroupsInitial: View {
+struct GroupsInitialView: View {
     @EnvironmentObject var fbInterface : FirebaseInterface
     @State private var showingGroupHome = false
     init() {
@@ -85,6 +85,6 @@ struct GroupsInitial: View {
 
 struct GroupsInitial_Previews: PreviewProvider {
     static var previews: some View {
-        GroupsInitial()
+        GroupsInitialView()
     }
 }

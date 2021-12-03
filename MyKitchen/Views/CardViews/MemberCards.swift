@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MemberCards: View {
-    let users: UserModel
+    let user: User
     var body: some View {
         HStack {
             ZStack {
@@ -27,7 +27,7 @@ struct MemberCards: View {
             .padding(.leading, 10)
             
             VStack(alignment: .leading) {
-                Text(users.name)
+                Text(user.name)
                     .font(.system(size: 24, weight: .bold, design: .default))
                     .padding(.bottom, 1)
 //                Text("info")
@@ -72,8 +72,8 @@ struct MemberCards: View {
 
 
 struct MemberCards_Previews: PreviewProvider {
-    static var user = UserModel.data[0]
+    static var user = User(id: "", email: "", name: "", pantryList: [Ingredient(id: "", text: "", quantity: 0.0, measure: "", food: "", weight: 0.0, foodCategory: "", imgUrl: "")], savedRecipes: [Recipe(id: "", name: "", imgUrl: "", sourceUrl: "", yield: 0.0, ingString: [""], ingredients: [Ingredient(id: "", text: "", quantity: 0.0, measure: "", food: "", weight: 0.0, foodCategory: "", imgUrl: "")], calories: 0.0, cuisineType: [""], mealType: [""], recipeInstructions: "")], weeklyUserData: [WeeklyUserData(startDate: Date(), personalList: [Ingredient(id: "", text: "", quantity: 0.0, measure: "", food: "", weight: 0.0, foodCategory: "", imgUrl: "")], recipesOfWeek: [DaysOfWeek.Sunday:[Recipe(id: "", name: "", imgUrl: "", sourceUrl: "", yield: 0.0, ingString: [""], ingredients: [Ingredient(id: "", text: "", quantity: 0.0, measure: "", food: "", weight: 0.0, foodCategory: "", imgUrl: "")], calories: 0.0, cuisineType: [""], mealType: [""], recipeInstructions: "")]])], groupID: "")
     static var previews: some View {
-        MemberCards(users: user)
+        MemberCards(user: user)
     }
 }

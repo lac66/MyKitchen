@@ -19,7 +19,7 @@ struct GroupsHomeView: View {
 //         }
         NavigationView{
             if(self.fbInterface.currentUser!.groupID == "" ){
-                GroupsInitial()
+                GroupsInitialView()
             }
             else{
                 ZStack{
@@ -57,7 +57,7 @@ struct GroupsHomeView: View {
                         }
                         .background(Color("OxfordBlue"))
                         HStack{
-                            NavigationLink(destination: GroupsInitial().onAppear{
+                            NavigationLink(destination: GroupsInitialView().onAppear{
                                 self.fbInterface.leaveGroup()
                             }.navigationBarBackButtonHidden(true)){
                                 Text("leave group")

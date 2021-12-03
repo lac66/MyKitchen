@@ -160,18 +160,6 @@ struct GroupingListView: View {
                     }
                 }
             }
-            .onAppear() {
-                for (index, ing) in ingredientList.enumerated() {
-                    if (ing.food.lowercased() == "salt") {
-                        print(index)
-                        print(ing.food)
-                        print(ing.id)
-                        print(ing.quantity)
-                        print(ing.unit!.str)
-                        print()
-                    }
-                }
-            }
             .frame(width: 350)
             .background(Color("AirBlue"))
             .cornerRadius(15)

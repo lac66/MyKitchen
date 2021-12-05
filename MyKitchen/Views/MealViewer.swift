@@ -46,6 +46,7 @@ struct MealViewerLayoutView: View {
     let recipesOfWeek: [DaysOfWeek:[Recipe]]
     
     var body: some View {
+        
         ForEach(0 ..< DaysOfWeek.allCases.count) { index in
             VStack {
                 Text(DaysOfWeek.allCases[index].str)
@@ -56,7 +57,17 @@ struct MealViewerLayoutView: View {
                 ScrollView(.horizontal, showsIndicators: true){
                     HStack{
                         ForEach(recipesOfWeek[DaysOfWeek.allCases[index]]!, id: \.id) { recipe in
-                            MealViewerCardView(recipe: recipe, selectedDay: DaysOfWeek.allCases[index])
+                            
+                            NavigationLink(
+                                destination: RecipeDetailsView(recipe: recipe),
+                                label: {
+                                    MealViewerCardView(recipe: recipe, selectedDay: DaysOfWeek.allCases[index])
+                                        
+//                                        .overlay(
+//                                        RoundedRectangle(cornerRadius: 15)
+//                                            .stroke(Color("OxfordBlue"), lineWidth: 2)
+//                                    )
+                                })
                         }
                     }
                 }

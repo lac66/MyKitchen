@@ -20,9 +20,7 @@ struct HomeView: View {
         
         navAppearance.backgroundColor = UIColor(named: "OxfordBlue")
         navAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor(named: "MintCream")!]
-//        let attributes = [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Light", size: 24)!]
-//
-//        UINavigationBar.appearance().titleTextAttributes = attributes
+        
         UINavigationBar.appearance().standardAppearance = navAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = navAppearance
     }
@@ -122,10 +120,6 @@ struct HomeView: View {
                     }
                 }
             }
-        }
-        .onAppear() {
-            var d = Date()
-            
         }
     }
 }

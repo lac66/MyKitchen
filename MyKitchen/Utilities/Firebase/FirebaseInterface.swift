@@ -110,7 +110,7 @@ class FirebaseInterface : ObservableObject {
         ]
         
         let weeklyUserData : [String: Any] = [
-            "startDate": Timestamp(date: Date()),
+            "startDate": Timestamp(date: self.setInitalStartDate()),
             "personalList": [],
             "recipesOfWeek": recipesOfWeek
         ]
@@ -183,6 +183,8 @@ class FirebaseInterface : ObservableObject {
         self.currentUser = User(id: auth.currentUser!.uid, email: userDb.email, name: userDb.name, pantryList: ingArray, savedRecipes: savedRecipes, weeklyUserData: wud, groupID: userDb.groupID)
         
         self.signedIn = true
+        
+        self.checkForWUDRefresh()
     }
     
     func convertApitoIngs(ingsApi: [IngredientApi]) -> [Ingredient] {
@@ -684,6 +686,92 @@ class FirebaseInterface : ObservableObject {
                 }
             }
             
+        }
+    }
+    
+    // Sunday Logic
+    
+    func checkForWUDRefresh() {
+        let today = Date()
+        let refreshDate = getNextSunday(date: currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].startDate, index: 0)
+        if (refreshDate == today) {
+            let recipesOfWeek : [DaysOfWeek:[Recipe]] = [
+                DaysOfWeek.Unassigned:[],
+                DaysOfWeek.Sunday:[],
+                DaysOfWeek.Monday:[],
+                DaysOfWeek.Tuesday:[],
+                DaysOfWeek.Wednesday:[],
+                DaysOfWeek.Thursday:[],
+                DaysOfWeek.Friday:[],
+                DaysOfWeek.Saturday:[]
+            ]
+            
+            let weeklyUserData = WeeklyUserData(startDate: today, personalList: [], recipesOfWeek: recipesOfWeek)
+            
+            currentUser!.weeklyUserData.append(weeklyUserData)
+            updateDB()
+        } else if (refreshDate < today) {
+            let recipesOfWeek : [DaysOfWeek:[Recipe]] = [
+                DaysOfWeek.Unassigned:[],
+                DaysOfWeek.Sunday:[],
+                DaysOfWeek.Monday:[],
+                DaysOfWeek.Tuesday:[],
+                DaysOfWeek.Wednesday:[],
+                DaysOfWeek.Thursday:[],
+                DaysOfWeek.Friday:[],
+                DaysOfWeek.Saturday:[]
+            ]
+            
+            let weeklyUserData = WeeklyUserData(startDate: self.getPrevSunday(date: today, index: 0), personalList: [], recipesOfWeek: recipesOfWeek)
+            
+            currentUser!.weeklyUserData.append(weeklyUserData)
+            updateDB()
+        } else {
+            return
+        }
+    }
+    
+    
+    
+    func setInitalStartDate() -> Date {
+        let today = Date()
+        if (isSunday(date: today)) {
+            return today
+        } else {
+            return getPrevSunday(date: today, index: 0)
+        }
+    }
+    
+    func isSunday(date: Date) -> Bool {
+        let cal = Calendar(identifier: .gregorian)
+        let dayOfWeek = cal.component(.weekday, from: date)
+        
+        if (dayOfWeek == 1) {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func getPrevSunday(date: Date, index: Int) -> Date {
+        let cal = Calendar(identifier: .gregorian)
+        let dayOfWeek = cal.component(.weekday, from: date)
+        
+        if dayOfWeek == 1 && index > 0 {
+            return date
+        } else {
+            return getPrevSunday(date: date - 86400, index: index + 1)
+        }
+    }
+    
+    func getNextSunday(date: Date, index: Int) -> Date {
+        let cal = Calendar(identifier: .gregorian)
+        let dayOfWeek = cal.component(.weekday, from: date)
+        
+        if dayOfWeek == 1 && index > 0 {
+            return date
+        } else {
+            return getNextSunday(date: date + 86400, index: index + 1)
         }
     }
     

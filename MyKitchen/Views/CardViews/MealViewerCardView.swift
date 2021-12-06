@@ -142,7 +142,7 @@ struct MealViewerCardView: View {
         fbInterface.updateUserRecipesOfWeek(initialDay: selectedDay, newDay: day, recipe: recipe)
     }
     
-    func deleteRecipe(){
+    func deleteRecipe() {
         fbInterface.deleteRecipeFromUserRecipesOfWeek(day: selectedDay, recipe: recipe)
     }
 }

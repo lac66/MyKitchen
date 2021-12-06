@@ -12,12 +12,18 @@ struct MealViewerCardView: View {
     let recipe: Recipe
     let tmpDay: DaysOfWeek
     @State private var showListSelection = false
-    @State var selectedDay: DaysOfWeek
+    @State var selectedDay: Int
     
     init(recipe: Recipe, selectedDay: DaysOfWeek) {
         self.recipe = recipe
-        self.selectedDay = selectedDay
         self.tmpDay = selectedDay
+        for (i, sd) in DaysOfWeek.allCases.enumerated() {
+            if (sd == selectedDay) {
+                self.selectedDay = i
+                break
+            }
+        }
+        self.selectedDay = 0
     }
     
     var body: some View {
@@ -43,35 +49,44 @@ struct MealViewerCardView: View {
                  }
                  */
                 
-                ZStack {
-                    Button("Select Day"){
-                        if (showListSelection) {
-                            //self.setFromDay()
-                            // add to day now
-                        }
-                        showListSelection.toggle()
-                        
+//                ZStack {
+//                    Button("Select Day"){
+//                        if (showListSelection) {
+//                            //self.setFromDay()
+//                            // add to day now
+//                        }
+//                        showListSelection.toggle()
+//
+//                    }
+//                    .frame(width: 20, height: 20)
+//                    .foregroundColor(Color("Camel"))
+//                    .cornerRadius(4)
+//
+//                    Image(systemName: "plus")
+//                }
+                
+                Picker(selection: $selectedDay, label: Text("Add"), content: { //}, selection: $selectedDay.onChange(changeDay)) {
+                    ForEach(0 ..< DaysOfWeek.allCases.count) { index in//, id: \.self
+                        Text(DaysOfWeek.allCases[index].str)
                     }
-                    .frame(width: 20, height: 20)
-                    .foregroundColor(Color("Camel"))
-                    .cornerRadius(4)
-                    
-                    Image(systemName: "plus")
+                })
+                .onChange(of: selectedDay) { newValue in
+                    changeDay(tag: selectedDay)
                 }
                 
-                if showListSelection {
-                    VStack {
-                        Picker("Choose a day to add the recipe to", selection: $selectedDay){ //}, selection: $selectedDay.onChange(changeDay)) {
-                            ForEach(DaysOfWeek.allCases) { day in//, id: \.self
-                                Text(day.rawValue).tag(day)
-                            }
-                        }.onChange(of: selectedDay, perform: { tag in
-                            changeDay(tag)
-                        })
-                    }
-                    .foregroundColor(Color("MintCream"))
-                    .frame(height: 60)
-                }
+//                if showListSelection {
+//                    VStack {
+//                        Picker("Choose a day to add the recipe to", selection: $selectedDay){ //}, selection: $selectedDay.onChange(changeDay)) {
+//                            ForEach(DaysOfWeek.allCases) { day in//, id: \.self
+//                                Text(day.rawValue).tag(day)
+//                            }
+//                        }.onChange(of: selectedDay) { newValue in
+//                            changeDay(tag: selectedDay)
+//                        })
+//                    }
+//                    .foregroundColor(Color("MintCream"))
+//                    .frame(height: 60)
+//                }
                 
             }
             .padding(.horizontal, 10.0)
@@ -88,9 +103,9 @@ struct MealViewerCardView: View {
         .cornerRadius(15)
     }
     
-    func changeDay(_ tag: DaysOfWeek) {
+    func changeDay(tag: Int) {
         print("Entered change Day")
-        fbInterface.updateUserRecipesOfWeek(initialDay: tmpDay, newDay: selectedDay, recipe: recipe)
+        fbInterface.updateUserRecipesOfWeek(initialDay: tmpDay, newDay: DaysOfWeek.allCases[tag], recipe: recipe)
     }
 }
 

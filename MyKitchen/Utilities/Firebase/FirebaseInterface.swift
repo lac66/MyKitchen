@@ -73,6 +73,11 @@ class FirebaseInterface : ObservableObject {
         let docRef = db.collection("accounts").document(auth.currentUser!.uid)
         
         docRef.getDocument { (document, error) in
+            guard document != nil, error == nil else {
+                print("Error: " + error!.localizedDescription)
+                self.signedIn = false
+                return
+            }
             let result = Result {
                 try document?.data(as: UserDB.self)
             }

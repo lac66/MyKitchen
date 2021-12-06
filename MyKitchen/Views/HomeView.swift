@@ -123,6 +123,10 @@ struct HomeView: View {
                 }
             }
         }
+        .onAppear() {
+            var d = Date()
+            
+        }
     }
 }
 

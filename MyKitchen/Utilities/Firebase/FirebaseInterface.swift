@@ -293,6 +293,22 @@ class FirebaseInterface : ObservableObject {
         updateDB()
     }
     
+    func deleteRecipeFromUserRecipesOfWeek(day: DaysOfWeek, recipe: Recipe){
+        var recipesOfWeek = getRecipesOfWeek()
+        var recipeDayList: [Recipe]
+        //remove from initial day
+        if recipesOfWeek[day] != nil {
+            recipeDayList = recipesOfWeek[day]!
+            if recipeDayList.firstIndex(of: recipe) != -1 {
+                let indexToRemove = recipeDayList.firstIndex(where: { $0.name == recipe.name })
+                recipeDayList.remove(at: indexToRemove!)
+                recipesOfWeek[day] = recipeDayList
+            }
+        }
+        currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].recipesOfWeek = recipesOfWeek
+        updateDB()
+    }
+    
     
     func addRecipeToWeeklyData(recipe: Recipe) {
         var wud = currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1]

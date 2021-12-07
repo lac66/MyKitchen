@@ -64,7 +64,7 @@ struct MealViewerLayoutView: View {
                                     MealViewerCardView(recipe: recipe, withURL: recipe.imgUrl, selectedDay: tmpDow)
                                         .overlay(
                                         RoundedRectangle(cornerRadius: 15)
-                                            .stroke(Color("OxfordBlue"), lineWidth: 2)
+                                            .stroke(Color("OxfordBlue"), lineWidth: 3)
                                         )
                                         .padding(.trailing)
                                         .padding(.bottom)

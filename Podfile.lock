@@ -332,12 +332,14 @@ PODS:
   - nanopb/decode (1.30906.0)
   - nanopb/encode (1.30906.0)
   - PromisesObjC (1.2.12)
+  - ToastViewSwift (1.0.4)
 
 DEPENDENCIES:
   - Firebase/Analytics
   - Firebase/Auth
   - Firebase/Firestore
   - FirebaseFirestoreSwift
+  - ToastViewSwift
 
 SPEC REPOS:
   trunk:
@@ -360,6 +362,7 @@ SPEC REPOS:
     - leveldb-library
     - nanopb
     - PromisesObjC
+    - ToastViewSwift
 
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
@@ -381,7 +384,8 @@ SPEC CHECKSUMS:
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
+  ToastViewSwift: d63718326476fc0ad0120130b12ae3c8cbf80b3e
 
-PODFILE CHECKSUM: e7b1acabc9e410fbcdc05ed0c5541c4ab384f916
+PODFILE CHECKSUM: f66560ae4cd64b20ead3290859dde43671919cd8
 
 COCOAPODS: 1.11.2

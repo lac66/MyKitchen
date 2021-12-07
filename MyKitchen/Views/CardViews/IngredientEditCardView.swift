@@ -7,6 +7,7 @@
 
 
 import SwiftUI
+import ToastViewSwift
 
 struct IngredientEditCardView: View {
     @EnvironmentObject var fbInterface: FirebaseInterface
@@ -17,6 +18,7 @@ struct IngredientEditCardView: View {
     @State var trashOrAdd: String
     @State var selectedUnit : Int
     @State var tmpAmt : Double
+    @State var tmpSelectedUnit: Int
     
     let isPersonalList: Bool
     let ingredient: Ingredient
@@ -24,6 +26,7 @@ struct IngredientEditCardView: View {
     init(ingredient : Ingredient, withURL url: String?, trashOrAdd: String, isPersonalList: Bool) {
         self.ingredient = ingredient
         self.tmpAmt = ingredient.quantity
+        self.tmpSelectedUnit = CustomUnit.allCases.firstIndex(of: ingredient.unit!)!
         self.trashOrAdd = trashOrAdd
         self.isPersonalList = isPersonalList
         self._selectedUnit = State(initialValue: CustomUnit.allCases.firstIndex(of: ingredient.unit!)!)
@@ -109,6 +112,8 @@ struct IngredientEditCardView: View {
                                 }
                             }
                             .onTapGesture(count: 1) {
+                                let toast = Toast.text("Quantity decremented", subtitle: "Double tap for 0.1, Long Press for 1")
+                                toast.show()
                                 if trashOrAdd == "trash" {
                                     if isPersonalList {
                                         fbInterface.decrementQuantity(ingredient: ingredient, amt: 0)
@@ -164,6 +169,8 @@ struct IngredientEditCardView: View {
                                 }
                             }
                             .onTapGesture(count: 1) {
+                                let toast = Toast.text("Quantity incremented", subtitle: "Double tap for 0.1, Long Press for 1")
+                                toast.show()
                                 if trashOrAdd == "trash" {
                                     if isPersonalList {
                                         fbInterface.incrementQuantity(ingredient: ingredient, amt: 0)
@@ -193,6 +200,7 @@ struct IngredientEditCardView: View {
                         if trashOrAdd == "trash" {
                             changeUnit(newUnit: CustomUnit.allCases[selectedUnit])
                         } else {
+                            tmpSelectedUnit = selectedUnit
                         }
                     }
                     
@@ -201,17 +209,23 @@ struct IngredientEditCardView: View {
                     Button {
                         if (trashOrAdd == "trash") {
                             if isPersonalList {
+                                let toast = Toast.text("Ingredient Deleted")
+                                toast.show()
                                 fbInterface.deleteIngredientFromPersonalList(ingredient: ingredient)
                             } else {
+                                let toast = Toast.text("Ingredient Deleted")
+                                toast.show()
                                 fbInterface.deleteIngredientFromPantryList(ingredient: ingredient)
                             }
                         } else {
                             if isPersonalList {
-                                let ing = Ingredient(id: ingredient.id, text: ingredient.text, quantity: tmpAmt, measure: CustomUnit.allCases[selectedUnit].str, food: ingredient.food, weight: ingredient.weight, foodCategory: ingredient.foodCategory, imgUrl: ingredient.imgUrl)
-                                print(ing)
-                                fbInterface.addIngredientToPersonalList(ingredient: Ingredient(id: ingredient.id, text: ingredient.text, quantity: tmpAmt, measure: CustomUnit.allCases[selectedUnit].str, food: ingredient.food, weight: ingredient.weight, foodCategory: ingredient.foodCategory, imgUrl: ingredient.imgUrl))
+                                let toast = Toast.text("Ingredient Added")
+                                toast.show()
+                                fbInterface.addIngredientToPersonalList(ingredient: Ingredient(id: ingredient.id, text: ingredient.text, quantity: tmpAmt, measure: CustomUnit.allCases[tmpSelectedUnit].str, food: ingredient.food, weight: ingredient.weight, foodCategory: ingredient.foodCategory, imgUrl: ingredient.imgUrl))
                             } else {
-                                fbInterface.addIngredientToPantryList(ingredient: Ingredient(id: ingredient.id, text: ingredient.text, quantity: tmpAmt, measure: CustomUnit.allCases[selectedUnit].str, food: ingredient.food, weight: ingredient.weight, foodCategory: ingredient.foodCategory, imgUrl: ingredient.imgUrl))
+                                let toast = Toast.text("Ingredient Added")
+                                toast.show()
+                                fbInterface.addIngredientToPantryList(ingredient: Ingredient(id: ingredient.id, text: ingredient.text, quantity: tmpAmt, measure: CustomUnit.allCases[tmpSelectedUnit].str, food: ingredient.food, weight: ingredient.weight, foodCategory: ingredient.foodCategory, imgUrl: ingredient.imgUrl))
                             }
                         }
                     } label: {

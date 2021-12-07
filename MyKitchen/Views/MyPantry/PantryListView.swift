@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ToastViewSwift
 
 struct PantryListView: View {
     @EnvironmentObject var fbInterface : FirebaseInterface
@@ -32,6 +33,9 @@ struct PantryListView: View {
                     VStack (alignment: .leading) {
                         Text("Pantry List")
                             .font(.system(size: 32, weight: .bold, design: .default))
+                            .onTapGesture {
+                                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                            }
                         
                         HStack {
                             Searchbar(placeholder: "Search here", isForRecipes: false, text: $searchText)
@@ -58,6 +62,8 @@ struct PantryListView: View {
                                 if (addButtonImg == "plus") {
                                     addButtonImg = "xmark"
                                     searchText = ""
+                                    let toast = Toast.text("Search Ingredients to Add")
+                                    toast.show()
                                 } else {
                                     addButtonImg = "plus"
                                     searchText = ""
@@ -127,25 +133,37 @@ struct PantryListView: View {
 
 struct PantryGroupingListView: View {
     @State var collapsed: [Bool]
+    @State var arrowTabArr: [String]
     let ingredientList: [Ingredient]
     
     init (ingredientList: [Ingredient]) {
         self.ingredientList = ingredientList
         
         var tmpArr: [Bool] = []
+        var tmpArr2: [String] = []
         for _ in IngType.allCases {
             tmpArr.append(true)
+            tmpArr2.append("arrowtriangle.down.fill")
         }
         self.collapsed = tmpArr
+        self.arrowTabArr = tmpArr2
     }
     
     var body: some View {
         ForEach(0 ..< IngType.allCases.count) { index in
             VStack {
-                Text(IngType.allCases[index].str)
-                    .foregroundColor(Color("MintCream"))
-                    .font(.system(size: 24, weight: .semibold, design: .default))
-                    .padding(5)
+                ZStack {
+                    HStack {
+                        Image(systemName: arrowTabArr[index])
+                            .padding(.leading)
+                        Spacer()
+                    }
+                    
+                    Text(IngType.allCases[index].str)
+                        .font(.system(size: 24, weight: .semibold, design: .default))
+                        .padding(5)
+                }
+                .foregroundColor(Color("MintCream"))
                 
                 if (collapsed[index]) {
                     ForEach(ingredientList, id: \.id) { ingredient in
@@ -166,8 +184,10 @@ struct PantryGroupingListView: View {
             .onTapGesture(count: 2) {
                 if (collapsed[index]) {
                     collapsed[index] = false
+                    arrowTabArr[index] = "arrowtriangle.right.fill"
                 } else {
                     collapsed[index] = true
+                    arrowTabArr[index] = "arrowtriangle.down.fill"
                 }
             }
         }

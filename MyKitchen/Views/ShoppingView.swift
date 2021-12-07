@@ -30,6 +30,9 @@ struct ShoppingView: View {
                     VStack (alignment: .leading) {
                         Text("Grocery List")
                             .font(.system(size: 32, weight: .bold, design: .default))
+                            .onTapGesture {
+                                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                            }
                         
                         Searchbar(placeholder: "Search here", isForRecipes: false, text: $searchText)
                             .frame(width: 350)
@@ -65,6 +68,8 @@ struct ShoppingListGroupingView: View {
     @EnvironmentObject var fbInterface: FirebaseInterface
     
     @State var collapsed: [Bool]
+    @State var arrowTabArr: [String]
+    
     @State var checkedOffBools: [Bool]
     @State var checkedOffIngredients: [Ingredient] = []
     
@@ -74,10 +79,13 @@ struct ShoppingListGroupingView: View {
         self.ingredientList = ingredientList
         
         var tmpArr: [Bool] = []
+        var tmpArr2: [String] = []
         for _ in IngType.allCases {
             tmpArr.append(true)
+            tmpArr2.append("arrowtriangle.down.fill")
         }
         self.collapsed = tmpArr
+        self.arrowTabArr = tmpArr2
         
         tmpArr.removeAll()
         for _ in ingredientList {
@@ -89,10 +97,18 @@ struct ShoppingListGroupingView: View {
     var body: some View {
         ForEach(0 ..< IngType.allCases.count) { index in
             VStack {
-                Text(IngType.allCases[index].str)
-                    .foregroundColor(Color("MintCream"))
-                    .font(.system(size: 24, weight: .semibold, design: .default))
-                    .padding(5)
+                ZStack {
+                    HStack {
+                        Image(systemName: arrowTabArr[index])
+                            .padding(.leading)
+                        Spacer()
+                    }
+                    
+                    Text(IngType.allCases[index].str)
+                        .font(.system(size: 24, weight: .semibold, design: .default))
+                        .padding(5)
+                }
+                .foregroundColor(Color("MintCream"))
                 
                 if (collapsed[index]) {
                     ForEach(ingredientList, id: \.id) { ingredient in
@@ -129,8 +145,10 @@ struct ShoppingListGroupingView: View {
             .onTapGesture(count: 2) {
                 if (collapsed[index]) {
                     collapsed[index] = false
+                    arrowTabArr[index] = "arrowtriangle.right.fill"
                 } else {
                     collapsed[index] = true
+                    arrowTabArr[index] = "arrowtriangle.down.fill"
                 }
             }
         }

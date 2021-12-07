@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ToastViewSwift
 
 struct RecipeCardView: View {
     @EnvironmentObject var fbInterface: FirebaseInterface
@@ -53,10 +54,12 @@ struct RecipeCardView: View {
             
             VStack(alignment: .leading) {
                 Text(recipe.name)
-                    .font(.system(size: 24, weight: .bold, design: .default))
+                    .font(.system(size: 20, weight: .bold, design: .default))
                     .padding(.bottom, 1)
-//                Text(recipe.cookTime)
-//                    .font(.system(size: 16, weight: .regular, design: .default))
+                
+                let yieldText: String = String(format: "%.1f", recipe.yield)
+                Text("Yield: \(yieldText)")
+                    .font(.system(size: 16, weight: .regular, design: .default))
 //                Text(recipe.difficulty)
 //                    .font(.system(size: 16, weight: .regular, design: .default))
             }
@@ -69,10 +72,14 @@ struct RecipeCardView: View {
                 
                 Button {
                     // saved to favorites
-                    if (heartImg == "heart.fill") {
-                        fbInterface.unsaveRecipe(recipe: recipe)
-                    } else {
+                    if (heartImg == "heart") {
                         fbInterface.saveRecipe(recipe: recipe)
+                        let toast = Toast.text("Recipe Saved")
+                        toast.show()
+                    } else {
+                        fbInterface.unsaveRecipe(recipe: recipe)
+                        let toast = Toast.text("Recipe Unsaved")
+                        toast.show()
                     }
                 } label: {
                     Image(systemName: heartImg)
@@ -83,6 +90,8 @@ struct RecipeCardView: View {
                 
                 Button {
                     fbInterface.addRecipeToWeeklyData(recipe: recipe)
+                    let toast = Toast.text("Recipe added to Personal List")
+                    toast.show()
                 } label: {
                     Image(systemName: "plus")
                         .frame(width: 20, height: 20)

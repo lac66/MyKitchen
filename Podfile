@@ -10,6 +10,7 @@ target 'MyKitchen' do
   pod 'Firebase/Firestore'
   pod 'FirebaseFirestoreSwift'
   pod 'Firebase/Analytics'
+  pod 'ToastViewSwift'
 
   target 'MyKitchenTests' do
     inherit! :search_paths

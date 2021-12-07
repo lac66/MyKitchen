@@ -18,17 +18,17 @@ struct RecipeDetailsView: View {
             
             VStack {
                 ScrollView {
-                    VStack (alignment: .leading) {
+                    VStack (alignment: .center) {
                         Text(recipe.name)
                             .navigationBarTitle("Recipe Details", displayMode: .inline)
+                            .frame(width: 350)
                             .font(.system(size: 32, weight: .bold, design: .default))
-                            .padding(.leading, 25)
                         
                         ZStack {
                             Rectangle()
                                 .frame(width: 350, height: 350)
                                 .foregroundColor(Color("Camel"))
-                                .cornerRadius(30)
+                                .cornerRadius(20)
                             
                             if recipe.imgUrl != nil {
                                 if #available(iOS 15.0, *) {
@@ -38,7 +38,7 @@ struct RecipeDetailsView: View {
                                         ProgressView()
                                     }
                                     .frame(width: 325, height: 325)
-                                    .cornerRadius(25)
+                                    .cornerRadius(20)
                                 } else {
                                     // Fallback on earlier versions
                                     
@@ -46,17 +46,17 @@ struct RecipeDetailsView: View {
                                         Image(uiImage: recipe.img!)
                                             .resizable()
                                             .frame(width: 325, height: 325)
-                                            .cornerRadius(25)
+                                            .cornerRadius(20)
                                     } else {
                                         Text("No Image Found")
                                             .frame(width: 325, height: 325)
-                                            .cornerRadius(25)
+                                            .cornerRadius(20)
                                     }
                                 }
                             } else {
                                 Text("No Image Found")
                                     .frame(width: 325, height: 325)
-                                    .cornerRadius(25)
+                                    .cornerRadius(20)
                             }
                         }
                         
@@ -64,7 +64,63 @@ struct RecipeDetailsView: View {
                             Rectangle()
                                 .frame(width: 350)
                                 .foregroundColor(Color("AirBlue"))
-                                .cornerRadius(30)
+                                .cornerRadius(20)
+                            
+                            HStack {
+                                let yieldText: String = String(format: "%.1f", recipe.yield)
+                                Text("Yield:\t")
+                                    .font(.system(size: 24, weight: .semibold, design: .default))
+                                Text(yieldText)
+                                    .font(.system(size: 22, weight: .regular, design: .default))
+                            }
+                            .padding()
+                        }
+                        
+                        if recipe.cuisineType != nil {
+                            ZStack {
+                                Rectangle()
+                                    .frame(width: 350)
+                                    .foregroundColor(Color("AirBlue"))
+                                    .cornerRadius(20)
+                                
+                                VStack {
+                                    Text("Cuisine Type")
+                                        .padding(.bottom, 5)
+                                        .font(.system(size: 24, weight: .semibold, design: .default))
+                                    
+                                    ForEach(recipe.cuisineType!, id: \.self) { type in
+                                        Text(type.capitalized)
+                                    }
+                                }
+                                .padding(12)
+                            }
+                        }
+                        
+                        if recipe.mealType != nil {
+                            ZStack {
+                                Rectangle()
+                                    .frame(width: 350)
+                                    .foregroundColor(Color("AirBlue"))
+                                    .cornerRadius(20)
+                                
+                                VStack {
+                                    Text("Meal Type")
+                                        .padding(.bottom, 5)
+                                        .font(.system(size: 24, weight: .semibold, design: .default))
+                                    
+                                    ForEach(recipe.mealType!, id: \.self) { type in
+                                        Text(type.capitalized)
+                                    }
+                                }
+                                .padding(12)
+                            }
+                        }
+                        
+                        ZStack {
+                            Rectangle()
+                                .frame(width: 350)
+                                .foregroundColor(Color("AirBlue"))
+                                .cornerRadius(20)
                             
                             VStack {
                                 Text("Ingredients")
@@ -91,7 +147,7 @@ struct RecipeDetailsView: View {
                             Rectangle()
                                 .frame(width: 350)
                                 .foregroundColor(Color("AirBlue"))
-                                .cornerRadius(30)
+                                .cornerRadius(20)
                             
                             VStack (alignment: .center) {
                                 Text("Instructions")
@@ -114,7 +170,6 @@ struct RecipeDetailsView: View {
                 
                 VStack {
                     Button("Add to List") {
-                        // add to personal List
                         fbInterface.addRecipeToWeeklyData(recipe: recipe)
                     }
                     .frame(width: 350, height: 40)

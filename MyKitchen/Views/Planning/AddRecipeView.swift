@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ToastViewSwift
 
 struct AddRecipeView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -175,7 +176,7 @@ struct AddRecipeView: View {
                                         hasErrorAddIngredient = true
                                     } else if (tmpAmtInput! < 0) {
                                         errorMsg = "Quantity input must be positive number"
-                                    } else if (ingredientNameInput.isEmpty) {
+                                    } else if (ingredientNameInput.isEmpty || ingredientNameInput == " ") {
                                         errorMsg = "Ingredient name must have a value"
                                         hasErrorAddIngredient = true
                                     } else {
@@ -270,6 +271,8 @@ struct AddRecipeView: View {
                             } else {
                                 let newRecipe = Recipe(id: UUID().uuidString, name: nameInput, imgUrl: nil, sourceUrl: nil, yield: tmpYieldInput!, ingString: nil, ingredients: ingredients, calories: nil, cuisineType: nil, mealType: nil, recipeInstructions: recipeInstructionsInput)
                                 fbInterface.saveRecipe(recipe: newRecipe)
+                                let toast = Toast.text("Recipe Saved")
+                                toast.show()
                                 self.presentationMode.wrappedValue.dismiss()
                             }
                         } label: {
@@ -305,8 +308,12 @@ struct AddRecipeView: View {
                         return
                     }
                 }
-                hasErrorAddIngredient = true
+                print("no ingredient")
                 errorMsg = "Ingredient not found"
+                hasErrorAddIngredient = true
+                amtInput = ""
+                selectedQty = 14
+                ingredientNameInput = ""
             }
         }
     }

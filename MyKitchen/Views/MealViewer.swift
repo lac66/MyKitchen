@@ -21,13 +21,11 @@ struct MealViewer: View {
             
             ZStack{
                 Color("OxfordBlue").edgesIgnoringSafeArea(.all)
-                VStack {
+                
+                VStack (alignment: .leading) {
                     //Header
                     Text("Meal Viewer")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .foregroundColor(Color("MintCream"))
-                        .multilineTextAlignment(.center)
+                        .font(.system(size: 32, weight: .bold, design: .default))
                     
                     //Days of the week
                     ScrollView(.vertical, showsIndicators: true) {
@@ -37,6 +35,7 @@ struct MealViewer: View {
                         Spacer()
                     }.navigationBarHidden(true)
                 }
+                .foregroundColor(Color("MintCream"))
             }
         }
     }
@@ -49,28 +48,31 @@ struct MealViewerLayoutView: View {
         
         ForEach(0 ..< DaysOfWeek.allCases.count) { index in
             VStack {
-                Text(DaysOfWeek.allCases[index].str)
+                let tmpDow = DaysOfWeek.allCases[index]
+                Text(tmpDow.str)
                     .foregroundColor(Color("MintCream"))
                     .font(.system(size: 24, weight: .semibold, design: .default))
                     .padding(5)
                 
                 ScrollView(.horizontal, showsIndicators: true){
-                    HStack{
-                        ForEach(recipesOfWeek[DaysOfWeek.allCases[index]]!, id: \.id) { recipe in
+                    HStack(spacing: 5) {
+                        ForEach(recipesOfWeek[tmpDow]!, id: \.id) { recipe in
                             
                             NavigationLink(
                                 destination: RecipeDetailsView(recipe: recipe),
                                 label: {
-                                    MealViewerCardView(recipe: recipe, selectedDay: DaysOfWeek.allCases[index])
-                                        
-//                                        .overlay(
-//                                        RoundedRectangle(cornerRadius: 15)
-//                                            .stroke(Color("OxfordBlue"), lineWidth: 2)
-//                                    )
+                                    MealViewerCardView(recipe: recipe, withURL: recipe.imgUrl, selectedDay: tmpDow)
+                                        .overlay(
+                                        RoundedRectangle(cornerRadius: 15)
+                                            .stroke(Color("OxfordBlue"), lineWidth: 2)
+                                        )
+                                        .padding(.trailing)
+                                        .padding(.bottom)
                                 })
                         }
                     }
                 }
+                .padding(.leading, 10)
             }
             .frame(width: 350)
             .background(Color("AirBlue"))

@@ -63,7 +63,7 @@ struct ShoppingCardView: View {
                 .padding(.leading, 10)
                 
                 VStack(alignment: .leading) {
-                    Text(ingredient.food)
+                    Text(ingredient.food.capitalized)
                         .frame(width: 210, height: 30, alignment: .leading)
                         .font(.system(size: 18, weight: .regular, design: .default))
                         .padding(.leading, 10)
@@ -75,6 +75,14 @@ struct ShoppingCardView: View {
                             .frame(width: 60)
                         Text(ingredient.unit!.str)
                             .frame(width: 50, alignment: .leading)
+                        
+                        Spacer()
+                        
+                        Image(systemName: "strikethrough")
+                            .frame(width: 20, height: 20)
+                            .background(Color("Camel"))
+                            .cornerRadius(4)
+                            .padding(.trailing)
                     }
                     
                 }

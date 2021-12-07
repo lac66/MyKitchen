@@ -29,9 +29,12 @@ struct PlanningView: View {
                 Color("OxfordBlue").edgesIgnoringSafeArea(.all)
                 
                 VStack {
-                    VStack (alignment: .leading) {
+                    VStack (alignment: .leading, spacing: 10) {
                         Text("Planning")
                             .font(.system(size: 32, weight: .bold, design: .default))
+                            .onTapGesture {
+                                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                            }
         
                         Searchbar(placeholder: "Search here", isForRecipes: true, text: $searchText)
                             .onChange(of: searchText) { newValue in
@@ -58,7 +61,7 @@ struct PlanningView: View {
                                 searchText = ""
                             }
                             .frame(width: 160, height: 30)
-                            .background(Color("Camel"))
+                            .background(isExploring ? Color("Camel") : Color("CamelDark"))
                             
                             Button("Explore") {
                                 print("explore")
@@ -66,7 +69,7 @@ struct PlanningView: View {
                                 searchText = ""
                             }
                             .frame(width: 160, height: 30)
-                            .background(Color("Camel"))
+                            .background(isExploring ? Color("CamelDark") : Color("Camel"))
                             
                             NavigationLink(
                                 destination: AddRecipeView().environmentObject(eInterface),
@@ -106,19 +109,35 @@ struct PlanningView: View {
                                         .foregroundColor(Color("MintCream"))
                                 } else if !searchText.isEmpty {
                                     ForEach(fbInterface.searchSavedRecipes(text: searchText), id: \.id) { recipe in
-                                        NavigationLink(
-                                            destination: RecipeDetailsView(recipe: recipe),
-                                            label: {
-                                                RecipeCardView(recipe: recipe, withURL: recipe.imgUrl, heartImg: "heart.fill")
-                                            })
+                                        if recipe.recipeInstructions != nil {
+                                            NavigationLink(
+                                                destination: RecipeDetailsView(recipe: recipe),
+                                                label: {
+                                                    RecipeCardView(recipe: recipe, withURL: recipe.imgUrl, heartImg: "trash")
+                                                })
+                                        } else {
+                                            NavigationLink(
+                                                destination: RecipeDetailsView(recipe: recipe),
+                                                label: {
+                                                    RecipeCardView(recipe: recipe, withURL: recipe.imgUrl, heartImg: "heart.fill")
+                                                })
+                                        }
                                     }
                                 } else {
                                     ForEach(fbInterface.currentUser!.savedRecipes, id: \.id) { recipe in
-                                        NavigationLink(
-                                            destination: RecipeDetailsView(recipe: recipe),
-                                            label: {
-                                                RecipeCardView(recipe: recipe, withURL: recipe.imgUrl, heartImg: "heart.fill")
-                                            })
+                                        if recipe.recipeInstructions != nil {
+                                            NavigationLink(
+                                                destination: RecipeDetailsView(recipe: recipe),
+                                                label: {
+                                                    RecipeCardView(recipe: recipe, withURL: recipe.imgUrl, heartImg: "trash")
+                                                })
+                                        } else {
+                                            NavigationLink(
+                                                destination: RecipeDetailsView(recipe: recipe),
+                                                label: {
+                                                    RecipeCardView(recipe: recipe, withURL: recipe.imgUrl, heartImg: "heart.fill")
+                                                })
+                                        }
                                     }
                                 }
                             }

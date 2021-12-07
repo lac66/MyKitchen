@@ -12,6 +12,9 @@ struct SignInView: View {
     @State var emailInput : String = ""
     @State var passwordInput : String = ""
     
+    @State var localErrMsg : String = ""
+    @State var hasForgotPwd : Bool = false
+    
     init() {
         navAppearance.backgroundColor = UIColor(named: "OxfordBlue")
         navAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor(named: "Camel") as Any]
@@ -59,6 +62,9 @@ struct SignInView: View {
                         Text("Sign In")
                             .foregroundColor(Color("MintCream"))
                     }
+                    .alert(isPresented: $fbInterface.authError) {
+                        Alert(title: Text("Sign In Error"), message: Text(fbInterface.errorMsg), dismissButton: .default(Text("Ok")))
+                    }
                     .frame(width: 300, height: 60)
                     .background(Color("Camel"))
                     .cornerRadius(15)
@@ -66,13 +72,16 @@ struct SignInView: View {
                     
                     
                     // todo send somewhere else
-                    NavigationLink(
-                        destination: SignUpView(),
-                        label: {
-                            Text("Forgot Password?")
-                                .foregroundColor(Color("MintCream"))
-                        }
-                    )
+                    Button {
+                        localErrMsg = "Sorry. No functionality to change password yet. Create a new account"
+                        hasForgotPwd = true
+                    } label: {
+                        Text("Forgot Password?")
+                            .foregroundColor(Color("MintCream"))
+                    }
+                    .alert(isPresented: $hasForgotPwd) {
+                        Alert(title: Text("Forgot Password?"), message: Text(localErrMsg), dismissButton: .default(Text("Ok")))
+                    }
                     .frame(width: 300, height: 60)
                     .cornerRadius(15)
                 }

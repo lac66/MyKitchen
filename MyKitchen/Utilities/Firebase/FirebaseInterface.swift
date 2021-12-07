@@ -17,6 +17,9 @@ class FirebaseInterface : ObservableObject {
     @Published var signedIn = false
     @Published var currentUser : User? = nil
     
+    @Published var authError = false
+    @Published var errorMsg = ""
+    
     var changeCheck: DispatchWorkItem?
     
     var isSignedIn : Bool {
@@ -28,6 +31,9 @@ class FirebaseInterface : ObservableObject {
     func signIn(email: String, password: String) {
         auth.signIn(withEmail: email, password: password) { [weak self] result, error in
             guard result != nil, error == nil else {
+                print("Email or password is incorrect")
+                self?.authError = true
+                self?.errorMsg = error!.localizedDescription
                 return
             }
             
@@ -39,7 +45,10 @@ class FirebaseInterface : ObservableObject {
     func signUp(name: String, email: String, password: String) {
         auth.createUser(withEmail: email, password: password) { [weak self] result, error in
             guard result != nil, error == nil else {
+                print("Error creating account")
                 print(error!.localizedDescription)
+                self?.authError = true
+                self?.errorMsg = error!.localizedDescription
                 return
             }
             
@@ -156,7 +165,7 @@ class FirebaseInterface : ObservableObject {
             
             self.objectWillChange.send()
         }
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: changeCheck!)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: changeCheck!)
     }
     
     //    func getRealtimePersonalList() {

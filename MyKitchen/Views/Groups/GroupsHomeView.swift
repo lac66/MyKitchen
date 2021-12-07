@@ -18,10 +18,7 @@ struct GroupsHomeView: View {
 //            Text("Hello")
 //         }
         NavigationView{
-            if(self.fbInterface.currentUser!.groupID == "" ){
-                GroupsInitialView()
-            }
-            else{
+            if(self.fbInterface.inGroup() || self.fbInterface.currentUser!.groupID != "" ){
                 ZStack{
 //            Text(fbInterface.currentUser?.groupID ?? "None found")
                     Color("OxfordBlue")
@@ -33,6 +30,7 @@ struct GroupsHomeView: View {
                                 Text("Group homepage")
                                 Text("Current user group ID: ")
                                 Text(self.fbInterface.currentUser!.groupID!)
+//                                Text(self.fbInterface.getGroupID())
                             }
                         }
                         .foregroundColor(Color("MintCream"))
@@ -63,13 +61,15 @@ struct GroupsHomeView: View {
                                 Text("leave group")
                             }
                             .foregroundColor(Color("MintCream"))
-                            NavigationLink(destination: GroupsHomeView()){
+                            NavigationLink(destination: GroupsCardHolderView()){
                                 Text("Edit group")
                             }
                         }
                     }
                     
                 }
+            } else {
+                GroupsInitialView()
             }
         }
         .navigationBarHidden(true)

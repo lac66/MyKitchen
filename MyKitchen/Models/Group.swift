@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Groups {
+struct Group {
     let groupID : String
     var groupList : [Ingredient]
     let leaderID : String

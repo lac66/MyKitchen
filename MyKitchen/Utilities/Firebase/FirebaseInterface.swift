@@ -9,6 +9,7 @@ import Foundation
 import FirebaseAuth
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import SwiftUI
 
 class FirebaseInterface : ObservableObject {
     let auth = Auth.auth()
@@ -16,6 +17,7 @@ class FirebaseInterface : ObservableObject {
     
     @Published var signedIn = false
     @Published var currentUser : User? = nil
+    @Published var currentGroup : Group? = nil
     
     @Published var authError = false
     @Published var errorMsg = ""
@@ -64,7 +66,7 @@ class FirebaseInterface : ObservableObject {
     func signOut () -> Bool {
         do {
             try Auth.auth().signOut()
-//            self.currentUser = nil
+            //            self.currentUser = nil
             self.signedIn = false
             return true
         } catch {
@@ -95,7 +97,9 @@ class FirebaseInterface : ObservableObject {
             case .success(let user):
                 if let user = user {
                     self.convertUserDBtoUser(userDb: user)
-                    // groupID != nil get group
+                    if(!user.groupID.isEmpty) {
+                        self.getGroup(groupID: user.groupID)
+                    }
                 } else {
                     // let user know eventually
                     print("document does not exist")
@@ -299,7 +303,7 @@ class FirebaseInterface : ObservableObject {
         recipeDayList = recipesOfWeek[newDay]!
         recipeDayList.append(recipe)
         recipesOfWeek[newDay] = recipeDayList
-
+        
         currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].recipesOfWeek = recipesOfWeek
         updateDB()
     }
@@ -515,15 +519,15 @@ class FirebaseInterface : ObservableObject {
     
     func incrementQuantityPantry(ingredient: Ingredient, amt: Int) {
         switch amt {
-            case 0:
-                print("single tap")
-                currentUser!.pantryList[currentUser!.pantryList.firstIndex(of: ingredient)!].quantity += 0.01
-            case 1:
-                print("double tap")
-                currentUser!.pantryList[currentUser!.pantryList.firstIndex(of: ingredient)!].quantity += 0.1
-            default:
-                print("long press")
-                currentUser!.pantryList[currentUser!.pantryList.firstIndex(of: ingredient)!].quantity += 1.0
+        case 0:
+            print("single tap")
+            currentUser!.pantryList[currentUser!.pantryList.firstIndex(of: ingredient)!].quantity += 0.01
+        case 1:
+            print("double tap")
+            currentUser!.pantryList[currentUser!.pantryList.firstIndex(of: ingredient)!].quantity += 0.1
+        default:
+            print("long press")
+            currentUser!.pantryList[currentUser!.pantryList.firstIndex(of: ingredient)!].quantity += 1.0
         }
         
         updateDB()
@@ -531,15 +535,15 @@ class FirebaseInterface : ObservableObject {
     
     func decrementQuantityPantry(ingredient: Ingredient, amt: Int) {
         switch amt {
-            case 0:
-                print("single tap")
-                currentUser!.pantryList[currentUser!.pantryList.firstIndex(of: ingredient)!].quantity -= 0.01
-            case 1:
-                print("double tap")
-                currentUser!.pantryList[currentUser!.pantryList.firstIndex(of: ingredient)!].quantity -= 0.1
-            default:
-                print("long press")
-                currentUser!.pantryList[currentUser!.pantryList.firstIndex(of: ingredient)!].quantity -= 1.0
+        case 0:
+            print("single tap")
+            currentUser!.pantryList[currentUser!.pantryList.firstIndex(of: ingredient)!].quantity -= 0.01
+        case 1:
+            print("double tap")
+            currentUser!.pantryList[currentUser!.pantryList.firstIndex(of: ingredient)!].quantity -= 0.1
+        default:
+            print("long press")
+            currentUser!.pantryList[currentUser!.pantryList.firstIndex(of: ingredient)!].quantity -= 1.0
         }
         
         updateDB()
@@ -577,6 +581,34 @@ class FirebaseInterface : ObservableObject {
     
     typealias FIRQuerySnapshotBlock = (QuerySnapshot?, Error?) -> Void
     
+    func getGroup(groupID: String) {
+        let docRef = db.collection("groups").document(groupID)
+        docRef.getDocument { (document, error) in
+            let result = Result {
+                try document?.data(as: GroupDB.self)
+            }
+            switch result {
+            case .success(let group):
+                if let group = group {
+                    self.convertGroupDB(groupDB: group)
+                } else {
+                    // let user know eventually
+                    print("document does not exist")
+                }
+            case .failure(let error):
+                print("Error decoding user: \(error)")
+            }
+        }
+    }
+    
+    func convertUserDBToUserGroups(userDB: UserDB) -> User {
+        return User(id: userDB.id!, email: userDB.email, name: userDB.name, pantryList: [], savedRecipes: [], weeklyUserData: [], groupID: userDB.groupID)
+    }
+    
+    func convertGroupDB(groupDB: GroupDB) {
+        
+    }
+    
     func createGroup() {
         print(self.currentUser!.groupID!)
         if(self.currentUser!.groupID != ""){
@@ -586,75 +618,55 @@ class FirebaseInterface : ObservableObject {
         } else {
             let leaderID = currentUser?.id
             let groupID = UUID().uuidString
-            var group = Groups(groupID: groupID, groupList: [], leaderID: currentUser!.id, members: [])
+            var members = [User]()
+            members.append(User(id: self.currentUser!.id, email: self.currentUser!.email, name: self.currentUser!.name, pantryList: self.currentUser!.pantryList, savedRecipes: self.currentUser!.savedRecipes, weeklyUserData: self.currentUser!.weeklyUserData, groupID: groupID))
+            
             let g : [String: Any] = [
                 "groupID": groupID,
                 "groupList": [],
                 "leaderID": leaderID ?? "No ID found",
-                "members": group.members
+                "members": [User]()
             ]
+            
             db.collection("groups").document(groupID).setData(g) { err in
                 if let err = err {
                     print("Error writing document: \(err)")
                 } else {
                     print("Document successfully written!")
+                    var na = String()
+                    var em = String()
+                    for mem in members {
+                        na = mem.name
+                        em = mem.email
+                    }
+                    let m : [String: Any] = [
+                        "name": na,
+                        "email": em
+                    ]
+                    self.db.collection("groups").document(groupID).updateData(["members" : m])
                     self.currentUser?.groupID = groupID
                     self.updateDB()
                     
                     let dbRef = self.db.collection("groups").document(groupID).documentID
                     
                     self.updateDB()
-                    print("<---- DBREF ---->")
-                    print(dbRef)
-                    print("<--------------->")
-                    print(self.currentUser?.groupID ?? "No groupID")
-                    print("<--------------->")
+                    
                 }
+                
             }
         }
         
     }
     
     func getGroupID() -> String {
-        let docRef = self.db.collection("groups").document().documentID
         print("in getGroupID")
-        print(docRef)
+        let docRef = self.db.collection("groups").document(self.currentUser!.groupID!).documentID
         return docRef
-        
-        //        docRef.getDocument { (document, error) in
-        //            let result = Result {
-        //                try document?.data(as: Group)
-        //            }
-        //
-        //            switch result {
-        //                case .success(let user):
-        //                    if let user = user {
-        //                        print(user)
-        //                        self.convertUserDBtoUser(userDb: user)
-        //                        // groupID != nil get group
-        //                    } else {
-        //                        // let user know eventually
-        //                        print("document does not exist")
-        //                    }
-        //                case .failure(let error):
-        //                    print("Error decoding user: \(error)")
-        //            }
-        //        }
     }
     
     func inGroup() -> Bool {
         print("in isgroup()")
-        //        db.collection("groups").whereField("leaderID", isEqualTo: self.currentUser?.id)
-        //            .getDocuments() { (querySnapshot, err) in
-        //                if let err = err {
-        //                    print("Error getting documents: \(err)")
-        //                } else {
-        //                    for document in querySnapshot!.documents {
-        //                        print("\(document.documentID) => \(document.data())")
-        //                    }
-        //                }
-        //        }
-        if(self.currentUser?.groupID == nil){
+        if(self.currentUser!.groupID == "" || self.currentUser!.groupID == nil){
             return false
         }
         else {
@@ -670,21 +682,14 @@ class FirebaseInterface : ObservableObject {
         print(self.currentUser?.groupID ?? "No groupID")
     }
     
-    //    let docRef = db.collection("users").document(name)
-    //
-    //           docRef.getDocument(source: .cache) { (document, error) in
-    //               if let document = document {
-    //                   let property = document.get(field)
-    //               } else {
-    //                   print("Document does not exist in cache")
-    //               }
-    
     func setMembers(user: User){
         
     }
     
-    func getMember(id: String) {
+    func getMember(id: String) -> String{
+        print("getting members")
         let docRef = db.collection("groups").document(id)
+        
         if(self.currentUser?.groupID == id) {
             docRef.getDocument(source: .cache) { (document, err) in
                 if let document = document {
@@ -694,8 +699,8 @@ class FirebaseInterface : ObservableObject {
                     print("Document does not exist")
                 }
             }
-            
         }
+        return "outside"
     }
     
     // Sunday Logic

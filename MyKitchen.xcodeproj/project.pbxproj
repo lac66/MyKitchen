@@ -56,6 +56,7 @@
 		9B99FE75272B2344009E6B62 /* MemberCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B99FE74272B2344009E6B62 /* MemberCards.swift */; };
 		9B99FE7D272B6539009E6B62 /* GroupsHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B99FE7C272B6538009E6B62 /* GroupsHomeView.swift */; };
 		9B99FE83272B991C009E6B62 /* SmallMemberCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B99FE82272B991C009E6B62 /* SmallMemberCards.swift */; };
+		9BF2D00927601750009AFD5A /* GroupDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF2D00827601750009AFD5A /* GroupDB.swift */; };
 		A327A1D6272C688F001B7627 /* DaysOfWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = A327A1D5272C688F001B7627 /* DaysOfWeek.swift */; };
 		B878B5EE18D3D1E190E83BF6 /* Pods_MyKitchen_MyKitchenUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F87F976E49BE49EE86B6CBBC /* Pods_MyKitchen_MyKitchenUITests.framework */; };
 /* End PBXBuildFile section */
@@ -135,6 +136,7 @@
 		9B99FE74272B2344009E6B62 /* MemberCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCards.swift; sourceTree = "<group>"; };
 		9B99FE7C272B6538009E6B62 /* GroupsHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsHomeView.swift; sourceTree = "<group>"; };
 		9B99FE82272B991C009E6B62 /* SmallMemberCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallMemberCards.swift; sourceTree = "<group>"; };
+		9BF2D00827601750009AFD5A /* GroupDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDB.swift; sourceTree = "<group>"; };
 		A327A1D5272C688F001B7627 /* DaysOfWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysOfWeek.swift; sourceTree = "<group>"; };
 		B1E867A9A5F0CD6BE5AEB143 /* Pods-MyKitchen.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyKitchen.debug.xcconfig"; path = "Target Support Files/Pods-MyKitchen/Pods-MyKitchen.debug.xcconfig"; sourceTree = "<group>"; };
 		D65EF92E8891D9C3813721AF /* Pods_MyKitchen.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyKitchen.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -208,6 +210,7 @@
 				3D7D2ACC27350A7900153328 /* FirebaseInterface.swift */,
 				3D934C6B2738CA8C005552B4 /* UserDB.swift */,
 				3D934C6F2738CC94005552B4 /* WeeklyUserDataDB.swift */,
+				9BF2D00827601750009AFD5A /* GroupDB.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -647,6 +650,7 @@
 				3D7D29B52758678300B94ECA /* ShoppingCardView.swift in Sources */,
 				9B74A080273EE4E900190398 /* Group.swift in Sources */,
 				3D5557CD2719E355009D5E7D /* RecipeCardView.swift in Sources */,
+				9BF2D00927601750009AFD5A /* GroupDB.swift in Sources */,
 				3D7D2ACD27350A7900153328 /* FirebaseInterface.swift in Sources */,
 				3DB914B72733B0C100549E66 /* LoginPageView.swift in Sources */,
 				3DCFA871272BA9D4009184DA /* RecipeDetailsView.swift in Sources */,

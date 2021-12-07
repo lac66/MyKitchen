@@ -63,10 +63,12 @@ struct MealViewerLayoutView: View {
                                 label: {
                                     MealViewerCardView(recipe: recipe, selectedDay: DaysOfWeek.allCases[index])
                                         
-//                                        .overlay(
-//                                        RoundedRectangle(cornerRadius: 15)
-//                                            .stroke(Color("OxfordBlue"), lineWidth: 2)
-//                                    )
+                                        .overlay(
+                                        RoundedRectangle(cornerRadius: 15)
+                                            .stroke(Color("OxfordBlue"), lineWidth: 3)
+                                    )
+                                        .padding(8)
+
                                 })
                         }
                     }

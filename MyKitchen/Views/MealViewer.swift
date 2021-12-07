@@ -72,7 +72,7 @@ struct MealViewerLayoutView: View {
                         }
                     }
                 }
-                .padding(.leading, 10)
+                .padding(.leading, 12)
             }
             .frame(width: 350)
             .background(Color("AirBlue"))

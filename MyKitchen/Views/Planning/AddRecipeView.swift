@@ -300,7 +300,8 @@ struct AddRecipeView: View {
             if (!ingredientNameInput.isEmpty) {
                 for ing in eInterface.ingredients {
                     if ing.food.lowercased() == ingredientNameInput.lowercased() {
-                        ingredients.append(Ingredient(id: ing.id, text: ing.text, quantity: Double(amtInput)!, measure: CustomUnit.allCases[selectedQty].str, food: ing.food, weight: ing.weight, foodCategory: ing.foodCategory, imgUrl: ing.imgUrl))
+                        let newIng = Ingredient(id: ing.id, text: ing.text, quantity: Double(amtInput)!, measure: CustomUnit.allCases[selectedQty].str, food: ing.food, weight: ing.weight, foodCategory: ing.foodCategory, imgUrl: ing.imgUrl)
+                        ingredients.append(newIng)
                         amtInput = ""
                         selectedQty = 14
                         ingredientNameInput = ""

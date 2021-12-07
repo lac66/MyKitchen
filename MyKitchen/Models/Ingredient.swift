@@ -69,7 +69,7 @@ struct Ingredient: Identifiable, Equatable {
             return CustomUnit.oz
         } else if tmp == "teaspoon" || tmp == CustomUnit.tsp.str {
             return CustomUnit.tsp
-        } else if tmp == "tablespoon" || tmp == CustomUnit.Tbsp.str {
+        } else if tmp == "tablespoon" || tmp == CustomUnit.Tbsp.str.lowercased() {
             return CustomUnit.Tbsp
         } else if tmp == "fluid ounce" || tmp == CustomUnit.fl_oz.str {
             return CustomUnit.fl_oz

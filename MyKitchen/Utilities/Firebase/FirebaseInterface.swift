@@ -606,7 +606,12 @@ class FirebaseInterface : ObservableObject {
     }
     
     func convertGroupDB(groupDB: GroupDB) {
-        
+        let groupList = convertApitoIngs(ingsApi: groupDB.groupList)
+        var membersArray : [User] = []
+        for member in groupDB.members {
+            membersArray.append(convertUserDBToUserGroups(userDB: member))
+        }
+        currentGroup = Group(groupID: groupDB.groupID, groupList: groupList, leaderID: groupDB.leaderID, members: membersArray)
     }
     
     func createGroup() {
@@ -619,7 +624,9 @@ class FirebaseInterface : ObservableObject {
             let leaderID = currentUser?.id
             let groupID = UUID().uuidString
             var members = [User]()
-            members.append(User(id: self.currentUser!.id, email: self.currentUser!.email, name: self.currentUser!.name, pantryList: self.currentUser!.pantryList, savedRecipes: self.currentUser!.savedRecipes, weeklyUserData: self.currentUser!.weeklyUserData, groupID: groupID))
+//            members.append(User(id: self.currentUser!.id, email: self.currentUser!.email, name: self.currentUser!.name, pantryList: self.currentUser!.pantryList, savedRecipes: self.currentUser!.savedRecipes, weeklyUserData: self.currentUser!.weeklyUserData, groupID: groupID))
+            members.append(currentUser!)
+            
             
             let g : [String: Any] = [
                 "groupID": groupID,
@@ -646,16 +653,10 @@ class FirebaseInterface : ObservableObject {
                     self.db.collection("groups").document(groupID).updateData(["members" : m])
                     self.currentUser?.groupID = groupID
                     self.updateDB()
-                    
-                    let dbRef = self.db.collection("groups").document(groupID).documentID
-                    
-                    self.updateDB()
-                    
+                    self.getGroup(groupID: groupID)
                 }
-                
             }
         }
-        
     }
     
     func getGroupID() -> String {

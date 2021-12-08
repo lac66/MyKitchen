@@ -44,36 +44,8 @@ struct GroupsInitialView: View {
                             Text("Create group")
                                 .foregroundColor(Color("MintCream"))
                         }
-//                        NavigationLink(destination: GroupsHomeView().onAppear{
-//                            self.fbInterface.createGroup()
-//                        }.navigationBarBackButtonHidden(true)){
-//                            Text("Create group")
-//                        }
-//                        .foregroundColor(Color("MintCream"))
-//                        Button("UserID"){
-//                            if(fbInterface.currentUser?.groupID == ""){
-//                                showingGroupHome = true
-//                                fbInterface.createGroup()
-//                            }
-//                        }
-//                        .frame(width: 130, height: 35)
-//                        .background(Color("MintCream"))
-//                        .cornerRadius(15)
-//                        .foregroundColor(Color("OxfordBlue"))
-//                        NavigationLink(destination: GroupsHomeView()) {
-//                            Text("Create group")
-//                                .frame(width: 130, height: 35)
-//                                .background(Color("MintCream"))
-//                                .cornerRadius(15)
-//                                .foregroundColor(Color("OxfordBlue"))
-//                        }.onTapGesture {
-//                            fbInterface.createGroup()
-//                        }
-//                        .frame(width: 145, height: 45)
-//                        .background(Color("AirBlue"))
-//                        .cornerRadius(15)
-//
-                        NavigationLink(destination: GroupsHomeView().navigationBarBackButtonHidden(true)){
+                        
+                        NavigationLink(destination: JoinGroupView()){
                             Text("Join group")
                         }
                         .foregroundColor(Color("MintCream"))

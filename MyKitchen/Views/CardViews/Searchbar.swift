@@ -11,12 +11,12 @@ import SwiftUI
 //  var url = "https://api.edamam.com/api/recipes/v2/chili?app_id=" + appId + "&app_key=" + appKey;
 
 struct Searchbar: View {
-    let placeholder: Text
+    let textPlaceholder: String
     var isForRecipes: Bool
     @Binding var text: String
     
     init(placeholder: String, isForRecipes: Bool, text: Binding<String>) {
-        self.placeholder = Text(placeholder)
+        self.textPlaceholder = placeholder
         self.isForRecipes = isForRecipes
         self._text = text
     }
@@ -28,7 +28,7 @@ struct Searchbar: View {
             
             TextField("", text: $text)
                 .placeholder(when: text.isEmpty, placeholder: {
-                    Text("Search here")
+                    Text(textPlaceholder)
                 })
                 .frame(height: 30)
             

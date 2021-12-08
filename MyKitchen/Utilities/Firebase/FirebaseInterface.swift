@@ -69,6 +69,7 @@ class FirebaseInterface : ObservableObject {
             try Auth.auth().signOut()
             //            self.currentUser = nil
             self.signedIn = false
+            self.hasGroup = false
             return true
         } catch {
             return false
@@ -606,19 +607,21 @@ class FirebaseInterface : ObservableObject {
     func convertUserToUserGroup(user: User) -> UserGroup {
         return UserGroup(id: user.id, email: user.email, name: user.name, groupID: user.groupID)
     }
+//
+//    func convertUserDBToUserGroups(userDB: UserDB) -> User {
+//        return User(id: userDB.id!, email: userDB.email, name: userDB.name, pantryList: [], savedRecipes: [], weeklyUserData: [], groupID: userDB.groupID)
+//    }
     
-    func convertUserDBToUserGroups(userDB: UserDB) -> User {
-        return User(id: userDB.id!, email: userDB.email, name: userDB.name, pantryList: [], savedRecipes: [], weeklyUserData: [], groupID: userDB.groupID)
+    func convertGroupToGroupDB(group: Group) -> GroupDB {
+        let groupList = convertIngsToApi(ings: group.groupList)
+        return GroupDB(groupID: group.groupID, groupList: groupList, leaderID: group.leaderID, members: group.members)
     }
     
     func convertGroupDBToGroup(groupDB: GroupDB) {
         let groupList = convertApitoIngs(ingsApi: groupDB.groupList)
-//        var membersArray : [UserGroup] = []
-//        for member in groupDB.members {
-//            membersArray.append(convertUserDBToUserGroups(userDB: member))
-//        }
         currentGroup = Group(groupID: groupDB.groupID!, groupList: groupList, leaderID: groupDB.leaderID, members: groupDB.members)
         hasGroup = true
+        updateGroupDB()
     }
     
     func createGroup() {
@@ -651,6 +654,41 @@ class FirebaseInterface : ObservableObject {
                 self.getGroup(groupID: groupID)
             }
         }
+    }
+    
+    func joinGroup(groupID: String) {
+        let docRef = db.collection("groups").document(groupID)
+        docRef.getDocument { (document, error) in
+            let result = Result {
+                try document?.data(as: GroupDB.self)
+            }
+            switch result {
+                case .success(let group):
+                    if var group = group {
+                        self.currentUser!.groupID = groupID
+                        group.members.append(self.convertUserToUserGroup(user: self.currentUser!))
+                        self.convertGroupDBToGroup(groupDB: group)
+                        self.updateDB()
+                    } else {
+                        // let user know eventually
+                        print("document does not exist")
+                    }
+                case .failure(let error):
+                    print("Error decoding group: \(error)")
+            }
+        }
+    }
+    
+    func updateGroupDB() {
+        let groupdb : GroupDB = self.convertGroupToGroupDB(group: currentGroup!)
+        
+        do {
+            try self.db.collection("groups").document(groupdb.groupID!).setData(from: groupdb)
+        } catch let error {
+            print("Error writing user to Firestore: \(error)")
+        }
+        
+        self.objectWillChange.send()
     }
     
     func getGroupID() -> String {

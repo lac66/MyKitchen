@@ -14,7 +14,7 @@ struct User {
     var pantryList : [Ingredient]
     var savedRecipes : [Recipe]
     var weeklyUserData: [WeeklyUserData]
-    var groupID : String?
+    var groupID : String
     
     init(id: String, email: String, name: String, pantryList: [Ingredient], savedRecipes: [Recipe], weeklyUserData: [WeeklyUserData], groupID: String) {
         self.id = id
@@ -23,7 +23,7 @@ struct User {
         self.pantryList = pantryList
         self.savedRecipes = savedRecipes
         self.weeklyUserData = weeklyUserData
-        self.groupID = "" 
+        self.groupID = groupID
     }
 
 //    init(id: String, email: String, name: String, pantryList: [Ingredient], savedRecipes: [Recipe], weeklyUserData: [WeeklyUserData], groupID: String?) {

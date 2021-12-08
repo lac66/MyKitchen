@@ -38,12 +38,18 @@ struct GroupsInitialView: View {
                     }
                     
                     HStack{
-                        NavigationLink(destination: GroupsHomeView().onAppear{
-                            self.fbInterface.createGroup()
-                        }.navigationBarBackButtonHidden(true)){
+                        Button {
+                            fbInterface.createGroup()
+                        } label: {
                             Text("Create group")
+                                .foregroundColor(Color("MintCream"))
                         }
-                        .foregroundColor(Color("MintCream"))
+//                        NavigationLink(destination: GroupsHomeView().onAppear{
+//                            self.fbInterface.createGroup()
+//                        }.navigationBarBackButtonHidden(true)){
+//                            Text("Create group")
+//                        }
+//                        .foregroundColor(Color("MintCream"))
 //                        Button("UserID"){
 //                            if(fbInterface.currentUser?.groupID == ""){
 //                                showingGroupHome = true

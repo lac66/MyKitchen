@@ -57,7 +57,7 @@ struct NavBar: View {
                 }
                 .tag(3)
                 .environmentObject(fbInterface)
-            GroupsHomeView()
+            CheckHasGroup()
                 .tabItem {
                     Label("Group", systemImage: "person.3.fill")
                 }

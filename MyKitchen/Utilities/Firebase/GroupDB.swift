@@ -9,10 +9,10 @@ import Foundation
 import FirebaseFirestoreSwift
 
 struct GroupDB : Codable {
-    let groupID : String
+    @DocumentID var groupID : String?
     var groupList : [IngredientApi]
     let leaderID : String
-    let members : [UserDB]
+    let members : [UserGroup]
     
     enum CodingKeys: String, CodingKey {
         case groupID

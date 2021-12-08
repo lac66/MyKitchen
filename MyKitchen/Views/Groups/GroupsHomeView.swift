@@ -18,58 +18,54 @@ struct GroupsHomeView: View {
 //            Text("Hello")
 //         }
         NavigationView{
-            if(self.fbInterface.inGroup() || self.fbInterface.currentUser!.groupID != "" ){
-                ZStack{
-//            Text(fbInterface.currentUser?.groupID ?? "None found")
-                    Color("OxfordBlue")
-                        .ignoresSafeArea()
-            
-                    VStack{
-                        HStack {
-                            VStack{
-                                Text("Group homepage")
-                                Text("Current user group ID: ")
-                                Text(self.fbInterface.currentUser!.groupID!)
-//                                Text(self.fbInterface.getGroupID())
-                            }
-                        }
-                        .foregroundColor(Color("MintCream"))
-                        
-                    
-//                    List(groceries, children: \.items) { row in
-//                        Text(row.name)
-//                    }
-                        HStack{
-                            ZStack{
-                                Rectangle()
-                                    .frame(width: 350, height: 110)
-                                    .foregroundColor(Color("AirBlue"))
-                                    .cornerRadius(15)
-                        
-                                Rectangle()
-                                    .frame(width: 330, height: 90)
-                                    .foregroundColor(Color("MintCream"))
-                                    .cornerRadius(15)
-                            }
-                            
-                        }
-                        .background(Color("OxfordBlue"))
-                        HStack{
-                            NavigationLink(destination: GroupsInitialView().onAppear{
-                                self.fbInterface.leaveGroup()
-                            }.navigationBarBackButtonHidden(true)){
-                                Text("leave group")
-                            }
-                            .foregroundColor(Color("MintCream"))
-                            NavigationLink(destination: GroupsCardHolderView()){
-                                Text("Edit group")
-                            }
+            ZStack{
+                //            Text(fbInterface.currentUser?.groupID ?? "None found")
+                Color("OxfordBlue")
+                    .ignoresSafeArea()
+                
+                VStack{
+                    HStack {
+                        VStack{
+                            Text("Group homepage")
+                            Text("Current user group ID: ")
+                            Text(self.fbInterface.currentUser!.groupID)
+                            //                                Text(self.fbInterface.getGroupID())
                         }
                     }
+                    .foregroundColor(Color("MintCream"))
                     
+                    
+                    //                    List(groceries, children: \.items) { row in
+                    //                        Text(row.name)
+                    //                    }
+                    HStack{
+                        ZStack{
+                            Rectangle()
+                                .frame(width: 350, height: 110)
+                                .foregroundColor(Color("AirBlue"))
+                                .cornerRadius(15)
+                            
+                            Rectangle()
+                                .frame(width: 330, height: 90)
+                                .foregroundColor(Color("MintCream"))
+                                .cornerRadius(15)
+                        }
+                        
+                    }
+                    .background(Color("OxfordBlue"))
+                    HStack{
+                        NavigationLink(destination: GroupsInitialView().onAppear{
+                            self.fbInterface.leaveGroup()
+                        }.navigationBarBackButtonHidden(true)){
+                            Text("leave group")
+                        }
+                        .foregroundColor(Color("MintCream"))
+                        NavigationLink(destination: GroupsCardHolderView()){
+                            Text("Edit group")
+                        }
+                    }
                 }
-            } else {
-                GroupsInitialView()
+                
             }
         }
         .navigationBarHidden(true)

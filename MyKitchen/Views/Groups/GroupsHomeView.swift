@@ -38,7 +38,7 @@ struct GroupsHomeView: View {
                             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                         }
                     
-                    VStack{
+                    VStack (alignment: .center) {
                         Text("Current user group ID: ")
                         Text(self.fbInterface.currentUser!.groupID)
                             .frame(width: 350)
@@ -112,9 +112,8 @@ struct GroupsHomeView: View {
                                     ScrollView {
                                         VStack {
                                             ForEach(eInterface.ingredients, id: \.id) { ingredient in
-                                                IngredientEditCardView(ingredient: ingredient, withURL: ingredient.imgUrl, trashOrAdd: "plus", isPersonalList: true)
+                                                GroupIngredientEditCardView(ingredient: ingredient, withURL: ingredient.imgUrl, trashOrAdd: "plus")
                                                     .padding(5)
-                                                // is peronsalList?
                                             }
                                         }
                                     }

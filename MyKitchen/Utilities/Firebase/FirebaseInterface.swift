@@ -523,7 +523,7 @@ class FirebaseInterface : ObservableObject {
             }
         }
         
-        updateDB()
+        updateGroupDB()
     }
     
     func deleteIngredientFromGroupList(ingredient: Ingredient) {
@@ -538,7 +538,7 @@ class FirebaseInterface : ObservableObject {
         }
         
         currentGroup!.groupList = gl
-        updateDB()
+        updateGroupDB()
     }
     
     func incrementQuantity(ingredient: Ingredient, amt: Int) {
@@ -618,7 +618,7 @@ class FirebaseInterface : ObservableObject {
                 currentGroup!.groupList[currentGroup!.groupList.firstIndex(of: ingredient)!].quantity += 1.0
         }
         
-        updateDB()
+        updateGroupDB()
     }
     
     func decrementQuantityGroup(ingredient: Ingredient, amt: Int) {
@@ -634,7 +634,7 @@ class FirebaseInterface : ObservableObject {
                 currentGroup!.groupList[currentGroup!.groupList.firstIndex(of: ingredient)!].quantity -= 1.0
         }
         
-        updateDB()
+        updateGroupDB()
     }
     
     func changeIngredientUnit(ingredient: Ingredient, newUnit: CustomUnit) {
@@ -665,7 +665,7 @@ class FirebaseInterface : ObservableObject {
         currentGroup!.groupList[index].measure = newUnit.str
         currentGroup!.groupList[index].qty = Quantity(amt: ingredient.quantity, unit: newUnit)
         
-        updateDB()
+        updateGroupDB()
     }
     
     func finishedShopping(checkedOffList: [Ingredient]) {

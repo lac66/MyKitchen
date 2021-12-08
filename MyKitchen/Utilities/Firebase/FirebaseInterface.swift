@@ -488,6 +488,59 @@ class FirebaseInterface : ObservableObject {
         updateDB()
     }
     
+    func addIngredientToGroupList(ingredient: Ingredient) {
+        print("addIngredientToGroupList called")
+        
+        if (currentGroup!.groupList.contains(ingredient)) {
+            let i = currentGroup!.groupList.firstIndex(of: ingredient)!
+            currentGroup!.groupList[i].quantity += ingredient.quantity
+            currentGroup!.groupList[i].qty = Quantity(amt: currentGroup!.groupList[i].quantity, unit: currentGroup!.groupList[i].unit!)
+        } else {
+            var changed = false
+            for (index, ing) in currentGroup!.groupList.enumerated() {
+                if (ing.id == ingredient.id) {
+                    if (ing.unit == ingredient.unit) {
+                        currentGroup!.groupList[index].quantity += ingredient.quantity
+                        currentGroup!.groupList[index].qty = Quantity(amt: currentGroup!.groupList[index].quantity, unit: currentGroup!.groupList[index].unit!)
+                    } else {
+                        var newQty : Quantity
+                        if (!UnitConverter.isConvertable(q1: ing.qty!, q2: ingredient.qty!)) {
+                            break;
+                        }
+                        newQty = UnitConverter.convertUnit(q1: ing.qty!, q2: ingredient.qty!)
+                        
+                        currentGroup!.groupList[index].qty = newQty
+                        currentGroup!.groupList[index].quantity = newQty.amt
+                        currentGroup!.groupList[index].unit = newQty.unit
+                        currentGroup!.groupList[index].measure = newQty.unit.str
+                    }
+                    changed = true
+                    break
+                }
+            }
+            if (!changed) {
+                currentGroup!.groupList.append(ingredient)
+            }
+        }
+        
+        updateDB()
+    }
+    
+    func deleteIngredientFromGroupList(ingredient: Ingredient) {
+        print("deleteIngredientFromGroupList called")
+        var gl = currentGroup!.groupList
+        
+        for index in 0 ..< gl.count {
+            if (gl[index].id == ingredient.id) {
+                gl.remove(at: index)
+                break
+            }
+        }
+        
+        currentGroup!.groupList = gl
+        updateDB()
+    }
+    
     func incrementQuantity(ingredient: Ingredient, amt: Int) {
         switch amt {
         case 0:
@@ -552,6 +605,38 @@ class FirebaseInterface : ObservableObject {
         updateDB()
     }
     
+    func incrementQuantityGroup(ingredient: Ingredient, amt: Int) {
+        switch amt {
+            case 0:
+                print("single tap")
+                currentGroup!.groupList[currentGroup!.groupList.firstIndex(of: ingredient)!].quantity += 0.01
+            case 1:
+                print("double tap")
+                currentGroup!.groupList[currentGroup!.groupList.firstIndex(of: ingredient)!].quantity += 0.1
+            default:
+                print("long press")
+                currentGroup!.groupList[currentGroup!.groupList.firstIndex(of: ingredient)!].quantity += 1.0
+        }
+        
+        updateDB()
+    }
+    
+    func decrementQuantityGroup(ingredient: Ingredient, amt: Int) {
+        switch amt {
+            case 0:
+                print("single tap")
+                currentGroup!.groupList[currentGroup!.groupList.firstIndex(of: ingredient)!].quantity -= 0.01
+            case 1:
+                print("double tap")
+                currentGroup!.groupList[currentGroup!.groupList.firstIndex(of: ingredient)!].quantity -= 0.1
+            default:
+                print("long press")
+                currentGroup!.groupList[currentGroup!.groupList.firstIndex(of: ingredient)!].quantity -= 1.0
+        }
+        
+        updateDB()
+    }
+    
     func changeIngredientUnit(ingredient: Ingredient, newUnit: CustomUnit) {
         // change measure here too
         let index = currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.firstIndex(of: ingredient)!
@@ -569,6 +654,16 @@ class FirebaseInterface : ObservableObject {
         currentUser!.pantryList[index].unit = newUnit
         currentUser!.pantryList[index].measure = newUnit.str
         currentUser!.pantryList[index].qty = Quantity(amt: ingredient.quantity, unit: newUnit)
+        
+        updateDB()
+    }
+    
+    func changeIngredientUnitGroup(ingredient: Ingredient, newUnit: CustomUnit) {
+        let index = currentGroup!.groupList.firstIndex(of: ingredient)!
+        
+        currentGroup!.groupList[index].unit = newUnit
+        currentGroup!.groupList[index].measure = newUnit.str
+        currentGroup!.groupList[index].qty = Quantity(amt: ingredient.quantity, unit: newUnit)
         
         updateDB()
     }
@@ -607,10 +702,6 @@ class FirebaseInterface : ObservableObject {
     func convertUserToUserGroup(user: User) -> UserGroup {
         return UserGroup(id: user.id, email: user.email, name: user.name, groupID: user.groupID)
     }
-//
-//    func convertUserDBToUserGroups(userDB: UserDB) -> User {
-//        return User(id: userDB.id!, email: userDB.email, name: userDB.name, pantryList: [], savedRecipes: [], weeklyUserData: [], groupID: userDB.groupID)
-//    }
     
     func convertGroupToGroupDB(group: Group) -> GroupDB {
         let groupList = convertIngsToApi(ings: group.groupList)
@@ -853,6 +944,18 @@ class FirebaseInterface : ObservableObject {
         let lowerText = text.lowercased()
         var searchedIngredient: [Ingredient] = []
         for ingredient in currentUser!.pantryList {
+            print(ingredient.food)
+            if ingredient.food.lowercased().contains(lowerText) {
+                searchedIngredient.append(ingredient)
+            }
+        }
+        return searchedIngredient
+    }
+    
+    func searchGroupList(text: String) -> [Ingredient] {
+        let lowerText = text.lowercased()
+        var searchedIngredient: [Ingredient] = []
+        for ingredient in currentGroup!.groupList {
             print(ingredient.food)
             if ingredient.food.lowercased().contains(lowerText) {
                 searchedIngredient.append(ingredient)

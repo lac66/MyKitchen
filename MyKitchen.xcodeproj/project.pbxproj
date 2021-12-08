@@ -30,6 +30,7 @@
 		3DA182FD2736FF0600956FDD /* IngredientApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA182FC2736FF0600956FDD /* IngredientApi.swift */; };
 		3DA3DAA527603FDB00952A35 /* CheckHasGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA3DAA427603FDB00952A35 /* CheckHasGroup.swift */; };
 		3DA3DAA72760456300952A35 /* UserGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA3DAA62760456300952A35 /* UserGroup.swift */; };
+		3DA3DAA9276063C700952A35 /* GroupIngredientEditCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA3DAA8276063C700952A35 /* GroupIngredientEditCardView.swift */; };
 		3DA9E2A32733145300476227 /* Quantity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA9E2A22733145300476227 /* Quantity.swift */; };
 		3DA9E2A52733145E00476227 /* CustomUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA9E2A42733145E00476227 /* CustomUnit.swift */; };
 		3DA9E2A92733158B00476227 /* AddRecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA9E2A82733158B00476227 /* AddRecipeView.swift */; };
@@ -105,6 +106,7 @@
 		3DA182FC2736FF0600956FDD /* IngredientApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientApi.swift; sourceTree = "<group>"; };
 		3DA3DAA427603FDB00952A35 /* CheckHasGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckHasGroup.swift; sourceTree = "<group>"; };
 		3DA3DAA62760456300952A35 /* UserGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGroup.swift; sourceTree = "<group>"; };
+		3DA3DAA8276063C700952A35 /* GroupIngredientEditCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupIngredientEditCardView.swift; sourceTree = "<group>"; };
 		3DA9E2A22733145300476227 /* Quantity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Quantity.swift; sourceTree = "<group>"; };
 		3DA9E2A42733145E00476227 /* CustomUnit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomUnit.swift; sourceTree = "<group>"; };
 		3DA9E2A82733158B00476227 /* AddRecipeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddRecipeView.swift; sourceTree = "<group>"; };
@@ -347,6 +349,7 @@
 				9B99FE82272B991C009E6B62 /* SmallMemberCards.swift */,
 				3D1126BB272C467D0090888B /* MealViewerCardView.swift */,
 				3D7D29B42758678300B94ECA /* ShoppingCardView.swift */,
+				3DA3DAA8276063C700952A35 /* GroupIngredientEditCardView.swift */,
 			);
 			path = CardViews;
 			sourceTree = "<group>";
@@ -685,6 +688,7 @@
 				3DA9E2A92733158B00476227 /* AddRecipeView.swift in Sources */,
 				3DB85E002733839200695D1F /* IngType.swift in Sources */,
 				3DA182FD2736FF0600956FDD /* IngredientApi.swift in Sources */,
+				3DA3DAA9276063C700952A35 /* GroupIngredientEditCardView.swift in Sources */,
 				3D25911B27477DB800BD1EE4 /* PantryListView.swift in Sources */,
 				3D25911F27477DFE00BD1EE4 /* IngredientEditCardView.swift in Sources */,
 				3DA3DAA72760456300952A35 /* UserGroup.swift in Sources */,

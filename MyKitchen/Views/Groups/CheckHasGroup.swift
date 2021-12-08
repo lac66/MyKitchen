@@ -20,6 +20,7 @@ struct CheckHasGroup: View {
                     .environmentObject(fbInterface)
             }
         }
+        .navigationBarHidden(true)
     }
 }
 

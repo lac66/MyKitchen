@@ -8,48 +8,89 @@
 import SwiftUI
 
 struct GroupsCardHolderView: View {
-//    let users: [User]
     @EnvironmentObject var fbInterface : FirebaseInterface
-    
-//    init() {
-//        navAppearance.backgroundColor = UIColor(named: "OxfordBlue")
-//        UINavigationBar.appearance().standardAppearance = navAppearance
-//        UINavigationBar.appearance().scrollEdgeAppearance = navAppearance
-//    }
     var body: some View {
-       // MemberCards(users: users)
-//        fbInterface.getMember(id: fbInterface.currentUser!.groupID!)
-        VStack(spacing: 10) {
-//            ForEach(users, id: \.self) { user in
-//                MemberCards(users: user)
-//            }
-            
-            HStack{
-                Button("Add / Remove"){
-                }
-                    .frame(width: 160, height: 40)
+        NavigationView {
+            ZStack{
+                Color("OxfordBlue")
+                    .ignoresSafeArea()
+                VStack{
+                    Text("Group Edit")
+                        .frame(width: 350, height: 50, alignment: .leading)
+                        .foregroundColor(Color("MintCream"))
+                        .font(.system(size: 32, weight: .bold, design: .default))
+                        .onTapGesture {
+                            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                        }
+                    
+                    VStack{
+                        Text("Current user group ID: ")
+                        Text(self.fbInterface.currentUser!.groupID)
+                        Button {
+                            UIPasteboard.general.string = fbInterface.currentGroup!.groupID
+                        } label: {
+                            HStack {
+                                Text("Copy GroupID")
+                                    .foregroundColor(Color("MintCream"))
+                                
+                                
+                                Image(systemName: "doc.on.clipboard")
+                                    .resizable()
+                                    .frame(width: 20, height: 20)
+                                    .padding(2)
+                                    .background(Color("Camel"))
+                                    .foregroundColor(Color("MintCream"))
+                                    .cornerRadius(4)
+                            }
+                        }
+                    }
+                    .frame(width: 350)
                     .background(Color("AirBlue"))
                     .foregroundColor(Color("MintCream"))
                     .cornerRadius(10)
-                    .font(.system(size: 20, weight: .bold, design: .default))
-                    .padding()
-                Button("Leave group") {
+                    
+                    VStack(spacing: 10) {
+                        ForEach(fbInterface.currentGroup!.members, id: \.id) { member in
+                            MemberCards(user: member)
+                        }
+                    }
+                    
+                    Color("OxfordBlue")
+                        .ignoresSafeArea()
+                    HStack{
+                        Button("Add / Remove"){
+                        }
+                        .frame(width: 160, height: 40)
+                        .background(Color("AirBlue"))
+                        .foregroundColor(Color("MintCream"))
+                        .cornerRadius(10)
+                        .font(.system(size: 20, weight: .bold, design: .default))
+                        .padding()
+                        
+                        NavigationLink(destination: GroupsInitialView().onAppear{
+                            self.fbInterface.leaveGroup()
+                        }.navigationBarBackButtonHidden(true)){
+                            Text("leave group")
+                        }
+                        .frame(width: 350, height: 50)
+                        .foregroundColor(Color("MintCream"))
+                        .frame(width: 160, height: 40)
+                        .background(Color("AirBlue"))
+                        .foregroundColor(Color("MintCream"))
+                        .cornerRadius(10)
+                        .font(.system(size: 20, weight: .bold, design: .default))
+                        .padding()
+                    }
                 }
-                    .frame(width: 160, height: 40)
-                    .background(Color("AirBlue"))
-                    .foregroundColor(Color("MintCream"))
-                    .cornerRadius(10)
-                    .font(.system(size: 20, weight: .bold, design: .default))
-                    .padding()
+                .navigationBarTitle(Text(""), displayMode: .inline)
+                .navigationBarHidden(true)
             }
         }
-        .padding(.top)
     }
 }
 
 
 struct GroupsView_Previews: PreviewProvider {
-    static var users = [User(id: "", email: "", name: "", pantryList: [Ingredient(id: "", text: "", quantity: 0.0, measure: "", food: "", weight: 0.0, foodCategory: "", imgUrl: "")], savedRecipes: [Recipe(id: "", name: "", imgUrl: "", sourceUrl: "", yield: 0.0, ingString: [""], ingredients: [Ingredient(id: "", text: "", quantity: 0.0, measure: "", food: "", weight: 0.0, foodCategory: "", imgUrl: "")], calories: 0.0, cuisineType: [""], mealType: [""], recipeInstructions: "")], weeklyUserData: [WeeklyUserData(startDate: Date(), personalList: [Ingredient(id: "", text: "", quantity: 0.0, measure: "", food: "", weight: 0.0, foodCategory: "", imgUrl: "")], recipesOfWeek: [DaysOfWeek.Sunday:[Recipe(id: "", name: "", imgUrl: "", sourceUrl: "", yield: 0.0, ingString: [""], ingredients: [Ingredient(id: "", text: "", quantity: 0.0, measure: "", food: "", weight: 0.0, foodCategory: "", imgUrl: "")], calories: 0.0, cuisineType: [""], mealType: [""], recipeInstructions: "")]])], groupID: "")]
     static var previews: some View {
         GroupsCardHolderView()
     }

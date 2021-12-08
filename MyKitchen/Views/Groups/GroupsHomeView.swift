@@ -16,151 +16,140 @@ struct GroupsHomeView: View {
     @State var searchText = ""
     @State var typingCheck: DispatchWorkItem?
     
-    //    let group: GroupDB
-    //    init(group: GroupDB){
-    //        self.group = group
-    //    }
-    
     var body: some View {
-        //        List(groupByCategory, children: \.item) { row in
-        //            Text("Hello")
-        //         }
         NavigationView{
             ZStack{
-                //            Text(fbInterface.currentUser?.groupID ?? "None found")
                 Color("OxfordBlue")
                     .ignoresSafeArea()
                 
                 VStack (alignment: .leading) {
-                    Text("Group")
+                    Text("Group Home")
+                        .foregroundColor(Color("MintCream"))
                         .font(.system(size: 32, weight: .bold, design: .default))
                         .onTapGesture {
                             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                         }
                     
-                    VStack (alignment: .center) {
-                        Text("Current user group ID: ")
-                        Text(self.fbInterface.currentUser!.groupID)
-                            .frame(width: 350)
-                    }
-                    .background(Color("AirBlue"))
-                    .foregroundColor(Color("MintCream"))
-                    .cornerRadius(10)
-                    
-                    VStack{
-                        HStack {
-                            Searchbar(placeholder: "Search here", isForRecipes: false, text: $searchText)
-                                .onChange(of: searchText) { newValue in
-                                    if (addButtonImg == "xmark") {
-                                        if (typingCheck != nil) {
-                                            typingCheck!.cancel()
-                                            typingCheck = nil
-                                        }
-                                        
-                                        typingCheck = DispatchWorkItem {
-                                            print("search")
-                                            searchApi()
-                                        }
-                                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: typingCheck!)
+                    HStack {
+                        Searchbar(placeholder: "Search here", isForRecipes: false, text: $searchText)
+                            .onChange(of: searchText) { newValue in
+                                if (addButtonImg == "xmark") {
+                                    if (typingCheck != nil) {
+                                        typingCheck!.cancel()
+                                        typingCheck = nil
                                     }
+                                    
+                                    typingCheck = DispatchWorkItem {
+                                        print("search")
+                                        searchApi()
+                                    }
+                                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: typingCheck!)
                                 }
-                                .frame(width: 310)
-                                .foregroundColor(Color("MintCream"))
-                            
-                            Spacer()
-                            
-                            Button {
-                                if (addButtonImg == "plus") {
-                                    addButtonImg = "xmark"
-                                    searchText = ""
-                                    let toast = Toast.text("Search Ingredients to Add")
-                                    toast.show()
+                            }
+                            .frame(width: 310)
+                            .foregroundColor(Color("MintCream"))
+                        
+                        Spacer()
+                        
+                        Button {
+                            if (addButtonImg == "plus") {
+                                addButtonImg = "xmark"
+                                searchText = ""
+                                let toast = Toast.text("Search Ingredients to Add")
+                                toast.show()
+                            } else {
+                                addButtonImg = "plus"
+                                searchText = ""
+                            }
+                        } label: {
+                            Image(systemName: addButtonImg)
+                                .frame(width: 30, height: 30)
+                                .background(Color("Camel"))
+                                .cornerRadius(12)
+                        }
+                    }
+                    .frame(width: 350)
+                    .foregroundColor(Color("MintCream"))
+                    
+                    ZStack {
+                        ScrollView {
+                            VStack (spacing: 10) {
+                                if fbInterface.currentGroup!.groupList.count == 0 {
+                                    Text("No ingredients in group list")
+                                        .foregroundColor(Color("MintCream"))
+                                } else if !searchText.isEmpty && addButtonImg == "plus" {
+                                    GroupingListViewGroups(ingredientList: fbInterface.searchGroupList(text: searchText))
                                 } else {
-                                    addButtonImg = "plus"
-                                    searchText = ""
+                                    GroupingListViewGroups(ingredientList: fbInterface.currentGroup!.groupList)
+                                    // add .count if there is an issue later
                                 }
-                            } label: {
-                                Image(systemName: addButtonImg)
-                                    .frame(width: 30, height: 30)
-                                    .background(Color("Camel"))
-                                    .cornerRadius(12)
                             }
                         }
+                        .onTapGesture {
+                            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                        }
+                        .padding(.top)
+                        .padding(.bottom, 10)
                         
-                        ZStack {
-                            ScrollView {
-                                VStack (spacing: 10) {
-                                    if fbInterface.currentGroup!.groupList.count == 0 {
-                                        Text("No ingredients in group list")
-                                            .foregroundColor(Color("MintCream"))
-                                    } else if !searchText.isEmpty && addButtonImg == "plus" {
-                                        GroupingListViewGroups(ingredientList: fbInterface.searchGroupList(text: searchText))
-                                    } else {
-                                        GroupingListViewGroups(ingredientList: fbInterface.currentGroup!.groupList)
-                                        // add .count if there is an issue later
+                        if addButtonImg == "xmark" {
+                            VStack {
+                                ScrollView {
+                                    VStack {
+                                        ForEach(eInterface.ingredients, id: \.id) { ingredient in
+                                            GroupIngredientEditCardView(ingredient: ingredient, withURL: ingredient.imgUrl, trashOrAdd: "plus")
+                                                .padding(5)
+                                        }
                                     }
                                 }
+                            }
+                            .onDisappear() {
+                                eInterface.ingredients.removeAll()
                             }
                             .onTapGesture {
                                 UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                             }
-                            .padding(.top)
-                            .padding(.bottom, 10)
-                            
-                            if addButtonImg == "xmark" {
-                                VStack {
-                                    ScrollView {
-                                        VStack {
-                                            ForEach(eInterface.ingredients, id: \.id) { ingredient in
-                                                GroupIngredientEditCardView(ingredient: ingredient, withURL: ingredient.imgUrl, trashOrAdd: "plus")
-                                                    .padding(5)
-                                            }
-                                        }
-                                    }
-                                }
-                                .onDisappear() {
-                                    eInterface.ingredients.removeAll()
-                                }
-                                .onTapGesture {
-                                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                                }
-                                .frame(idealWidth: 350, idealHeight: 400)
-                                .background(Color("Camel"))
-                                .cornerRadius(15)
-                            }
+                            .frame(idealWidth: 350, idealHeight: 400)
+                            .background(Color("Camel"))
+                            .cornerRadius(15)
                         }
-                        .background(Color("OxfordBlue"))
-                        ZStack{
+                    }
+                    .background(Color("OxfordBlue"))
+                    
+                    ZStack{
+                        VStack{
+                            HStack{
+                                Text("Current members")
+                                    .frame(width: 295, height: 15, alignment: .leading)
+                                    .foregroundColor(Color("OxfordBlue"))
+                                    .font(.system(size: 18, weight: .semibold, design: .default))
+                                NavigationLink(destination: GroupsCardHolderView()){
+                                    Image(systemName: "pencil")
+                                        .resizable()
+                                        .frame(width: 15, height: 15,alignment: .trailing)
+                                        .padding(2)
+                                        .background(Color("Camel"))
+                                        .foregroundColor(Color("MintCream"))
+                                        .cornerRadius(4)
+                                }
+                                
+                            }
                             HStack{
                                 ForEach(fbInterface.currentGroup!.members, id: \.id) { member in
                                     SmallMemberCards(user: member)
                                 }
                             }
-                            .frame(width: 330, height: 100)
-                            .background(Color("MintCream"))
-                            .cornerRadius(15)
-                        }
-                        .frame(width: 350, height: 120)
-                        .background(Color("AirBlue"))
-                        .cornerRadius(15)
-                        
-                        HStack{
-                            NavigationLink(destination: GroupsInitialView().onAppear{
-                                self.fbInterface.leaveGroup()
-                            }.navigationBarBackButtonHidden(true)){
-                                Text("leave group")
-                            }
-                            .foregroundColor(Color("MintCream"))
-                            NavigationLink(destination: GroupsCardHolderView()){
-                                Text("Edit group")
-                            }
                         }
                     }
-                    
+                    .frame(width: 350, height: 120)
+                    .background(Color("AirBlue"))
+                    .cornerRadius(15)
+                    .padding(.bottom)
                 }
+                
             }
             .navigationBarHidden(true)
         }
+        .navigationBarHidden(true)
     }
     func searchApi() {
         eInterface.searchWithApi(text: searchText, isForRecipes: false)

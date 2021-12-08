@@ -680,23 +680,27 @@ class FirebaseInterface : ObservableObject {
 //    typealias FIRQuerySnapshotBlock = (QuerySnapshot?, Error?) -> Void
     
     func getGroup(groupID: String) {
-        let docRef = db.collection("groups").document(groupID)
-        docRef.getDocument { (document, error) in
-            let result = Result {
-                try document?.data(as: GroupDB.self)
-            }
-            switch result {
-            case .success(let group):
-                if let group = group {
-                    self.convertGroupDBToGroup(groupDB: group)
-                } else {
-                    // let user know eventually
-                    print("document does not exist")
+        db.collection("groups").document(groupID)
+            .addSnapshotListener { documentSnapshot, error in
+                guard let document = documentSnapshot else {
+                    print("Error fetching document: \(error!)")
+                    return
                 }
-            case .failure(let error):
-                print("Error decoding group: \(error)")
+                let result = Result {
+                    try document.data(as: GroupDB.self)
+                }
+                switch result {
+                    case .success(let group):
+                        if let group = group {
+                            self.convertGroupDBToGroup(groupDB: group)
+                        } else {
+                            // let user know eventually
+                            print("document does not exist")
+                        }
+                    case .failure(let error):
+                        print("Error decoding group: \(error)")
+                }
             }
-        }
     }
     
     func convertUserToUserGroup(user: User) -> UserGroup {
@@ -759,7 +763,9 @@ class FirebaseInterface : ObservableObject {
                         self.currentUser!.groupID = groupID
                         group.members.append(self.convertUserToUserGroup(user: self.currentUser!))
                         self.convertGroupDBToGroup(groupDB: group)
+                        self.updateGroupDB()
                         self.updateDB()
+                        self.getGroup(groupID: groupID)
                     } else {
                         // let user know eventually
                         print("document does not exist")
@@ -782,52 +788,85 @@ class FirebaseInterface : ObservableObject {
         self.objectWillChange.send()
     }
     
-    func getGroupID() -> String {
-        print("in getGroupID")
-        let docRef = self.db.collection("groups").document(self.currentUser!.groupID).documentID
-        return docRef
-    }
-    
-    func inGroup() -> Bool {
-        print("in isgroup()")
-        if(self.currentUser!.groupID == ""){
-            return false
-        }
-        else {
-            return true
-        }
-    }
+//    func getGroupID() -> String {
+//        print("in getGroupID")
+//        let docRef = self.db.collection("groups").document(self.currentUser!.groupID).documentID
+//        return docRef
+//    }
+//
+//    func inGroup() -> Bool {
+//        print("in isgroup()")
+//        if(self.currentUser!.groupID == ""){
+//            return false
+//        }
+//        else {
+//            return true
+//        }
+//    }
     
     func leaveGroup() {
         print("in leave group")
-        //        print(self.currentUser!.groupID)
+        if (currentUser!.id == currentGroup!.leaderID) {
+            removeGroup(group: currentGroup!)
+        } else {
+            for (index, mem) in currentGroup!.members.enumerated() {
+                if (currentUser!.id == mem.id) {
+                    currentGroup!.members.remove(at: index)
+                    updateGroupDB()
+                    break
+                }
+            }
+        }
         currentUser!.groupID = ""
         hasGroup = false
         currentGroup = nil
         updateDB()
-        print(self.currentUser?.groupID ?? "No groupID")
+        print("leave group, hasGroup: \(hasGroup)")
     }
     
-    func setMembers(user: User){
+    func removeGroup(group: Group) {
+        db.collection("groups").document(group.groupID).delete() { err in
+            if let err = err {
+                print("Error removing document: \(err)")
+            } else {
+                print("Document removed!")
+            }
+        }
         
-    }
-    
-    func getMember(id: String) -> String{
-        print("getting members")
-        let docRef = db.collection("groups").document(id)
-        
-        if(self.currentUser?.groupID == id) {
-            docRef.getDocument(source: .cache) { (document, err) in
-                if let document = document {
-                    let prop = document.get("members")
-                    print(prop ?? "No value")
+        for mem in group.members {
+            let memRef = db.collection("accounts").document(mem.id)
+            memRef.updateData([
+                "groupID": ""
+            ]) { err in
+                if let err = err {
+                    print("Error updating document: \(err)")
                 } else {
-                    print("Document does not exist")
+                    print("Document successfully updated")
                 }
             }
         }
-        return "outside"
     }
+    
+//    func setMembers(user: User){
+//
+//    }
+//
+//    func getMember(id: String) -> String{
+//        print("getting members")
+//        let docRef = db.collection("groups").document(id)
+//
+//        if(self.currentUser?.groupID == id) {
+//            docRef.getDocument(source: .cache) { (document, err) in
+//                if let document = document {
+//                    let prop = document.get("members")
+//                    print(prop ?? "No value")
+//                } else {
+//                    print("Document does not exist")
+//                }
+//            }
+//        }
+//        return "outside"
+//    }
     
     // Sunday Logic
     

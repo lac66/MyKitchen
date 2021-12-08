@@ -12,7 +12,7 @@ struct GroupDB : Codable {
     @DocumentID var groupID : String?
     var groupList : [IngredientApi]
     let leaderID : String
-    var members : [UserGroup]
+    var members : [UserGroup] 
     
     enum CodingKeys: String, CodingKey {
         case groupID

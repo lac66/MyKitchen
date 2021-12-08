@@ -14,7 +14,7 @@ struct SmallMemberCards: View {
             ZStack {
                 Rectangle()
                     .frame(width: 60, height: 60)
-                    .foregroundColor(Color("Marigold"))
+                    .foregroundColor(Color("Camel"))
                     .cornerRadius(10)
                 
                 Image(systemName: "person.fill")

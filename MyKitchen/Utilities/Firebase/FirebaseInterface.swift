@@ -16,6 +16,7 @@ class FirebaseInterface : ObservableObject {
     let db = Firestore.firestore()
     
     @Published var signedIn = false
+    @Published var hasGroup = false
     @Published var currentUser : User? = nil
     @Published var currentGroup : Group? = nil
     
@@ -159,7 +160,7 @@ class FirebaseInterface : ObservableObject {
         
         changeCheck = DispatchWorkItem {
             print("executed")
-            let userdb : UserDB = self.convertUserToUserDB()
+            let userdb : UserDB = self.convertUserToUserDB(user: self.currentUser!)
             
             do {
                 try self.db.collection("accounts").document(userdb.id!).setData(from: userdb)
@@ -196,7 +197,6 @@ class FirebaseInterface : ObservableObject {
         self.currentUser = User(id: auth.currentUser!.uid, email: userDb.email, name: userDb.name, pantryList: ingArray, savedRecipes: savedRecipes, weeklyUserData: wud, groupID: userDb.groupID)
         
         self.signedIn = true
-        
         self.checkForWUDRefresh()
     }
     
@@ -237,11 +237,11 @@ class FirebaseInterface : ObservableObject {
     
     // Conversion Methods -- App to DB
     
-    func convertUserToUserDB() -> UserDB {
-        let pantryList = convertIngsToApi(ings: currentUser!.pantryList)
-        let savedRecipes = convertRecipeArraytoApi(recArr: currentUser!.savedRecipes)
-        let wud = convertWUDtoWUDDB(wud: currentUser!.weeklyUserData)
-        return UserDB(id: currentUser?.id, email: currentUser!.email, name: currentUser!.name, pantryList: pantryList, savedRecipes: savedRecipes, weeklyUserData: wud, groupID: currentUser!.groupID!)
+    func convertUserToUserDB(user: User) -> UserDB {
+        let pantryList = convertIngsToApi(ings: user.pantryList)
+        let savedRecipes = convertRecipeArraytoApi(recArr: user.savedRecipes)
+        let wud = convertWUDtoWUDDB(wud: user.weeklyUserData)
+        return UserDB(id: user.id, email: user.email, name: user.name, pantryList: pantryList, savedRecipes: savedRecipes, weeklyUserData: wud, groupID: user.groupID)
     }
     
     func convertIngsToApi(ings: [Ingredient]) -> [IngredientApi] {
@@ -409,6 +409,7 @@ class FirebaseInterface : ObservableObject {
                         currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[index].measure = newQty.unit.str
                     }
                     changed = true
+                    break
                 }
             }
             if (!changed) {
@@ -460,6 +461,7 @@ class FirebaseInterface : ObservableObject {
                         currentUser!.pantryList[index].measure = newQty.unit.str
                     }
                     changed = true
+                    break
                 }
             }
             if (!changed) {
@@ -579,7 +581,7 @@ class FirebaseInterface : ObservableObject {
     
     // Group Methods
     
-    typealias FIRQuerySnapshotBlock = (QuerySnapshot?, Error?) -> Void
+//    typealias FIRQuerySnapshotBlock = (QuerySnapshot?, Error?) -> Void
     
     func getGroup(groupID: String) {
         let docRef = db.collection("groups").document(groupID)
@@ -590,84 +592,76 @@ class FirebaseInterface : ObservableObject {
             switch result {
             case .success(let group):
                 if let group = group {
-                    self.convertGroupDB(groupDB: group)
+                    self.convertGroupDBToGroup(groupDB: group)
                 } else {
                     // let user know eventually
                     print("document does not exist")
                 }
             case .failure(let error):
-                print("Error decoding user: \(error)")
+                print("Error decoding group: \(error)")
             }
         }
+    }
+    
+    func convertUserToUserGroup(user: User) -> UserGroup {
+        return UserGroup(id: user.id, email: user.email, name: user.name, groupID: user.groupID)
     }
     
     func convertUserDBToUserGroups(userDB: UserDB) -> User {
         return User(id: userDB.id!, email: userDB.email, name: userDB.name, pantryList: [], savedRecipes: [], weeklyUserData: [], groupID: userDB.groupID)
     }
     
-    func convertGroupDB(groupDB: GroupDB) {
+    func convertGroupDBToGroup(groupDB: GroupDB) {
         let groupList = convertApitoIngs(ingsApi: groupDB.groupList)
-        var membersArray : [User] = []
-        for member in groupDB.members {
-            membersArray.append(convertUserDBToUserGroups(userDB: member))
-        }
-        currentGroup = Group(groupID: groupDB.groupID, groupList: groupList, leaderID: groupDB.leaderID, members: membersArray)
+//        var membersArray : [UserGroup] = []
+//        for member in groupDB.members {
+//            membersArray.append(convertUserDBToUserGroups(userDB: member))
+//        }
+        currentGroup = Group(groupID: groupDB.groupID!, groupList: groupList, leaderID: groupDB.leaderID, members: groupDB.members)
+        hasGroup = true
     }
     
     func createGroup() {
-        print(self.currentUser!.groupID!)
-        if(self.currentUser!.groupID != ""){
-            print("alread in group")
-            print(self.currentUser?.groupID ?? "No groupID found")
-            return
-        } else {
-            let leaderID = currentUser?.id
-            let groupID = UUID().uuidString
-            var members = [User]()
-//            members.append(User(id: self.currentUser!.id, email: self.currentUser!.email, name: self.currentUser!.name, pantryList: self.currentUser!.pantryList, savedRecipes: self.currentUser!.savedRecipes, weeklyUserData: self.currentUser!.weeklyUserData, groupID: groupID))
-            members.append(currentUser!)
-            
-            
-            let g : [String: Any] = [
-                "groupID": groupID,
-                "groupList": [],
-                "leaderID": leaderID ?? "No ID found",
-                "members": [User]()
+        let leaderID = currentUser!.id
+        let groupID = UUID().uuidString
+        currentUser!.groupID = groupID
+        
+        var members = [[String: Any]]()
+        members.append(
+            [
+                "id": currentUser!.id,
+                "name": currentUser!.name,
+                "email": currentUser!.email,
+                "groupID": currentUser!.groupID
             ]
-            
-            db.collection("groups").document(groupID).setData(g) { err in
-                if let err = err {
-                    print("Error writing document: \(err)")
-                } else {
-                    print("Document successfully written!")
-                    var na = String()
-                    var em = String()
-                    for mem in members {
-                        na = mem.name
-                        em = mem.email
-                    }
-                    let m : [String: Any] = [
-                        "name": na,
-                        "email": em
-                    ]
-                    self.db.collection("groups").document(groupID).updateData(["members" : m])
-                    self.currentUser?.groupID = groupID
-                    self.updateDB()
-                    self.getGroup(groupID: groupID)
-                }
+        )
+        
+        let g : [String: Any] = [
+            "groupList": [],
+            "leaderID": leaderID,
+            "members": members
+        ]
+        
+        db.collection("groups").document(groupID).setData(g) { err in
+            if let err = err {
+                print("Error writing document: \(err)")
+            } else {
+                print("Document successfully written!")
+                self.updateDB()
+                self.getGroup(groupID: groupID)
             }
         }
     }
     
     func getGroupID() -> String {
         print("in getGroupID")
-        let docRef = self.db.collection("groups").document(self.currentUser!.groupID!).documentID
+        let docRef = self.db.collection("groups").document(self.currentUser!.groupID).documentID
         return docRef
     }
     
     func inGroup() -> Bool {
         print("in isgroup()")
-        if(self.currentUser!.groupID == "" || self.currentUser!.groupID == nil){
+        if(self.currentUser!.groupID == ""){
             return false
         }
         else {
@@ -678,7 +672,9 @@ class FirebaseInterface : ObservableObject {
     func leaveGroup() {
         print("in leave group")
         //        print(self.currentUser!.groupID)
-        currentUser!.groupID! = ""
+        currentUser!.groupID = ""
+        hasGroup = false
+        currentGroup = nil
         updateDB()
         print(self.currentUser?.groupID ?? "No groupID")
     }

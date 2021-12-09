@@ -11,6 +11,8 @@ struct JoinGroupView: View {
     @EnvironmentObject var fbInterface: FirebaseInterface
     
     @State var groupSearch = ""
+    @State var entryError = false
+    @State var errorMsg = ""
     @State var typingCheck: DispatchWorkItem?
     
     var body: some View {
@@ -41,16 +43,31 @@ struct JoinGroupView: View {
                         }
                         
                         typingCheck = DispatchWorkItem {
-                            print("search")
-                            fbInterface.joinGroup(groupID: groupSearch)
+                            findGroup()
                         }
-                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: typingCheck!)
+                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3, execute: typingCheck!)
                     }
                     .frame(width: 350)
                     .foregroundColor(Color("MintCream"))
+                    .alert(isPresented: $entryError) {
+                        Alert(title: Text("Group Search Error"), message: Text(errorMsg), dismissButton: .default(Text("Ok")))
+                    }
 //                .navigationBarHidden(true)
             }
         }
+    }
+    
+    func findGroup() {
+        if (groupSearch.isEmpty) {
+            return
+        }
+        if (groupSearch.count != 36 || !groupSearch.contains("-")) {
+            errorMsg = "Invalid Group ID"
+            entryError = true
+            return
+        }
+        print("search")
+        fbInterface.joinGroup(groupID: groupSearch)
     }
 }
 

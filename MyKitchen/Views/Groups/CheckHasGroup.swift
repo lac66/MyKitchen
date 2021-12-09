@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct CheckHasGroup: View {
-    @EnvironmentObject var fbInterface : FirebaseInterface
+    @EnvironmentObject var fbInterface: FirebaseInterface
+    
+//    init() {
+//        print("CheckHasGroup init")
+//    }
     
     var body: some View {
         ZStack {

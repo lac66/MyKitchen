@@ -9,7 +9,7 @@ import SwiftUI
 
 struct GroupsInitialView: View {
     @EnvironmentObject var fbInterface : FirebaseInterface
-    @State private var showingGroupHome = false
+    
     init() {
         navAppearance.backgroundColor = UIColor(named: "OxfordBlue")
         
@@ -55,7 +55,6 @@ struct GroupsInitialView: View {
                 }
                 .navigationBarHidden(true)
             }
-            
         }
     }
     

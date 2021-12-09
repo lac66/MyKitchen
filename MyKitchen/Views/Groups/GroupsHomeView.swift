@@ -149,8 +149,8 @@ struct GroupsHomeView: View {
             }
             .navigationBarHidden(true)
         }
-        .navigationBarHidden(true)
     }
+    
     func searchApi() {
         eInterface.searchWithApi(text: searchText, isForRecipes: false)
     }

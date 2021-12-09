@@ -25,6 +25,8 @@ class FirebaseInterface : ObservableObject {
     
     var changeCheck: DispatchWorkItem?
     
+    var liveGroupListener : ListenerRegistration? = nil
+    
     var isSignedIn : Bool {
         return auth.currentUser != nil
     }
@@ -677,10 +679,8 @@ class FirebaseInterface : ObservableObject {
     
     // Group Methods
     
-//    typealias FIRQuerySnapshotBlock = (QuerySnapshot?, Error?) -> Void
-    
     func getGroup(groupID: String) {
-        db.collection("groups").document(groupID)
+        liveGroupListener = db.collection("groups").document(groupID)
             .addSnapshotListener { documentSnapshot, error in
                 guard let document = documentSnapshot else {
                     print("Error fetching document: \(error!)")
@@ -777,14 +777,15 @@ class FirebaseInterface : ObservableObject {
     }
     
     func updateGroupDB() {
+        print("Update Group DB")
         let groupdb : GroupDB = self.convertGroupToGroupDB(group: currentGroup!)
-        
+
         do {
             try self.db.collection("groups").document(groupdb.groupID!).setData(from: groupdb)
         } catch let error {
             print("Error writing user to Firestore: \(error)")
         }
-        
+
         self.objectWillChange.send()
     }
     
@@ -812,6 +813,7 @@ class FirebaseInterface : ObservableObject {
             for (index, mem) in currentGroup!.members.enumerated() {
                 if (currentUser!.id == mem.id) {
                     currentGroup!.members.remove(at: index)
+                    liveGroupListener!.remove()
                     updateGroupDB()
                     break
                 }
@@ -819,7 +821,6 @@ class FirebaseInterface : ObservableObject {
         }
         currentUser!.groupID = ""
         hasGroup = false
-        currentGroup = nil
         updateDB()
         print("leave group, hasGroup: \(hasGroup)")
     }

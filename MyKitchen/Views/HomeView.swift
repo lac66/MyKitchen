@@ -32,52 +32,43 @@ struct HomeView: View {
 
                 VStack (spacing: 10) {
                     HStack (spacing: 10) {
-//                        NavigationLink(destination: PlanningView()){
-                            Text("Planning")
-                                .frame(width: 170, height: 230)
-                                .background(Color("AirBlue"))
-                                .font(.system(size: 20, weight: .bold, design: .default))
-                                .cornerRadius(10)
-                                .onTapGesture {
-                                    tabSelection = 0
-                                }
-
-//                        }
-
-//                        NavigationLink(destination: PersonalListView()) {
-                            Text("Personal List")
-                                .frame(width: 170, height: 230)
-                                .background(Color("AirBlue"))
-                                .font(.system(size: 20, weight: .bold, design: .default))
-                                .cornerRadius(10)
-                                .onTapGesture {
-                                    tabSelection = 1
-                                }
-//                        }
+                        Text("Planning")
+                            .frame(width: 170, height: 230)
+                            .background(Color("AirBlue"))
+                            .font(.system(size: 20, weight: .bold, design: .default))
+                            .cornerRadius(10)
+                            .onTapGesture {
+                                tabSelection = 0
+                            }
+                        
+                        Text("Personal List")
+                            .frame(width: 170, height: 230)
+                            .background(Color("AirBlue"))
+                            .font(.system(size: 20, weight: .bold, design: .default))
+                            .cornerRadius(10)
+                            .onTapGesture {
+                                tabSelection = 1
+                            }
                     }
 
                     HStack (spacing: 10) {
-//                        NavigationLink(destination: MealViewer()) {
-                            Text("Meal Viewer")
-                                .frame(width: 170, height: 230)
-                                .background(Color("AirBlue"))
-                                .font(.system(size: 20, weight: .bold, design: .default))
-                                .cornerRadius(10)
-                                .onTapGesture {
-                                    tabSelection = 3
-                                }
-//                        }
-
-//                        NavigationLink(destination: GroupsHomeView()) {
-                            Text("Group List")
-                                .frame(width: 170, height: 230)
-                                .background(Color("AirBlue"))
-                                .font(.system(size: 20, weight: .bold, design: .default))
-                                .cornerRadius(10)
-                                .onTapGesture {
-                                    tabSelection = 4
-                                }
-//                        }
+                        Text("Meal Viewer")
+                            .frame(width: 170, height: 230)
+                            .background(Color("AirBlue"))
+                            .font(.system(size: 20, weight: .bold, design: .default))
+                            .cornerRadius(10)
+                            .onTapGesture {
+                                tabSelection = 3
+                            }
+                        
+                        Text("Group List")
+                            .frame(width: 170, height: 230)
+                            .background(Color("AirBlue"))
+                            .font(.system(size: 20, weight: .bold, design: .default))
+                            .cornerRadius(10)
+                            .onTapGesture {
+                                tabSelection = 4
+                            }
                     }
 
                     NavigationLink(destination: ShoppingView()){

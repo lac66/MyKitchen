@@ -122,14 +122,16 @@ struct GroupsHomeView: View {
                                     .frame(width: 295, height: 15, alignment: .leading)
                                     .foregroundColor(Color("OxfordBlue"))
                                     .font(.system(size: 18, weight: .semibold, design: .default))
+                                
                                 NavigationLink(destination: GroupsCardHolderView()){
                                     Image(systemName: "pencil")
                                         .resizable()
-                                        .frame(width: 15, height: 15,alignment: .trailing)
+                                        .frame(width: 15, height: 15, alignment: .trailing)
                                         .padding(2)
                                         .background(Color("Camel"))
                                         .foregroundColor(Color("MintCream"))
                                         .cornerRadius(4)
+                                        .padding(.top, 5)
                                 }
                                 
                             }

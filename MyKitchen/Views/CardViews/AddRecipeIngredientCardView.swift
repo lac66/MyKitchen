@@ -1,31 +1,32 @@
 //
-//  GroupIngredientEditCardView.swift
+//  AddRecipeIngredientCardView.swift
 //  MyKitchen
 //
-//  Created by Levi Carpenter on 12/7/21.
+//  Created by Levi Carpenter on 12/9/21.
 //
 
 import SwiftUI
 import ToastViewSwift
 
-struct GroupIngredientEditCardView: View {
+struct AddRecipeIngredientCardView: View {
     @EnvironmentObject var fbInterface: FirebaseInterface
+    @EnvironmentObject var eInterface: EdamamInterface
     @ObservedObject var imageLoader: ImageLoader
     @State var image: UIImage = UIImage()
     
     @State var ingredientQtyInput : String = ""
-    @State var trashOrAdd: String
     @State var selectedUnit : Int
-    @State var tmpAmt : Double
+    @State var amtTextInput : String = "0"
     @State var tmpSelectedUnit: Int
+    
+    @State var errCheck : Bool = false
+    @State var errMsg : String = ""
     
     let ingredient: Ingredient
     
-    init(ingredient : Ingredient, withURL url: String?, trashOrAdd: String) {
+    init(ingredient : Ingredient, withURL url: String?) {
         self.ingredient = ingredient
-        self.tmpAmt = ingredient.quantity
         self.tmpSelectedUnit = CustomUnit.allCases.firstIndex(of: ingredient.unit!)!
-        self.trashOrAdd = trashOrAdd
         self._selectedUnit = State(initialValue: CustomUnit.allCases.firstIndex(of: ingredient.unit!)!)
         if (url == nil) {
             imageLoader = ImageLoader(urlString: "")
@@ -87,43 +88,54 @@ struct GroupIngredientEditCardView: View {
                             .background(Color("Camel"))
                             .cornerRadius(4)
                             .onTapGesture(count: 2) {
-                                if trashOrAdd == "trash" {
-                                    fbInterface.decrementQuantityGroup(ingredient: ingredient, amt: 1)
-                                } else {
-                                    tmpAmt -= 0.1
+                                var tmpAmt = Double(amtTextInput)
+                                if tmpAmt != nil {
+                                    tmpAmt! -= 0.1
+                                    amtTextInput = "\(tmpAmt!)"
                                 }
                             }
                             .onLongPressGesture {
-                                if trashOrAdd == "trash" {
-                                    fbInterface.decrementQuantityGroup(ingredient: ingredient, amt: 2)
-                                } else {
-                                    tmpAmt -= 1.0
+                                var tmpAmt = Double(amtTextInput)
+                                if tmpAmt != nil {
+                                    tmpAmt! -= 1.0
+                                    amtTextInput = "\(tmpAmt!)"
                                 }
                             }
                             .onTapGesture(count: 1) {
                                 let toast = Toast.text("Quantity decremented", subtitle: "Double tap for 0.1, Long Press for 1")
                                 toast.show()
-                                if trashOrAdd == "trash" {
-                                    fbInterface.decrementQuantityGroup(ingredient: ingredient, amt: 0)
-                                } else {
-                                    tmpAmt -= 0.01
+                                var tmpAmt = Double(amtTextInput)
+                                if tmpAmt != nil {
+                                    tmpAmt! -= 0.01
+                                    amtTextInput = "\(tmpAmt!)"
                                 }
                             }
                     }
                     
-                    if trashOrAdd == "trash" {
-                        let amtText: String = String(format: "%.2f", ingredient.quantity)
-                        Text(amtText)
-                            .frame(width: 50, height: 20)
-                            .background(Color("MintCream"))
-                            .foregroundColor(Color("OxfordBlue"))
-                    } else {
-                        let amtText: String = String(format: "%.2f", tmpAmt)
-                        Text(amtText)
-                            .frame(width: 50, height: 20)
-                            .background(Color("MintCream"))
-                            .foregroundColor(Color("OxfordBlue"))
-                    }
+//                    let amtText: String = String(format: "%.2f", tmpAmt)
+                    TextField("", text: $amtTextInput)
+                        .placeholder(when: amtTextInput.isEmpty, placeholder: {
+                            Text("#")
+                        })
+                        .onChange(of: amtTextInput) { newValue in
+                            print("onChange called")
+                            let amt = Double(amtTextInput)
+                            if amt == nil {
+                                print("NAN err")
+                                errMsg = "Quantity is not a number"
+                                errCheck = true
+                            } else if amt! < 0 {
+                                errMsg = "Quantity must be a positive value"
+                                errCheck.toggle()
+                            }
+                        }
+//                        .font(.system(size: 18, weight: .semibold, design: .default))
+                        .padding(.leading, 2)
+                        .frame(width: 50, height: 20)
+                        .foregroundColor(Color("OxfordBluePlaceholder"))
+                        .background(Color("MintCream"))
+//                        .cornerRadius(15)
+//                        .padding(.top)
                     
                     Button {
                     } label: {
@@ -132,26 +144,26 @@ struct GroupIngredientEditCardView: View {
                             .background(Color("Camel"))
                             .cornerRadius(4)
                             .onTapGesture(count: 2) {
-                                if trashOrAdd == "trash" {
-                                    fbInterface.incrementQuantityGroup(ingredient: ingredient, amt: 1)
-                                } else {
-                                    tmpAmt += 0.1
+                                var tmpAmt = Double(amtTextInput)
+                                if tmpAmt != nil {
+                                    tmpAmt! += 0.1
+                                    amtTextInput = "\(tmpAmt!)"
                                 }
                             }
                             .onLongPressGesture {
-                                if trashOrAdd == "trash" {
-                                    fbInterface.incrementQuantityGroup(ingredient: ingredient, amt: 2)
-                                } else {
-                                    tmpAmt += 1.0
+                                var tmpAmt = Double(amtTextInput)
+                                if tmpAmt != nil {
+                                    tmpAmt! += 1.0
+                                    amtTextInput = "\(tmpAmt!)"
                                 }
                             }
                             .onTapGesture(count: 1) {
                                 let toast = Toast.text("Quantity incremented", subtitle: "Double tap for 0.1, Long Press for 1")
                                 toast.show()
-                                if trashOrAdd == "trash" {
-                                    fbInterface.incrementQuantityGroup(ingredient: ingredient, amt: 0)
-                                } else {
-                                    tmpAmt += 0.01
+                                var tmpAmt = Double(amtTextInput)
+                                if tmpAmt != nil {
+                                    tmpAmt! += 0.01
+                                    amtTextInput = "\(tmpAmt!)"
                                 }
                             }
                     }
@@ -170,33 +182,36 @@ struct GroupIngredientEditCardView: View {
                         .accentColor(Color("OxfordBlue"))
                         .padding(.leading)
                         .onChange(of: selectedUnit) { newValue in
-                            if trashOrAdd == "trash" {
-                                changeUnit(newUnit: CustomUnit.allCases[selectedUnit])
-                            } else {
-                                tmpSelectedUnit = selectedUnit
-                            }
+                            tmpSelectedUnit = selectedUnit
                         }
                     
                     Spacer()
                     
                     Button {
-                        if (trashOrAdd == "trash") {
-                            let toast = Toast.text("Ingredient Deleted")
-                            toast.show()
-                            fbInterface.deleteIngredientFromGroupList(ingredient: ingredient)
+                        let tmpAmt = Double(amtTextInput)
+                        if tmpAmt == nil {
+                            print("NAN err")
+                            errMsg = "Quantity is not a number"
+                            errCheck.toggle()
+                        } else if tmpAmt! < 0 {
+                            errMsg = "Quantity must be a positive value"
+                            errCheck.toggle()
                         } else {
                             let toast = Toast.text("Ingredient Added")
                             toast.show()
-                            fbInterface.addIngredientToGroupList(ingredient: Ingredient(id: ingredient.id, text: ingredient.text, quantity: tmpAmt, measure: CustomUnit.allCases[tmpSelectedUnit].str, food: ingredient.food, weight: ingredient.weight, foodCategory: ingredient.foodCategory, imgUrl: ingredient.imgUrl))
+                            eInterface.selectedIngredient = Ingredient(id: ingredient.id, text: ingredient.text, quantity: tmpAmt!, measure: CustomUnit.allCases[tmpSelectedUnit].str, food: ingredient.food, weight: ingredient.weight, foodCategory: ingredient.foodCategory, imgUrl: ingredient.imgUrl)
                         }
                     } label: {
-                        Image(systemName: trashOrAdd)
+                        Image(systemName: "plus")
                             .resizable()
                             .frame(width: 20, height: 20)
                             .padding(2)
                             .foregroundColor(Color("MintCream"))
                             .background(Color("Camel"))
                             .cornerRadius(4)
+                    }
+                    .alert(isPresented: $errCheck) {
+                        Alert(title: Text("Quantity Error"), message: Text(errMsg), dismissButton: .default(Text("Ok")))
                     }
                     .frame(alignment: .trailing)
                     .padding(.trailing)
@@ -213,16 +228,17 @@ struct GroupIngredientEditCardView: View {
         .cornerRadius(8)
     }
     
-    func changeUnit(newUnit: CustomUnit) {
-        fbInterface.changeIngredientUnitGroup(ingredient: ingredient, newUnit: newUnit)
+    func addIngredientToList(ingredient: Ingredient) {
+//        ingre
     }
 }
 
-struct GroupIngredientEditCardView_Previews: PreviewProvider {
+struct AddRecipeIngredientCardView_Previews: PreviewProvider {
     static var ingredient = Ingredient(id: "id", text: "text", quantity: 1.0, measure: "measure", food: "food", weight: 1.0, foodCategory: "foodCategory", imgUrl: "https://www.edamam.com/food-img/46a/46a132e96626d7989b4d6ed8c91f4da0.jpg")
     static var previews: some View {
-        GroupIngredientEditCardView(ingredient: ingredient, withURL: ingredient.imgUrl!, trashOrAdd: "trash")
+        AddRecipeIngredientCardView(ingredient: ingredient, withURL: ingredient.imgUrl!)
             .previewLayout(.fixed(width: 340, height: 90))
     }
 }
+
 

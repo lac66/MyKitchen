@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct MemberCards: View {
+    @EnvironmentObject var fbInterface: FirebaseInterface
+    
     let user: UserGroup
+    let isLeaderView: Bool
+    
     var body: some View {
         HStack {
             ZStack {
@@ -39,6 +43,24 @@ struct MemberCards: View {
             
             Spacer()
             
+            if isLeaderView {
+                VStack {
+                    Spacer()
+                    
+                    Button {
+                        fbInterface.removeMemberFromGroup(memID: user.id)
+                    } label: {
+                        Image(systemName: "trash")
+                            .resizable()
+                            .frame(width: 20, height: 20, alignment: .trailing)
+                            .padding(2)
+                            .background(Color("Camel"))
+                            .foregroundColor(Color("MintCream"))
+                            .cornerRadius(4)
+                    }
+                }
+                .padding(10)
+            }
 //            VStack (spacing: 4) {
 //                Spacer()
 //
@@ -60,8 +82,8 @@ struct MemberCards: View {
 //                        .cornerRadius(4)
 //                }
 //            }
-            .padding(.trailing, 10)
-            .padding(.bottom, 8)
+//            .padding(.trailing, 10)
+//            .padding(.bottom, 8)
         }
         .frame(width: 350, height: 90)
         .background(Color("AirBlue"))
@@ -74,6 +96,6 @@ struct MemberCards: View {
 struct MemberCards_Previews: PreviewProvider {
     static var user = UserGroup(id: "", email: "", name: "", groupID: "")
     static var previews: some View {
-        MemberCards(user: user)
+        MemberCards(user: user, isLeaderView: true)
     }
 }

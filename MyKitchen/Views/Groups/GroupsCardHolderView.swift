@@ -44,37 +44,67 @@ struct GroupsCardHolderView: View {
                 
                 VStack(spacing: 10) {
                     ForEach(fbInterface.currentGroup!.members, id: \.id) { member in
-                        MemberCards(user: member)
+                        if (fbInterface.currentUser!.id == fbInterface.currentGroup!.leaderID) && (fbInterface.currentUser!.id != member.id) {
+                            MemberCards(user: member, isLeaderView: true)
+                        } else {
+                            MemberCards(user: member, isLeaderView: false)
+                        }
                     }
                 }
+
+                Spacer()
                 
-                Color("OxfordBlue")
-                    .ignoresSafeArea()
-                HStack{
-                    Button("Add / Remove"){
-                    }
-                    .frame(width: 160, height: 40)
-                    .background(Color("AirBlue"))
-                    .foregroundColor(Color("MintCream"))
-                    .cornerRadius(10)
-                    .font(.system(size: 20, weight: .bold, design: .default))
-                    .padding()
-                    
-                    Button {
-                        self.fbInterface.leaveGroup()
+                Button {
+                    fbInterface.leaveGroup()
+                } label: {
+                    ZStack {
+                        HStack {
+                            Image(systemName: "rectangle.portrait.and.arrow.right")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                                .padding(.leading, 20)
+                            
+                            Spacer()
+                        }
                         
-                    } label: {
-                        Text("leave group")
+                        Text("Leave Group")
+                            .font(.system(size: 20, weight: .semibold, design: .default))
                     }
-                    .frame(width: 350, height: 50)
+                    .frame(width: 350, height: 40)
                     .foregroundColor(Color("MintCream"))
-                    .frame(width: 160, height: 40)
-                    .background(Color("AirBlue"))
-                    .foregroundColor(Color("MintCream"))
-                    .cornerRadius(10)
-                    .font(.system(size: 20, weight: .bold, design: .default))
-                    .padding()
+                    .background(Color("Camel"))
+                    .cornerRadius(30)
                 }
+                .padding(.bottom)
+//                .frame(width: 350, height: 50)
+//                .background(Color("AirBlue"))
+//                .foregroundColor(Color("MintCream"))
+//                .cornerRadius(10)
+//                .font(.system(size: 20, weight: .bold, design: .default))
+//                .padding()
+                
+//                HStack{
+//                    Button("Add / Remove"){
+//                    }
+//                    .frame(width: 160, height: 40)
+//                    .background(Color("AirBlue"))
+//                    .foregroundColor(Color("MintCream"))
+//                    .cornerRadius(10)
+//                    .font(.system(size: 20, weight: .bold, design: .default))
+//                    .padding()
+//                    
+//                    Button {
+//                        fbInterface.leaveGroup()
+//                    } label: {
+//                        Text("leave group")
+//                    }
+//                    .frame(width: 350, height: 50)
+//                    .background(Color("AirBlue"))
+//                    .foregroundColor(Color("MintCream"))
+//                    .cornerRadius(10)
+//                    .font(.system(size: 20, weight: .bold, design: .default))
+//                    .padding()
+//                }
             }
             .navigationBarTitle(Text("Edit Group"), displayMode: .inline)
         }

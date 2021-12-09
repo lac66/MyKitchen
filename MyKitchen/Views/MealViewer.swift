@@ -59,7 +59,7 @@ struct MealViewerLayoutView: View {
                         ForEach(recipesOfWeek[tmpDow]!, id: \.id) { recipe in
                             
                             NavigationLink(
-                                destination: RecipeDetailsView(recipe: recipe),
+                                destination: RecipeDetailsView(recipe: recipe, isPlanning: false),
                                 label: {
                                     MealViewerCardView(recipe: recipe, withURL: recipe.imgUrl, selectedDay: tmpDow)
                                         .overlay(

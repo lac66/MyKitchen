@@ -93,7 +93,7 @@ struct PlanningView: View {
                                 } else {
                                     ForEach(eInterface.recipes, id: \.id) { recipe in
                                         NavigationLink(
-                                            destination: RecipeDetailsView(recipe: recipe),
+                                            destination: RecipeDetailsView(recipe: recipe, isPlanning: true),
                                             label: {
                                                 if (fbInterface.currentUser!.savedRecipes.contains(recipe)) {
                                                     RecipeCardView(recipe: recipe, withURL: recipe.imgUrl, heartImg: "heart.fill")
@@ -111,13 +111,13 @@ struct PlanningView: View {
                                     ForEach(fbInterface.searchSavedRecipes(text: searchText), id: \.id) { recipe in
                                         if recipe.recipeInstructions != nil {
                                             NavigationLink(
-                                                destination: RecipeDetailsView(recipe: recipe),
+                                                destination: RecipeDetailsView(recipe: recipe, isPlanning: true),
                                                 label: {
                                                     RecipeCardView(recipe: recipe, withURL: recipe.imgUrl, heartImg: "trash")
                                                 })
                                         } else {
                                             NavigationLink(
-                                                destination: RecipeDetailsView(recipe: recipe),
+                                                destination: RecipeDetailsView(recipe: recipe, isPlanning: true),
                                                 label: {
                                                     RecipeCardView(recipe: recipe, withURL: recipe.imgUrl, heartImg: "heart.fill")
                                                 })
@@ -127,13 +127,13 @@ struct PlanningView: View {
                                     ForEach(fbInterface.currentUser!.savedRecipes, id: \.id) { recipe in
                                         if recipe.recipeInstructions != nil {
                                             NavigationLink(
-                                                destination: RecipeDetailsView(recipe: recipe),
+                                                destination: RecipeDetailsView(recipe: recipe, isPlanning: true),
                                                 label: {
                                                     RecipeCardView(recipe: recipe, withURL: recipe.imgUrl, heartImg: "trash")
                                                 })
                                         } else {
                                             NavigationLink(
-                                                destination: RecipeDetailsView(recipe: recipe),
+                                                destination: RecipeDetailsView(recipe: recipe, isPlanning: true),
                                                 label: {
                                                     RecipeCardView(recipe: recipe, withURL: recipe.imgUrl, heartImg: "heart.fill")
                                                 })

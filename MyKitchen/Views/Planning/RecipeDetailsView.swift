@@ -11,6 +11,7 @@ struct RecipeDetailsView: View {
     @EnvironmentObject var fbInterface: FirebaseInterface
     
     let recipe: Recipe
+    let isPlanning: Bool
     
     var body: some View {
         ZStack (alignment: .bottom) {
@@ -168,17 +169,19 @@ struct RecipeDetailsView: View {
                     .foregroundColor(Color("MintCream"))
                 }
                 
-                VStack {
-                    Button("Add to List") {
-                        fbInterface.addRecipeToWeeklyData(recipe: recipe)
+                if isPlanning {
+                    VStack {
+                        Button("Add to List") {
+                            fbInterface.addRecipeToWeeklyData(recipe: recipe)
+                        }
+                        .frame(width: 350, height: 40)
+                        .foregroundColor(Color("MintCream"))
+                        .font(.system(size: 30, weight: .black, design: .monospaced))
+                        .background(Color("Camel"))
+                        .cornerRadius(24)
                     }
-                    .frame(width: 350, height: 40)
-                    .foregroundColor(Color("MintCream"))
-                    .font(.system(size: 30, weight: .black, design: .monospaced))
-                    .background(Color("Camel"))
-                    .cornerRadius(24)
+                    .padding(.bottom, 10)
                 }
-                .padding(.bottom, 10)
             }
         }
     }
@@ -187,6 +190,6 @@ struct RecipeDetailsView: View {
 struct RecipeDetailsView_Previews: PreviewProvider {
     static let recipe = Recipe(id: "id", name: "name", imgUrl: "imgUrl", sourceUrl: "sourceUrl", yield: 1, ingString: ["ingArr"], ingredients: [Ingredient(id: "id", text: "text", quantity: 1.0, measure: "measure", food: "food", weight: 1.0, foodCategory: "foodCategory", imgUrl: "https://www.edamam.com/food-img/627/627582f390a350d98c367f89c3a943fe.jpg")], calories: 1.0, cuisineType: ["cuisineType"], mealType: ["mealType"], recipeInstructions: nil)
     static var previews: some View {
-        RecipeDetailsView(recipe: recipe)
+        RecipeDetailsView(recipe: recipe, isPlanning: true)
     }
 }

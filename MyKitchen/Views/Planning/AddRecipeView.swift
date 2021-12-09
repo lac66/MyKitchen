@@ -16,9 +16,12 @@ struct AddRecipeView: View {
     @State var nameInput: String = ""
     @State var yieldInput: String = ""
     
-    @State var selectedQty: Int = 14
-    @State var amtInput: String = ""
-    @State var ingredientNameInput: String = ""
+    @State var ingredientSearchText = ""
+    @State var typingCheck: DispatchWorkItem?
+    
+//    @State var selectedQty: Int = 14
+//    @State var amtInput: String = ""
+//    @State var ingredientNameInput: String = ""
     
     let instructionPlaceholder = "Enter instructions here..."
     @State var recipeInstructionsInput: String = "Enter instructions here..."
@@ -27,8 +30,8 @@ struct AddRecipeView: View {
     @State var hasErrorAddIngredient: Bool = false
     @State var hasErrorSaveRecipe: Bool = false
     
-    @State var showAddPanel: Bool = false
-    @State var offsetAmt: CGFloat = -80
+    @State var showAddButton: Bool = true
+//    @State var offsetAmt: CGFloat = -80
     
     @State var ingredients : [Ingredient] = []
     
@@ -103,8 +106,62 @@ struct AddRecipeView: View {
                                 }
                                 .padding(.bottom)
                             }
+                            
+                            if showAddButton {
+                                Button {
+                                    showAddButton.toggle()
+                                } label: {
+                                    HStack {
+                                        Image(systemName: "plus.circle")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                        Text("Add Ingredients")
+                                            .font(.system(size: 24, weight: .semibold, design: .default))
+                                    }
+                                    .frame(width: 325, height: 40)
+                                    .foregroundColor(Color("MintCream"))
+                                    .background(Color("Camel"))
+                                    .cornerRadius(30)
+                                }
+                                .frame(width: 350, height: 40)
+                                .padding(.bottom, 10)
+                            } else {
+                                VStack {
+                                    Searchbar(placeholder: "Search Ingredients", isForRecipes: false, text: $ingredientSearchText)
+                                        .frame(width: 330)
+                                        .padding(.top, 5)
+                                        .onChange(of: ingredientSearchText) { newValue in
+                                            if (typingCheck != nil) {
+                                                typingCheck!.cancel()
+                                                typingCheck = nil
+                                            }
+                                            
+                                            typingCheck = DispatchWorkItem {
+                                                print("search")
+                                                eInterface.searchWithApi(text: ingredientSearchText, isForRecipes: false)
+                                            }
+                                            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: typingCheck!)
+                                        }
+                                    
+                                    ScrollView {
+                                        VStack {
+                                            ForEach(eInterface.ingredients, id: \.id) { ingredient in
+                                                AddRecipeIngredientCardView(ingredient: ingredient, withURL: ingredient.imgUrl)
+                                                    .padding(5)
+                                            }
+                                        }
+                                    }
+                                }
+                                .onChange(of: eInterface.selectedIngredient) { newValue in
+                                    ingredients.append(eInterface.selectedIngredient!)
+                                    eInterface.ingredients.removeAll()
+                                    ingredientSearchText = ""
+                                    showAddButton.toggle()
+                                }
+                                .frame(width: 340)
+                                .padding(.leading, 5)
+                            }
                         }
-                        .zIndex(1)
                         .frame(maxWidth: 350, minHeight: 100, alignment: .topLeading)
                         .background(Color("MintCream"))
                         .foregroundColor(Color("OxfordBlue"))
@@ -115,142 +172,44 @@ struct AddRecipeView: View {
                             }
                             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                         }
-                        
-                        ZStack {
-                            HStack (alignment: .center) {
-                                TextField("", text: $amtInput)
-                                    .placeholder(when: amtInput.isEmpty) {
-                                        Text("#")
-                                            .foregroundColor(Color("OxfordBluePlaceholder"))
-                                    }
-                                    .padding(.leading)
-                                    .frame(width: 50, height: 40)
-                                    .background(Color("MintCream"))
-                                
-                                
-                                Picker(selection: $selectedQty,
-                                       label: Text(CustomUnit.allCases[selectedQty].str)
-                                        .foregroundColor(Color("OxfordBluePlaceholder")),
-                                       content: {
-                                            ForEach(0 ..< CustomUnit.allCases.count) { index in
-                                                Text(CustomUnit.allCases[index].str)
-                                                    .frame(width: 80, height: 25)
-                                                    .foregroundColor(Color("OxfordBlue"))
-                                            }
-                                        })
-                                    .pickerStyle(MenuPickerStyle())
-                                    .frame(width: 50, height: 40, alignment: .center)
-                                    .background(Color("MintCream"))
-                                    .padding()
-                                
-                                TextField("", text: $ingredientNameInput)
-                                    .placeholder(when: ingredientNameInput.isEmpty) {
-                                        Text("Ingredient")
-                                            .foregroundColor(Color("OxfordBluePlaceholder"))
-                                    }
-                                    .padding(.leading)
-                                    .frame(width: 150, height: 40)
-                                    .background(Color("MintCream"))
-                            }
-                            .frame(width: 350, height: 100)
-                            .foregroundColor(Color("OxfordBlue"))
-                            .background(Color("AirBlue"))
-                            .multilineTextAlignment(.leading)
-                        }
-                        .frame(width: 350, height: 100)
-                        .zIndex(0)
-                        .offset(y: offsetAmt)
-                        
-                        ZStack {
-                            Button {
-                                if (showAddPanel) {
-                                    if (amtInput.isEmpty && ingredientNameInput.isEmpty) {
-                                        selectedQty = 14
-                                        showAddPanel = false
-                                        offsetAmt = -80
-                                        return;
-                                    }
-                                    let tmpAmtInput = Double(amtInput)
-                                    if (tmpAmtInput == nil) {
-                                        errorMsg = "Quantity input must be a number"
-                                        hasErrorAddIngredient = true
-                                    } else if (tmpAmtInput! < 0) {
-                                        errorMsg = "Quantity input must be positive number"
-                                    } else if (ingredientNameInput.isEmpty || ingredientNameInput == " ") {
-                                        errorMsg = "Ingredient name must have a value"
-                                        hasErrorAddIngredient = true
-                                    } else {
-                                        eInterface.searchWithApi(text: ingredientNameInput, isForRecipes: false)
-                                        offsetAmt = -80
-                                        showAddPanel = false
-                                    }
-                                } else {
-                                    offsetAmt = -20
-                                    showAddPanel = true
-                                }
-                            } label: {
-                                HStack {
-                                    Image(systemName: "plus.circle")
-                                        .resizable()
-                                        .frame(width: 30, height: 30)
-                                    Text("Add Ingredients")
-                                        .font(.system(size: 28, weight: .semibold, design: .default))
-                                }
-                                .frame(width: 325, height: 50)
-                                .foregroundColor(Color("MintCream"))
-                                .background(Color("Camel"))
-                                .cornerRadius(30)
-                            }
-                            .alert(isPresented: $hasErrorAddIngredient) {
-                                Alert(title: Text("Add Ingredient Error"), message: Text(errorMsg), dismissButton: .default(Text("Ok")))
-                            }
-                            .frame(width: 350, height: 60)
-                            .background(Color("MintCream"))
-                            .cornerRadius(15)
-                        }
-                        .frame(width: 350, height: 60)
-                        .zIndex(1)
-                        .offset(y: (offsetAmt - 20))
-                        
                     }
                     
-                    ZStack {
-                        VStack (spacing: 0) {
-                            HStack {
-                                Text("Instructions")
-                                    .font(.system(size: 18, weight: .semibold, design: .default))
-                                    .padding()
-                                Spacer()
-                            }
-                            
-                            ZStack (alignment: .topLeading) {
-                                TextEditor(text: $recipeInstructionsInput)
-                                    .frame(width: 300)
-                                    .padding(.horizontal)
-                                    .padding(.bottom)
-                                    .foregroundColor(Color("OxfordBluePlaceholder"))
-                                    .onTapGesture {
-                                        if recipeInstructionsInput == instructionPlaceholder {
-                                            recipeInstructionsInput = ""
-                                        }
-                                    }
-                            }
-                            .background(Color("MintCream"))
-                            
+                    VStack (spacing: 0) {
+                        HStack {
+                            Text("Instructions")
+                                .font(.system(size: 18, weight: .semibold, design: .default))
+                                .padding()
+                            Spacer()
                         }
-                        .frame(maxWidth: 350, minHeight: 250, alignment: .topLeading)
+                        
+                        ZStack (alignment: .topLeading) {
+                            TextEditor(text: $recipeInstructionsInput)
+                                .frame(width: 300)
+                                .padding(.horizontal)
+                                .padding(.bottom)
+                                .foregroundColor(Color("OxfordBluePlaceholder"))
+                                .onTapGesture {
+                                    if recipeInstructionsInput == instructionPlaceholder {
+                                        recipeInstructionsInput = ""
+                                    }
+                                }
+                        }
                         .background(Color("MintCream"))
-                        .foregroundColor(Color("OxfordBlue"))
-                        .cornerRadius(15)
+                        
                     }
-                    .offset(y: (offsetAmt - 20))
-                    
+                    .frame(maxWidth: 350, minHeight: 250, alignment: .topLeading)
+                    .background(Color("MintCream"))
+                    .foregroundColor(Color("OxfordBlue"))
+                    .cornerRadius(15)
+                        
+
+
                     ZStack {
                         Rectangle()
                             .frame(width: 350, height: 80)
                             .foregroundColor(Color("AirBlue"))
                             .cornerRadius(15)
-                        
+
                         Button {
                             let tmpYieldInput = Double(yieldInput)
                             if (nameInput.isEmpty) {
@@ -292,29 +251,7 @@ struct AddRecipeView: View {
                             Alert(title: Text("Save Recipe Error"), message: Text(errorMsg), dismissButton: .default(Text("Ok")))
                         }
                     }
-                    .offset(y: (offsetAmt - 20))
                 }
-            }
-        }
-        .onChange(of: eInterface.ingredients) { newValue in
-            if (!ingredientNameInput.isEmpty) {
-                for ing in eInterface.ingredients {
-                    if ing.food.lowercased() == ingredientNameInput.lowercased() {
-                        let newIng = Ingredient(id: ing.id, text: ing.text, quantity: Double(amtInput)!, measure: CustomUnit.allCases[selectedQty].str, food: ing.food, weight: ing.weight, foodCategory: ing.foodCategory, imgUrl: ing.imgUrl)
-                        ingredients.append(newIng)
-                        amtInput = ""
-                        selectedQty = 14
-                        ingredientNameInput = ""
-                        eInterface.ingredients.removeAll()
-                        return
-                    }
-                }
-                print("no ingredient")
-                errorMsg = "Ingredient not found"
-                hasErrorAddIngredient = true
-                amtInput = ""
-                selectedQty = 14
-                ingredientNameInput = ""
             }
         }
     }

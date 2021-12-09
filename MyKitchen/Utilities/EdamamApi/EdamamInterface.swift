@@ -20,6 +20,7 @@ class EdamamInterface : ObservableObject {
     
     @Published var recipes : [Recipe] = []
     @Published var ingredients : [Ingredient] = []
+    @Published var selectedIngredient: Ingredient? = nil
 //    @Published var addIngredient: Ingredient? = nil
     
     func searchWithApi(text: String, isForRecipes: Bool) {

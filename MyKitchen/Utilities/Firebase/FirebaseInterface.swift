@@ -677,6 +677,12 @@ class FirebaseInterface : ObservableObject {
         }
     }
     
+    func finishedShoppingGroup(checkedOffList: [Ingredient]) {
+        for ing in checkedOffList {
+            currentGroup!.groupList.remove(at: currentGroup!.groupList.firstIndex(of: ing)!)
+        }
+    }
+    
     // Group Methods
     
     func getGroup(groupID: String) {
@@ -789,22 +795,6 @@ class FirebaseInterface : ObservableObject {
         self.objectWillChange.send()
     }
     
-//    func getGroupID() -> String {
-//        print("in getGroupID")
-//        let docRef = self.db.collection("groups").document(self.currentUser!.groupID).documentID
-//        return docRef
-//    }
-//
-//    func inGroup() -> Bool {
-//        print("in isgroup()")
-//        if(self.currentUser!.groupID == ""){
-//            return false
-//        }
-//        else {
-//            return true
-//        }
-//    }
-    
     func leaveGroup() {
         print("in leave group")
         if (currentUser!.id == currentGroup!.leaderID) {
@@ -835,6 +825,7 @@ class FirebaseInterface : ObservableObject {
         }
         
         for mem in group.members {
+            print("member: \(mem)")
             let memRef = db.collection("accounts").document(mem.id)
             memRef.updateData([
                 "groupID": ""
@@ -848,26 +839,26 @@ class FirebaseInterface : ObservableObject {
         }
     }
     
-//    func setMembers(user: User){
-//
-//    }
-//
-//    func getMember(id: String) -> String{
-//        print("getting members")
-//        let docRef = db.collection("groups").document(id)
-//
-//        if(self.currentUser?.groupID == id) {
-//            docRef.getDocument(source: .cache) { (document, err) in
-//                if let document = document {
-//                    let prop = document.get("members")
-//                    print(prop ?? "No value")
-//                } else {
-//                    print("Document does not exist")
-//                }
-//            }
-//        }
-//        return "outside"
-//    }
+    func removeMemberFromGroup(memID: String) {
+        for (index, mem) in currentGroup!.members.enumerated() {
+            if memID == mem.id {
+                currentGroup!.members.remove(at: index)
+                break
+            }
+        }
+        let memRef = db.collection("accounts").document(memID)
+        memRef.updateData([
+            "groupID": ""
+        ]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                print("Document successfully updated")
+            }
+        }
+        
+        updateGroupDB()
+    }
     
     // Sunday Logic
     

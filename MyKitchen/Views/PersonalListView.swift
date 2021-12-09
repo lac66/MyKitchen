@@ -36,9 +36,6 @@ struct PersonalListView: View {
                             .onTapGesture {
                                 UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                             }
-                            .onAppear() {
-                                print(fbInterface.currentUser!.groupID)
-                            }
                         
                         HStack {
                             Searchbar(placeholder: "Search here", isForRecipes: false, text: $searchText)

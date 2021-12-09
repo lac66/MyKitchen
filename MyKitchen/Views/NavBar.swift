@@ -63,6 +63,12 @@ struct NavBar: View {
                 }
                 .tag(4)
                 .environmentObject(fbInterface)
+//            ShoppingView()
+//                .tag(5)
+//                .environmentObject(fbInterface)
+//            PantryListView()
+//                .tag(6)
+//                .environmentObject(fbInterface)
         }
         .onAppear() {
 //            let value = tabSelection

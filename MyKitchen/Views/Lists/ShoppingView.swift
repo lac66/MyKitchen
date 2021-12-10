@@ -58,18 +58,20 @@ struct ShoppingView: View {
                                 ShoppingListGroupingView(ingredientList: fbInterface.currentUser!.weeklyUserData[fbInterface.currentUser!.weeklyUserData.count - 1].personalList)
                             }
                             
-                            // group list section
-                            Text("Group")
-                                .foregroundColor(Color("MintCream"))
-                                .font(.system(size: 26, weight: .bold, design: .default))
-                            
-                            if fbInterface.currentGroup!.groupList.count == 0 {
-                                Text("No ingredients in Group Shopping List")
+                            if fbInterface.hasGroup && fbInterface.currentGroup != nil {
+                                // group list section
+                                Text("Group")
                                     .foregroundColor(Color("MintCream"))
-                            } else if !searchText.isEmpty {
-                                GroupShoppingListGroupingView(ingredientList: fbInterface.searchGroupList(text: searchText))
-                            } else {
-                                GroupShoppingListGroupingView(ingredientList: fbInterface.currentGroup!.groupList)
+                                    .font(.system(size: 26, weight: .bold, design: .default))
+                                
+                                if fbInterface.currentGroup!.groupList.count == 0 {
+                                    Text("No ingredients in Group Shopping List")
+                                        .foregroundColor(Color("MintCream"))
+                                } else if !searchText.isEmpty {
+                                    GroupShoppingListGroupingView(ingredientList: fbInterface.searchGroupList(text: searchText))
+                                } else {
+                                    GroupShoppingListGroupingView(ingredientList: fbInterface.currentGroup!.groupList)
+                                }
                             }
                         }
                     }

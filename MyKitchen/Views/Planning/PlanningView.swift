@@ -108,7 +108,7 @@ struct PlanningView: View {
                                     Text("No saved recipes.")
                                         .foregroundColor(Color("MintCream"))
                                 } else if !searchText.isEmpty {
-                                    ForEach(fbInterface.searchSavedRecipes(text: searchText), id: \.id) { recipe in
+                                    ForEach(fbInterface.searchSavedRecipes(text: searchText).sorted(by: { $0.name.lowercased() < $1.name.lowercased() }), id: \.id) { recipe in
                                         if recipe.recipeInstructions != nil {
                                             NavigationLink(
                                                 destination: RecipeDetailsView(recipe: recipe, isPlanning: true),
@@ -124,7 +124,7 @@ struct PlanningView: View {
                                         }
                                     }
                                 } else {
-                                    ForEach(fbInterface.currentUser!.savedRecipes, id: \.id) { recipe in
+                                    ForEach(fbInterface.currentUser!.savedRecipes.sorted(by: { $0.name.lowercased() < $1.name.lowercased() }), id: \.id) { recipe in
                                         if recipe.recipeInstructions != nil {
                                             NavigationLink(
                                                 destination: RecipeDetailsView(recipe: recipe, isPlanning: true),

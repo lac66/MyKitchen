@@ -14,9 +14,8 @@ struct AddRecipeIngredientCardView: View {
     @ObservedObject var imageLoader: ImageLoader
     @State var image: UIImage = UIImage()
     
-    @State var ingredientQtyInput : String = ""
     @State var selectedUnit : Int
-    @State var amtTextInput : String = "0"
+    @State var amtTextInput : String = ""
     @State var tmpSelectedUnit: Int
     
     @State var errCheck : Bool = false
@@ -91,14 +90,14 @@ struct AddRecipeIngredientCardView: View {
                                 var tmpAmt = Double(amtTextInput)
                                 if tmpAmt != nil {
                                     tmpAmt! -= 0.1
-                                    amtTextInput = "\(tmpAmt!)"
+                                    amtTextInput = String(format: "%.2f", tmpAmt!)
                                 }
                             }
                             .onLongPressGesture {
                                 var tmpAmt = Double(amtTextInput)
                                 if tmpAmt != nil {
                                     tmpAmt! -= 1.0
-                                    amtTextInput = "\(tmpAmt!)"
+                                    amtTextInput = String(format: "%.2f", tmpAmt!)
                                 }
                             }
                             .onTapGesture(count: 1) {
@@ -107,35 +106,33 @@ struct AddRecipeIngredientCardView: View {
                                 var tmpAmt = Double(amtTextInput)
                                 if tmpAmt != nil {
                                     tmpAmt! -= 0.01
-                                    amtTextInput = "\(tmpAmt!)"
+                                    amtTextInput = String(format: "%.2f", tmpAmt!)
                                 }
                             }
                     }
                     
-//                    let amtText: String = String(format: "%.2f", tmpAmt)
                     TextField("", text: $amtTextInput)
                         .placeholder(when: amtTextInput.isEmpty, placeholder: {
                             Text("#")
+                                .frame(width: 50, height: 20)
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(Color("OxfordBluePlaceholder"))
                         })
                         .onChange(of: amtTextInput) { newValue in
-                            print("onChange called")
                             let amt = Double(amtTextInput)
                             if amt == nil {
-                                print("NAN err")
                                 errMsg = "Quantity is not a number"
                                 errCheck = true
                             } else if amt! < 0 {
                                 errMsg = "Quantity must be a positive value"
-                                errCheck.toggle()
+                                errCheck = true
                             }
                         }
-//                        .font(.system(size: 18, weight: .semibold, design: .default))
                         .padding(.leading, 2)
                         .frame(width: 50, height: 20)
-                        .foregroundColor(Color("OxfordBluePlaceholder"))
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(Color("OxfordBlue"))
                         .background(Color("MintCream"))
-//                        .cornerRadius(15)
-//                        .padding(.top)
                     
                     Button {
                     } label: {
@@ -147,14 +144,14 @@ struct AddRecipeIngredientCardView: View {
                                 var tmpAmt = Double(amtTextInput)
                                 if tmpAmt != nil {
                                     tmpAmt! += 0.1
-                                    amtTextInput = "\(tmpAmt!)"
+                                    amtTextInput = String(format: "%.2f", tmpAmt!)
                                 }
                             }
                             .onLongPressGesture {
                                 var tmpAmt = Double(amtTextInput)
                                 if tmpAmt != nil {
                                     tmpAmt! += 1.0
-                                    amtTextInput = "\(tmpAmt!)"
+                                    amtTextInput = String(format: "%.2f", tmpAmt!)
                                 }
                             }
                             .onTapGesture(count: 1) {
@@ -163,7 +160,7 @@ struct AddRecipeIngredientCardView: View {
                                 var tmpAmt = Double(amtTextInput)
                                 if tmpAmt != nil {
                                     tmpAmt! += 0.01
-                                    amtTextInput = "\(tmpAmt!)"
+                                    amtTextInput = String(format: "%.2f", tmpAmt!)
                                 }
                             }
                     }
@@ -190,12 +187,11 @@ struct AddRecipeIngredientCardView: View {
                     Button {
                         let tmpAmt = Double(amtTextInput)
                         if tmpAmt == nil {
-                            print("NAN err")
                             errMsg = "Quantity is not a number"
-                            errCheck.toggle()
+                            errCheck = true
                         } else if tmpAmt! < 0 {
                             errMsg = "Quantity must be a positive value"
-                            errCheck.toggle()
+                            errCheck = true
                         } else {
                             let toast = Toast.text("Ingredient Added")
                             toast.show()
@@ -226,10 +222,6 @@ struct AddRecipeIngredientCardView: View {
         .background(Color("AirBlue"))
         .foregroundColor(Color("MintCream"))
         .cornerRadius(8)
-    }
-    
-    func addIngredientToList(ingredient: Ingredient) {
-//        ingre
     }
 }
 

@@ -137,7 +137,7 @@ struct PantryGroupingListView: View {
     let ingredientList: [Ingredient]
     
     init (ingredientList: [Ingredient]) {
-        self.ingredientList = ingredientList
+        self.ingredientList = ingredientList.sorted(by: { $0.food.lowercased() < $1.food.lowercased() })
         
         var tmpArr: [Bool] = []
         var tmpArr2: [String] = []

@@ -127,9 +127,16 @@ class EdamamInterface : ObservableObject {
                 
                 for ing in tmp.ingredients! {
                     if ing.food!.contains(searchTextLower) {
+                        var addIng = true
                         let newIngredient = Ingredient(id: ing.foodId!, text: ing.text!, quantity: ing.quantity!, measure: ing.measure, food: ing.food!, weight: ing.weight!, foodCategory: ing.foodCategory, imgUrl: ing.image)
                         
-                        if !ingArr.contains(newIngredient) {
+                        for oldIng in ingArr {
+                            if oldIng.id == newIngredient.id {
+                                addIng = false
+                                break
+                            }
+                        }
+                        if addIng {
                             ingArr.append(newIngredient)
                         }
                     }

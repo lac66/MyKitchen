@@ -16,22 +16,15 @@ struct AddRecipeView: View {
     @State var nameInput: String = ""
     @State var yieldInput: String = ""
     
+    @State var showAddButton: Bool = true
     @State var ingredientSearchText = ""
     @State var typingCheck: DispatchWorkItem?
-    
-//    @State var selectedQty: Int = 14
-//    @State var amtInput: String = ""
-//    @State var ingredientNameInput: String = ""
     
     let instructionPlaceholder = "Enter instructions here..."
     @State var recipeInstructionsInput: String = "Enter instructions here..."
     
     @State var errorMsg: String = ""
-    @State var hasErrorAddIngredient: Bool = false
     @State var hasErrorSaveRecipe: Bool = false
-    
-    @State var showAddButton: Bool = true
-//    @State var offsetAmt: CGFloat = -80
     
     @State var ingredients : [Ingredient] = []
     
@@ -151,6 +144,9 @@ struct AddRecipeView: View {
                                             }
                                         }
                                     }
+                                }
+                                .onDisappear() {
+                                    eInterface.ingredients.removeAll()
                                 }
                                 .onChange(of: eInterface.selectedIngredient) { newValue in
                                     ingredients.append(eInterface.selectedIngredient!)

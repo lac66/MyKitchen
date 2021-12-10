@@ -5,16 +5,20 @@
 //  Created by Noah Gillespie on 10/28/21.
 //
 
+import Combine
+import UIKit
 import SwiftUI
 import ToastViewSwift
 
-struct GroupsHomeView: View {
+struct GroupsHomeView: View, KeyboardReadable {
     @EnvironmentObject var fbInterface : FirebaseInterface
     @EnvironmentObject var eInterface : EdamamInterface
     
     @State var addButtonImg = "plus"
     @State var searchText = ""
     @State var typingCheck: DispatchWorkItem?
+    
+    @State private var isKeyboardVisible = false
     
     var body: some View {
         NavigationView{
@@ -45,6 +49,9 @@ struct GroupsHomeView: View {
                                     }
                                     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: typingCheck!)
                                 }
+                            }
+                            .onReceive(keyboardPublisher) { newIsKeyboardVisible in
+                                isKeyboardVisible = newIsKeyboardVisible
                             }
                             .frame(width: 310)
                             .foregroundColor(Color("MintCream"))
@@ -115,39 +122,40 @@ struct GroupsHomeView: View {
                     }
                     .background(Color("OxfordBlue"))
                     
-                    ZStack{
-                        VStack{
-                            HStack{
-                                Text("Current members")
-                                    .frame(width: 295, height: 15, alignment: .leading)
-                                    .foregroundColor(Color("OxfordBlue"))
-                                    .font(.system(size: 18, weight: .semibold, design: .default))
-                                
-                                NavigationLink(destination: GroupsCardHolderView()){
-                                    Image(systemName: "pencil")
-                                        .resizable()
-                                        .frame(width: 15, height: 15, alignment: .trailing)
-                                        .padding(2)
-                                        .background(Color("Camel"))
-                                        .foregroundColor(Color("MintCream"))
-                                        .cornerRadius(4)
-                                        .padding(.top, 5)
+                    if !isKeyboardVisible {
+                        ZStack{
+                            VStack{
+                                HStack{
+                                    Text("Current members")
+                                        .frame(width: 295, height: 15, alignment: .leading)
+                                        .foregroundColor(Color("OxfordBlue"))
+                                        .font(.system(size: 18, weight: .semibold, design: .default))
+                                    
+                                    NavigationLink(destination: GroupsCardHolderView()){
+                                        Image(systemName: "pencil")
+                                            .resizable()
+                                            .frame(width: 15, height: 15, alignment: .trailing)
+                                            .padding(2)
+                                            .background(Color("Camel"))
+                                            .foregroundColor(Color("MintCream"))
+                                            .cornerRadius(4)
+                                            .padding(.top, 5)
+                                    }
+                                    
                                 }
-                                
-                            }
-                            HStack{
-                                ForEach(fbInterface.currentGroup!.members, id: \.id) { member in
-                                    SmallMemberCards(user: member)
+                                HStack{
+                                    ForEach(fbInterface.currentGroup!.members, id: \.id) { member in
+                                        SmallMemberCards(user: member)
+                                    }
                                 }
                             }
                         }
+                        .frame(width: 350, height: 120)
+                        .background(Color("AirBlue"))
+                        .cornerRadius(15)
+                        .padding(.bottom)
                     }
-                    .frame(width: 350, height: 120)
-                    .background(Color("AirBlue"))
-                    .cornerRadius(15)
-                    .padding(.bottom)
                 }
-                
             }
             .navigationBarHidden(true)
         }
@@ -164,7 +172,7 @@ struct GroupingListViewGroups: View {
     let ingredientList: [Ingredient]
     
     init (ingredientList: [Ingredient]) {
-        self.ingredientList = ingredientList
+        self.ingredientList = ingredientList.sorted(by: { $0.food.lowercased() < $1.food.lowercased() })
         
         var tmpArr: [Bool] = []
         var tmpArr2: [String] = []
@@ -221,6 +229,25 @@ struct GroupingListViewGroups: View {
     }
 }
 
+// Publisher to read keyboard changes.
+protocol KeyboardReadable {
+    var keyboardPublisher: AnyPublisher<Bool, Never> { get }
+}
+
+extension KeyboardReadable {
+    var keyboardPublisher: AnyPublisher<Bool, Never> {
+        Publishers.Merge(
+            NotificationCenter.default
+                .publisher(for: UIResponder.keyboardWillShowNotification)
+                .map { _ in true },
+            
+            NotificationCenter.default
+                .publisher(for: UIResponder.keyboardWillHideNotification)
+                .map { _ in false }
+        )
+            .eraseToAnyPublisher()
+    }
+}
 
 //struct GroupsHomeView_Previews: PreviewProvider {
 //    let groceries: [Ingredient]

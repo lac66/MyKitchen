@@ -10,6 +10,7 @@ import FirebaseAuth
 
 let navAppearance = UINavigationBarAppearance()
 
+// initial app view, checks if user is logged in and routes to corresponding page
 struct ContentView: View {
     @EnvironmentObject var fbInterface : FirebaseInterface
     

@@ -8,6 +8,7 @@
 import SwiftUI
 import ToastViewSwift
 
+// edit ingredient card for uploading recipes
 struct AddRecipeIngredientCardView: View {
     @EnvironmentObject var fbInterface: FirebaseInterface
     @EnvironmentObject var eInterface: EdamamInterface
@@ -32,7 +33,6 @@ struct AddRecipeIngredientCardView: View {
         } else {
             imageLoader = ImageLoader(urlString: url!)
         }
-        //        print("Updating ingredient card named \(ingredient.food) qty \(ingredient.qty!)")
     }
     
     var body: some View {
@@ -43,6 +43,7 @@ struct AddRecipeIngredientCardView: View {
                     .foregroundColor(Color("Camel"))
                     .cornerRadius(10)
                 
+                // card image
                 if (ingredient.imgUrl != nil) {
                     if #available(iOS 15.0, *) {
                         AsyncImage(url: URL(string: ingredient.imgUrl!)) { image in
@@ -72,6 +73,7 @@ struct AddRecipeIngredientCardView: View {
             .padding(.leading, 10)
             
             VStack(alignment: .leading) {
+                // ingredient name
                 Text(ingredient.food)
                     .frame(width: 210, height: 30, alignment: .leading)
                     .padding(.leading, 10)
@@ -80,12 +82,14 @@ struct AddRecipeIngredientCardView: View {
                     .padding(.bottom, 5)
                 
                 HStack (spacing: 0) {
+                    // quantity section
                     Button {
                     } label: {
                         Image(systemName: "minus")
                             .frame(width: 20, height: 20)
                             .background(Color("Camel"))
                             .cornerRadius(4)
+                        // different tap guestures for different amounts
                             .onTapGesture(count: 2) {
                                 var tmpAmt = Double(amtTextInput)
                                 if tmpAmt != nil {
@@ -111,6 +115,7 @@ struct AddRecipeIngredientCardView: View {
                             }
                     }
                     
+                    // enter quantity
                     TextField("", text: $amtTextInput)
                         .placeholder(when: amtTextInput.isEmpty, placeholder: {
                             Text("#")
@@ -118,6 +123,7 @@ struct AddRecipeIngredientCardView: View {
                                 .multilineTextAlignment(.center)
                                 .foregroundColor(Color("OxfordBluePlaceholder"))
                         })
+                    // validates text after entry
                         .onChange(of: amtTextInput) { newValue in
                             let amt = Double(amtTextInput)
                             if amtTextInput.isEmpty {
@@ -138,6 +144,7 @@ struct AddRecipeIngredientCardView: View {
                         .foregroundColor(Color("OxfordBlue"))
                         .background(Color("MintCream"))
                     
+                    // add button, same as minus
                     Button {
                     } label: {
                         Image(systemName: "plus")
@@ -169,7 +176,7 @@ struct AddRecipeIngredientCardView: View {
                             }
                     }
                     
-                    
+                    // picker to choose units
                     Picker(selection: $selectedUnit, label: Text(CustomUnit.allCases[selectedUnit].str), content: {
                         ForEach(0 ..< CustomUnit.allCases.count) { index in
                             Text(CustomUnit.allCases[index].str)
@@ -188,6 +195,7 @@ struct AddRecipeIngredientCardView: View {
                     
                     Spacer()
                     
+                    // button to validate entry and add ingredient to recipe
                     Button {
                         let tmpAmt = Double(amtTextInput)
                         if amtTextInput.isEmpty {

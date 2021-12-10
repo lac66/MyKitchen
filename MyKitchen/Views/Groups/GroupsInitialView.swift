@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// initial view for groups, for users without groups
 struct GroupsInitialView: View {
     @EnvironmentObject var fbInterface : FirebaseInterface
     

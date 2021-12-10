@@ -7,12 +7,9 @@
 
 import SwiftUI
 
+// view to check if user is in a group
 struct CheckHasGroup: View {
     @EnvironmentObject var fbInterface: FirebaseInterface
-    
-//    init() {
-//        print("CheckHasGroup init")
-//    }
     
     var body: some View {
         ZStack {

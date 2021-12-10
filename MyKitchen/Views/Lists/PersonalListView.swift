@@ -8,6 +8,7 @@
 import SwiftUI
 import ToastViewSwift
 
+// personal list page
 struct PersonalListView: View {
     @EnvironmentObject var fbInterface : FirebaseInterface
     @EnvironmentObject var eInterface : EdamamInterface
@@ -30,6 +31,7 @@ struct PersonalListView: View {
                 Color("OxfordBlue").edgesIgnoringSafeArea(.all)
                 
                 VStack {
+                    // title and searchbar stack
                     VStack (alignment: .leading) {
                         Text("Personal List")
                             .font(.system(size: 32, weight: .bold, design: .default))
@@ -80,6 +82,7 @@ struct PersonalListView: View {
                     .foregroundColor(Color("MintCream"))
                     
                     ZStack {
+                        // stack for ingredient list
                         ScrollView {
                             VStack (spacing: 10) {
                                 if fbInterface.currentUser!.weeklyUserData[fbInterface.currentUser!.weeklyUserData.count - 1].personalList.count == 0 {
@@ -98,6 +101,7 @@ struct PersonalListView: View {
                         .padding(.top)
                         .padding(.bottom, 10)
                         
+                        // stack for adding ingredients
                         if addButtonImg == "xmark" {
                             VStack {
                                 ScrollView {
@@ -126,11 +130,13 @@ struct PersonalListView: View {
         }
     }
     
+    // function to search api
     func searchApi() {
         eInterface.searchWithApi(text: searchText, isForRecipes: false)
     }
 }
 
+// subview to handle grouping and collapsing
 struct GroupingListView: View {
     @State var collapsed: [Bool]
     @State var arrowTabArr: [String]

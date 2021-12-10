@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// view to allow users to search and join groups
 struct JoinGroupView: View {
     @EnvironmentObject var fbInterface: FirebaseInterface
     
@@ -52,11 +53,11 @@ struct JoinGroupView: View {
                     .alert(isPresented: $entryError) {
                         Alert(title: Text("Group Search Error"), message: Text(errorMsg), dismissButton: .default(Text("Ok")))
                     }
-//                .navigationBarHidden(true)
             }
         }
     }
     
+    // function to validate and search for groups with given id
     func findGroup() {
         if (groupSearch.isEmpty) {
             return

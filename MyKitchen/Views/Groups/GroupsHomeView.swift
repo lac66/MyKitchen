@@ -10,6 +10,7 @@ import UIKit
 import SwiftUI
 import ToastViewSwift
 
+// group home page
 struct GroupsHomeView: View, KeyboardReadable {
     @EnvironmentObject var fbInterface : FirebaseInterface
     @EnvironmentObject var eInterface : EdamamInterface
@@ -26,6 +27,7 @@ struct GroupsHomeView: View, KeyboardReadable {
                 Color("OxfordBlue")
                     .ignoresSafeArea()
                 
+                // stack for title, searchbar, and add button
                 VStack (alignment: .leading) {
                     Text("Group Home")
                         .foregroundColor(Color("MintCream"))
@@ -78,6 +80,7 @@ struct GroupsHomeView: View, KeyboardReadable {
                     .frame(width: 350)
                     .foregroundColor(Color("MintCream"))
                     
+                    // stack for displaying grouplist
                     ZStack {
                         ScrollView {
                             VStack (spacing: 10) {
@@ -122,6 +125,7 @@ struct GroupsHomeView: View, KeyboardReadable {
                     }
                     .background(Color("OxfordBlue"))
                     
+                    // stack for showing current members
                     if !isKeyboardVisible {
                         ZStack{
                             VStack{
@@ -161,11 +165,13 @@ struct GroupsHomeView: View, KeyboardReadable {
         }
     }
     
+    // function to search api
     func searchApi() {
         eInterface.searchWithApi(text: searchText, isForRecipes: false)
     }
 }
 
+// subview for grouping and collapsing list
 struct GroupingListViewGroups: View {
     @State var collapsed: [Bool]
     @State var arrowTabArr: [String]
@@ -230,10 +236,12 @@ struct GroupingListViewGroups: View {
 }
 
 // Publisher to read keyboard changes.
+// informs app when keyboard is active
 protocol KeyboardReadable {
     var keyboardPublisher: AnyPublisher<Bool, Never> { get }
 }
 
+// updates protocol
 extension KeyboardReadable {
     var keyboardPublisher: AnyPublisher<Bool, Never> {
         Publishers.Merge(
@@ -249,10 +257,8 @@ extension KeyboardReadable {
     }
 }
 
-//struct GroupsHomeView_Previews: PreviewProvider {
-//    let groceries: [Ingredient]
-//    let usersTest: [UserModel]
-//    static var previews: some View {
-//        GroupsHomeView(groupList:usersTest)
-//    }
-//}
+struct GroupsHomeView_Previews: PreviewProvider {
+    static var previews: some View {
+        GroupsHomeView()
+    }
+}

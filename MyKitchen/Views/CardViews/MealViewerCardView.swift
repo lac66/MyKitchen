@@ -7,6 +7,7 @@
 import SwiftUI
 import ToastViewSwift
 
+// card for mealviewer recipes
 struct MealViewerCardView: View {
     @EnvironmentObject var fbInterface: FirebaseInterface
     @ObservedObject var imageLoader: ImageLoader
@@ -98,11 +99,13 @@ struct MealViewerCardView: View {
         .cornerRadius(8)
     }
     
+    // function to change day for recipe
     func changeDay(day: DaysOfWeek) {
         print("Entered change Day")
         fbInterface.updateUserRecipesOfWeek(initialDay: selectedDay, newDay: day, recipe: recipe)
     }
     
+    // function to delete recipe
     func deleteRecipe() {
         fbInterface.deleteRecipeFromUserRecipesOfWeek(day: selectedDay, recipe: recipe)
     }
@@ -118,6 +121,7 @@ struct MealViewerCardView_Previews: PreviewProvider {
     }
 }
 
+// onChange binding for state vars
 extension Binding {
     func onChange(_ handler: @escaping (Value) -> Void) -> Binding<Value> {
         return Binding(

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// app home page
 struct HomeView: View {
     @EnvironmentObject var fbInterface : FirebaseInterface
     @EnvironmentObject var eInterface : EdamamInterface

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// app navigation bar
 struct NavBar: View {
     @EnvironmentObject var eInterface : EdamamInterface
     @EnvironmentObject var fbInterface : FirebaseInterface
@@ -63,19 +64,6 @@ struct NavBar: View {
                 }
                 .tag(4)
                 .environmentObject(fbInterface)
-//            ShoppingView()
-//                .tag(5)
-//                .environmentObject(fbInterface)
-//            PantryListView()
-//                .tag(6)
-//                .environmentObject(fbInterface)
-        }
-        .onAppear() {
-//            let value = tabSelection
-//            tabSelection = -1
-//            DispatchQueue.main.async {
-//                tabSelection = value
-//            }
         }
     }
 }

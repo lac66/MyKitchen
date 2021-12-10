@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// member card for edit group page
 struct MemberCards: View {
     @EnvironmentObject var fbInterface: FirebaseInterface
     
@@ -34,10 +35,6 @@ struct MemberCards: View {
                 Text(user.name)
                     .font(.system(size: 24, weight: .bold, design: .default))
                     .padding(.bottom, 1)
-//                Text("info")
-//                    .font(.system(size: 16, weight: .regular, design: .default))
-//                Text("info")
-//                    .font(.system(size: 16, weight: .regular, design: .default))
             }
             .padding(.leading, 15)
             
@@ -61,29 +58,6 @@ struct MemberCards: View {
                 }
                 .padding(10)
             }
-//            VStack (spacing: 4) {
-//                Spacer()
-//
-//                Button {
-//
-//                } label: {
-//                    Image(systemName: "heart.fill")
-//                        .frame(width: 20, height: 20)
-//                        .background(Color("Camel"))
-//                        .cornerRadius(4)
-//                }
-//
-//                Button {
-//
-//                } label: {
-//                    Image(systemName: "plus")
-//                        .frame(width: 20, height: 20)
-//                        .background(Color("Camel"))
-//                        .cornerRadius(4)
-//                }
-//            }
-//            .padding(.trailing, 10)
-//            .padding(.bottom, 8)
         }
         .frame(width: 350, height: 90)
         .background(Color("AirBlue"))

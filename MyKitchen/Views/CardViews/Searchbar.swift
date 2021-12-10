@@ -7,9 +7,7 @@
 
 import SwiftUI
 
-// Example API call for chili
-//  var url = "https://api.edamam.com/api/recipes/v2/chili?app_id=" + appId + "&app_key=" + appKey;
-
+// searchbar subview
 struct Searchbar: View {
     let textPlaceholder: String
     var isForRecipes: Bool

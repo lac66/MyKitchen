@@ -6,6 +6,7 @@
 //
 import SwiftUI
 
+// mealviewer page
 struct MealViewer: View {
     @EnvironmentObject var fbInterface: FirebaseInterface
     
@@ -41,6 +42,7 @@ struct MealViewer: View {
     }
 }
 
+// subview for grouping days
 struct MealViewerLayoutView: View {
     let recipesOfWeek: [DaysOfWeek:[Recipe]]
     

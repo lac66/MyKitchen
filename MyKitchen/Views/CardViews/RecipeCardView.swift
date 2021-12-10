@@ -8,6 +8,7 @@
 import SwiftUI
 import ToastViewSwift
 
+// recipe card
 struct RecipeCardView: View {
     @EnvironmentObject var fbInterface: FirebaseInterface
     @ObservedObject var imageLoader: ImageLoader
@@ -34,7 +35,6 @@ struct RecipeCardView: View {
                     .foregroundColor(Color("Camel"))
                     .cornerRadius(10)
                 
-                // need to load image from url
                 if (image != nil) {
                     Image(uiImage: image!)
                         .resizable()
@@ -60,8 +60,6 @@ struct RecipeCardView: View {
                 let yieldText: String = String(format: "%.1f", recipe.yield)
                 Text("Yield: \(yieldText)")
                     .font(.system(size: 16, weight: .regular, design: .default))
-//                Text(recipe.difficulty)
-//                    .font(.system(size: 16, weight: .regular, design: .default))
             }
             .padding(.leading, 15)
             

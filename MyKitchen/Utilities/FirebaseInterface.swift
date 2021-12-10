@@ -11,6 +11,7 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import SwiftUI
 
+// interface for firebase auth and firestore
 class FirebaseInterface : ObservableObject {
     let auth = Auth.auth()
     let db = Firestore.firestore()
@@ -24,7 +25,6 @@ class FirebaseInterface : ObservableObject {
     @Published var errorMsg = ""
     
     var changeCheck: DispatchWorkItem?
-    
     var liveGroupListener : ListenerRegistration? = nil
     
     var isSignedIn : Bool {
@@ -69,7 +69,6 @@ class FirebaseInterface : ObservableObject {
     func signOut () -> Bool {
         do {
             try Auth.auth().signOut()
-            //            self.currentUser = nil
             self.signedIn = false
             self.hasGroup = false
             return true
@@ -175,21 +174,6 @@ class FirebaseInterface : ObservableObject {
         }
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: changeCheck!)
     }
-    
-    //    func getRealtimePersonalList() {
-    //        db.collection("accounts").document(currentUser!.id).addSnapshotListener { (documentSnapshop, error) in
-    //            guard let document = documentSnapshop else {
-    //                print("No doucments. Error: \(error!)")
-    //                return
-    //            }
-    //            guard let data = document.data() else {
-    //                print("Document data was empty.")
-    //                return
-    //            }
-    //
-    //            print(data)
-    //        }
-    //    }
     
     // Conversion Methods -- From DB to App
     
@@ -302,6 +286,7 @@ class FirebaseInterface : ObservableObject {
                 recipesOfWeek[initialDay] = recipeDayList
             }
         }
+        
         //add to new day
         recipeDayList = recipesOfWeek[newDay]!
         recipeDayList.append(recipe)
@@ -314,6 +299,7 @@ class FirebaseInterface : ObservableObject {
     func deleteRecipeFromUserRecipesOfWeek(day: DaysOfWeek, recipe: Recipe){
         var recipesOfWeek = getRecipesOfWeek()
         var recipeDayList: [Recipe]
+        
         //remove from initial day
         if recipesOfWeek[day] != nil {
             recipeDayList = recipesOfWeek[day]!
@@ -640,7 +626,6 @@ class FirebaseInterface : ObservableObject {
     }
     
     func changeIngredientUnit(ingredient: Ingredient, newUnit: CustomUnit) {
-        // change measure here too
         let index = currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList.firstIndex(of: ingredient)!
         
         currentUser!.weeklyUserData[currentUser!.weeklyUserData.count - 1].personalList[index].unit = newUnit
@@ -946,7 +931,7 @@ class FirebaseInterface : ObservableObject {
         }
     }
     
-    // Misc Methods
+    // Search List Methods
     
     func searchSavedRecipes(text: String) -> [Recipe] {
         let lowerText = text.lowercased()

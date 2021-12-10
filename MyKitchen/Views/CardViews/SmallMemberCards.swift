@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// member card for group home page
 struct SmallMemberCards: View {
     let user: UserGroup
     var body: some View {

@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 
+// class to load url images before ios 15
 class ImageLoader: ObservableObject {
     var didChange = PassthroughSubject<Data, Never>()
     var data = Data() {

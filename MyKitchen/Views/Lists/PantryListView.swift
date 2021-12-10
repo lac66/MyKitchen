@@ -8,6 +8,7 @@
 import SwiftUI
 import ToastViewSwift
 
+// pantry page, similar to personal list
 struct PantryListView: View {
     @EnvironmentObject var fbInterface : FirebaseInterface
     @EnvironmentObject var eInterface : EdamamInterface

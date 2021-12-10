@@ -7,6 +7,7 @@
 
 import Foundation
 
+// class to handle unit conversions, static funcs so no object needs to be made
 class UnitConverter {
     static let volumeUnits = [
         CustomUnit.tsp,

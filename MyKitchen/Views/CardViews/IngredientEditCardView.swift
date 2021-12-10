@@ -9,6 +9,7 @@
 import SwiftUI
 import ToastViewSwift
 
+// ingredient edit card for personal and pantry list, see AddRecipeIngredientEditCardView
 struct IngredientEditCardView: View {
     @EnvironmentObject var fbInterface: FirebaseInterface
     @ObservedObject var imageLoader: ImageLoader

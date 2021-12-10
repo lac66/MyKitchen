@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// shopping page
 struct ShoppingView: View {
     @EnvironmentObject var fbInterface : FirebaseInterface
     @EnvironmentObject var eInterface : EdamamInterface
@@ -27,6 +28,7 @@ struct ShoppingView: View {
                 Color("OxfordBlue").edgesIgnoringSafeArea(.all)
                 
                 VStack {
+                    // title and searchbar stack
                     VStack (alignment: .leading) {
                         Text("Grocery List")
                             .font(.system(size: 32, weight: .bold, design: .default))
@@ -42,6 +44,7 @@ struct ShoppingView: View {
                     
                     ScrollView {
                         VStack (alignment: .leading, spacing: 10) {
+                            // personal list section
                             Text("Personal")
                                 .foregroundColor(Color("MintCream"))
                                 .font(.system(size: 26, weight: .bold, design: .default))
@@ -55,6 +58,7 @@ struct ShoppingView: View {
                                 ShoppingListGroupingView(ingredientList: fbInterface.currentUser!.weeklyUserData[fbInterface.currentUser!.weeklyUserData.count - 1].personalList)
                             }
                             
+                            // group list section
                             Text("Group")
                                 .foregroundColor(Color("MintCream"))
                                 .font(.system(size: 26, weight: .bold, design: .default))
@@ -81,6 +85,7 @@ struct ShoppingView: View {
     }
 }
 
+// subview to handle grouping, collapsable, and check off
 struct ShoppingListGroupingView: View {
     @EnvironmentObject var fbInterface: FirebaseInterface
     
@@ -174,11 +179,13 @@ struct ShoppingListGroupingView: View {
         }
     }
     
+    // function to remove ingredient from checked off list
     func removeIngredient(ingredient: Ingredient) {
         checkedOffIngredients.remove(at: checkedOffIngredients.firstIndex(of: ingredient)!)
     }
 }
 
+// subview similar to above, except for group list
 struct GroupShoppingListGroupingView: View {
     @EnvironmentObject var fbInterface: FirebaseInterface
     

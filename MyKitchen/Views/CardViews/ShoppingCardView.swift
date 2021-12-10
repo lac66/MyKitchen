@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// ingredient card for shopping view
 struct ShoppingCardView: View {
     @ObservedObject var imageLoader: ImageLoader
     @State var image: UIImage = UIImage()
@@ -93,6 +94,7 @@ struct ShoppingCardView: View {
             .foregroundColor(Color("MintCream"))
             .cornerRadius(8)
             
+            // covers with gray tint if checked off
             if (checkedOff) {
                 Rectangle()
                     .frame(width: 340, height: 90)

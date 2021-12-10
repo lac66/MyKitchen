@@ -8,6 +8,7 @@
 import SwiftUI
 import ToastViewSwift
 
+// ingredient card for group view, see AddRecipeIngredientEditCardView
 struct GroupIngredientEditCardView: View {
     @EnvironmentObject var fbInterface: FirebaseInterface
     @ObservedObject var imageLoader: ImageLoader
@@ -32,7 +33,6 @@ struct GroupIngredientEditCardView: View {
         } else {
             imageLoader = ImageLoader(urlString: url!)
         }
-        //        print("Updating ingredient card named \(ingredient.food) qty \(ingredient.qty!)")
     }
     
     var body: some View {
@@ -213,6 +213,7 @@ struct GroupIngredientEditCardView: View {
         .cornerRadius(8)
     }
     
+    // function to change ingredient unit
     func changeUnit(newUnit: CustomUnit) {
         fbInterface.changeIngredientUnitGroup(ingredient: ingredient, newUnit: newUnit)
     }

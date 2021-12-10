@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// recipe detail page for planning and mealviewer section
 struct RecipeDetailsView: View {
     @EnvironmentObject var fbInterface: FirebaseInterface
     
@@ -18,6 +19,7 @@ struct RecipeDetailsView: View {
             Color("OxfordBlue").ignoresSafeArea()
             
             VStack {
+                // stack for recipe info
                 ScrollView {
                     VStack (alignment: .center) {
                         Text(recipe.name)
@@ -169,6 +171,7 @@ struct RecipeDetailsView: View {
                     .foregroundColor(Color("MintCream"))
                 }
                 
+                // only show add button if in planning section
                 if isPlanning {
                     VStack {
                         Button("Add to List") {

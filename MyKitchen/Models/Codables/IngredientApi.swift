@@ -7,6 +7,7 @@
 
 import Foundation
 
+// model to receive ingredient api data
 struct IngredientApi: Codable {
     let text : String?
     let quantity : Double?

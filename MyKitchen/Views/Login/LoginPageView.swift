@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// initial login page
 struct LoginPageView: View {
     @EnvironmentObject var fbInterface : FirebaseInterface
     

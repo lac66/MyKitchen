@@ -8,6 +8,7 @@
 import SwiftUI
 import ToastViewSwift
 
+// upload user recipe page
 struct AddRecipeView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var eInterface: EdamamInterface
@@ -43,6 +44,7 @@ struct AddRecipeView: View {
             
             ScrollView {
                 VStack (spacing: 20) {
+                    // recipe name
                     TextField("", text: $nameInput)
                         .navigationBarTitle("Add Recipe", displayMode: .inline)
                         .placeholder(when: nameInput.isEmpty, placeholder: {
@@ -56,6 +58,7 @@ struct AddRecipeView: View {
                         .cornerRadius(15)
                         .padding(.top)
                     
+                    // recipe yield amt
                     TextField("", text: $yieldInput)
                         .placeholder(when: yieldInput.isEmpty, placeholder: {
                             Text("Yield Amount")
@@ -67,6 +70,7 @@ struct AddRecipeView: View {
                         .cornerRadius(15)
                     
                     VStack (spacing: 0) {
+                        // ingredient section
                         VStack (alignment: .leading) {
                             Text("Ingredient")
                                 .font(.system(size: 18, weight: .semibold, design: .default))
@@ -99,7 +103,8 @@ struct AddRecipeView: View {
                                 }
                                 .padding(.bottom)
                             }
-                            
+
+                            // add button or searchbar
                             if showAddButton {
                                 Button {
                                     showAddButton.toggle()
@@ -148,6 +153,7 @@ struct AddRecipeView: View {
                                 .onDisappear() {
                                     eInterface.ingredients.removeAll()
                                 }
+                                // add ingredient to list, comes from edit card add btn
                                 .onChange(of: eInterface.selectedIngredient) { newValue in
                                     ingredients.append(eInterface.selectedIngredient!)
                                     eInterface.ingredients.removeAll()
@@ -170,6 +176,7 @@ struct AddRecipeView: View {
                         }
                     }
                     
+                    // instruction section
                     VStack (spacing: 0) {
                         HStack {
                             Text("Instructions")
@@ -199,7 +206,7 @@ struct AddRecipeView: View {
                     .cornerRadius(15)
                         
 
-
+                    // save button, validates input
                     ZStack {
                         Rectangle()
                             .frame(width: 350, height: 80)
@@ -260,6 +267,7 @@ struct AddRecipeView_Previews: PreviewProvider {
     }
 }
 
+// view extension for text entries
 extension View {
     func placeholder<Content: View>(
         when shouldShow: Bool,

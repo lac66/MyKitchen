@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// planning page
 struct PlanningView: View {
     @EnvironmentObject var fbInterface : FirebaseInterface
     @EnvironmentObject var eInterface : EdamamInterface
@@ -29,6 +30,7 @@ struct PlanningView: View {
                 Color("OxfordBlue").edgesIgnoringSafeArea(.all)
                 
                 VStack {
+                    // stack for title, searchbar, and buttons
                     VStack (alignment: .leading, spacing: 10) {
                         Text("Planning")
                             .font(.system(size: 32, weight: .bold, design: .default))
@@ -84,6 +86,7 @@ struct PlanningView: View {
                     }
                     .foregroundColor(Color("MintCream"))
                     
+                    // stack for recipe information
                     ScrollView {
                         VStack (spacing: 10) {
                             if isExploring {
@@ -150,13 +153,13 @@ struct PlanningView: View {
         }
     }
     
+    // function to call api
     func searchApi() {
         eInterface.searchWithApi(text: searchText, isForRecipes: true)
     }
 }
 
 struct PlanningView_Previews: PreviewProvider {
-//    static var recipes = Recipe.data
     static var previews: some View {
         PlanningView()
     }

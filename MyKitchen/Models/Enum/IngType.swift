@@ -7,6 +7,7 @@
 
 import Foundation
 
+// enumeration to group ingredients by category
 enum IngType : String, CaseIterable, Identifiable {
     case protein
     case fnv
@@ -15,6 +16,7 @@ enum IngType : String, CaseIterable, Identifiable {
     case drink
     case misc
     
+    // displayable text
     var str : String {
         switch self {
             case .protein : return "Protein"

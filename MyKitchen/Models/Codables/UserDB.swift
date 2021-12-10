@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseFirestoreSwift
 
+// model to send and receive user data from firebase
 struct UserDB : Codable {
     @DocumentID var id : String?
     var email : String

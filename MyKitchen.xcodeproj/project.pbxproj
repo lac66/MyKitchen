@@ -192,38 +192,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		3D7D29B1275843FD00B94ECA /* Misc */ = {
-			isa = PBXGroup;
-			children = (
-				3D0763F0273CC41E00960322 /* ImageLoader.swift */,
-				3D311E1E2756CE42005CD0F9 /* UnitConverter.swift */,
-			);
-			path = Misc;
-			sourceTree = "<group>";
-		};
-		3D934C6D2738CB01005552B4 /* EdamamApi */ = {
-			isa = PBXGroup;
-			children = (
-				3DB9B07C274592AB0031FCD1 /* RecipeApi.swift */,
-				3DB9B07A274592810031FCD1 /* EdamamInterface.swift */,
-				3D69E7A22736EE6C00709BCA /* RecipeApiResponse.swift */,
-				3DA182FC2736FF0600956FDD /* IngredientApi.swift */,
-			);
-			path = EdamamApi;
-			sourceTree = "<group>";
-		};
-		3D934C6E2738CB0F005552B4 /* Firebase */ = {
-			isa = PBXGroup;
-			children = (
-				3D7D2ACC27350A7900153328 /* FirebaseInterface.swift */,
-				3D934C6B2738CA8C005552B4 /* UserDB.swift */,
-				3D934C6F2738CC94005552B4 /* WeeklyUserDataDB.swift */,
-				9BF2D00827601750009AFD5A /* GroupDB.swift */,
-				3DA3DAA62760456300952A35 /* UserGroup.swift */,
-			);
-			path = Firebase;
-			sourceTree = "<group>";
-		};
 		3D934C732738CFF9005552B4 /* Enum */ = {
 			isa = PBXGroup;
 			children = (
@@ -237,10 +205,10 @@
 		3DA9E2A12733143200476227 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				3D934C6D2738CB01005552B4 /* EdamamApi */,
-				3D934C732738CFF9005552B4 /* Enum */,
-				3D934C6E2738CB0F005552B4 /* Firebase */,
-				3D7D29B1275843FD00B94ECA /* Misc */,
+				3DB9B07A274592810031FCD1 /* EdamamInterface.swift */,
+				3D7D2ACC27350A7900153328 /* FirebaseInterface.swift */,
+				3D0763F0273CC41E00960322 /* ImageLoader.swift */,
+				3D311E1E2756CE42005CD0F9 /* UnitConverter.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -274,7 +242,6 @@
 				3DB44B7A2719188600DACF0E /* Views */,
 				3DA9E2A12733143200476227 /* Utilities */,
 				3DB44B4F271911A600DACF0E /* MyKitchenApp.swift */,
-				3DB44B51271911A600DACF0E /* ContentView.swift */,
 				3DB44B53271911A900DACF0E /* Assets.xcassets */,
 				3D7D2ACE27350F8C00153328 /* GoogleService-Info.plist */,
 				3DB44B58271911A900DACF0E /* Info.plist */,
@@ -313,17 +280,15 @@
 		3DB44B7A2719188600DACF0E /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				9B14C48D273FFCAD0068614D /* Groups */,
 				3DB85E0327339EE200695D1F /* Login */,
-				BA5FD80C2732CD41000ACC4C /* MyPantry */,
-				A35179BA2731EBE800E35FC2 /* MealViewer */,
 				3DCFA86C272BA994009184DA /* Planning */,
+				BA5FD80C2732CD41000ACC4C /* Lists */,
+				A35179BA2731EBE800E35FC2 /* MealViewer */,
+				9B14C48D273FFCAD0068614D /* Groups */,
 				3DB44B822719282B00DACF0E /* CardViews */,
+				3DB44B51271911A600DACF0E /* ContentView.swift */,
 				3D25912027477E2100BD1EE4 /* NavBar.swift */,
 				3D25911C27477DD600BD1EE4 /* HomeView.swift */,
-				3D25912227477E4A00BD1EE4 /* PersonalListView.swift */,
-				3D4EB767272318340049CAF1 /* MealViewer.swift */,
-				3D7D29B2275864AD00B94ECA /* ShoppingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -331,12 +296,9 @@
 		3DB44B7F2719200900DACF0E /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				3DB9B06C2745911F0031FCD1 /* Recipe.swift */,
-				3DB85DFB273338F900695D1F /* Ingredient.swift */,
-				3DA9E2A22733145300476227 /* Quantity.swift */,
-				3D934C692738C87A005552B4 /* User.swift */,
-				3D934C712738CEFF005552B4 /* WeeklyUserData.swift */,
-				9B74A07F273EE4E900190398 /* Group.swift */,
+				3DFC1EA22763022700C08B15 /* Codables */,
+				3D934C732738CFF9005552B4 /* Enum */,
+				3DFC1EA12763021600C08B15 /* InApp */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -344,15 +306,15 @@
 		3DB44B822719282B00DACF0E /* CardViews */ = {
 			isa = PBXGroup;
 			children = (
-				3D25911E27477DFE00BD1EE4 /* IngredientEditCardView.swift */,
 				3DB9B072274591B90031FCD1 /* Searchbar.swift */,
 				3D5557CC2719E355009D5E7D /* RecipeCardView.swift */,
-				9B99FE74272B2344009E6B62 /* MemberCards.swift */,
-				9B99FE82272B991C009E6B62 /* SmallMemberCards.swift */,
-				3D1126BB272C467D0090888B /* MealViewerCardView.swift */,
-				3D7D29B42758678300B94ECA /* ShoppingCardView.swift */,
-				3DA3DAA8276063C700952A35 /* GroupIngredientEditCardView.swift */,
 				3D03EC36276297E900091006 /* AddRecipeIngredientCardView.swift */,
+				3D25911E27477DFE00BD1EE4 /* IngredientEditCardView.swift */,
+				3D1126BB272C467D0090888B /* MealViewerCardView.swift */,
+				9B99FE74272B2344009E6B62 /* MemberCards.swift */,
+				3DA3DAA8276063C700952A35 /* GroupIngredientEditCardView.swift */,
+				9B99FE82272B991C009E6B62 /* SmallMemberCards.swift */,
+				3D7D29B42758678300B94ECA /* ShoppingCardView.swift */,
 			);
 			path = CardViews;
 			sourceTree = "<group>";
@@ -377,6 +339,33 @@
 			path = Planning;
 			sourceTree = "<group>";
 		};
+		3DFC1EA12763021600C08B15 /* InApp */ = {
+			isa = PBXGroup;
+			children = (
+				3DB9B06C2745911F0031FCD1 /* Recipe.swift */,
+				3DB85DFB273338F900695D1F /* Ingredient.swift */,
+				3DA9E2A22733145300476227 /* Quantity.swift */,
+				3D934C692738C87A005552B4 /* User.swift */,
+				3D934C712738CEFF005552B4 /* WeeklyUserData.swift */,
+				9B74A07F273EE4E900190398 /* Group.swift */,
+			);
+			path = InApp;
+			sourceTree = "<group>";
+		};
+		3DFC1EA22763022700C08B15 /* Codables */ = {
+			isa = PBXGroup;
+			children = (
+				3D69E7A22736EE6C00709BCA /* RecipeApiResponse.swift */,
+				3DB9B07C274592AB0031FCD1 /* RecipeApi.swift */,
+				3DA182FC2736FF0600956FDD /* IngredientApi.swift */,
+				3D934C6B2738CA8C005552B4 /* UserDB.swift */,
+				3D934C6F2738CC94005552B4 /* WeeklyUserDataDB.swift */,
+				9BF2D00827601750009AFD5A /* GroupDB.swift */,
+				3DA3DAA62760456300952A35 /* UserGroup.swift */,
+			);
+			path = Codables;
+			sourceTree = "<group>";
+		};
 		5683DBEBFA0C528CA85BDDDB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -393,11 +382,11 @@
 		9B14C48D273FFCAD0068614D /* Groups */ = {
 			isa = PBXGroup;
 			children = (
+				3DA3DAA427603FDB00952A35 /* CheckHasGroup.swift */,
+				9B99FE7C272B6538009E6B62 /* GroupsHomeView.swift */,
 				9B99FE72272B1F0F009E6B62 /* GroupsCardHolderView.swift */,
 				9B74A07D273ED9C700190398 /* GroupsInitialView.swift */,
-				9B99FE7C272B6538009E6B62 /* GroupsHomeView.swift */,
 				9B14C48E273FFCE50068614D /* JoinGroupView.swift */,
-				3DA3DAA427603FDB00952A35 /* CheckHasGroup.swift */,
 			);
 			path = Groups;
 			sourceTree = "<group>";
@@ -405,16 +394,19 @@
 		A35179BA2731EBE800E35FC2 /* MealViewer */ = {
 			isa = PBXGroup;
 			children = (
+				3D4EB767272318340049CAF1 /* MealViewer.swift */,
 			);
 			path = MealViewer;
 			sourceTree = "<group>";
 		};
-		BA5FD80C2732CD41000ACC4C /* MyPantry */ = {
+		BA5FD80C2732CD41000ACC4C /* Lists */ = {
 			isa = PBXGroup;
 			children = (
+				3D25912227477E4A00BD1EE4 /* PersonalListView.swift */,
 				3D25911A27477DB700BD1EE4 /* PantryListView.swift */,
+				3D7D29B2275864AD00B94ECA /* ShoppingView.swift */,
 			);
-			path = MyPantry;
+			path = Lists;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

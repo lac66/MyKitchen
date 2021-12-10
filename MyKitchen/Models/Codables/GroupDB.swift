@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseFirestoreSwift
 
+// model to send and receive group data from firebase
 struct GroupDB : Codable {
     @DocumentID var groupID : String?
     var groupList : [IngredientApi]

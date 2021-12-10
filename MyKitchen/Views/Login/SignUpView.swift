@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// sign up page
 struct SignUpView: View {
     @EnvironmentObject var fbInterface : FirebaseInterface
     @State var nameInput : String = ""
@@ -39,6 +40,7 @@ struct SignUpView: View {
                             Alert(title: Text("Sign Up Error"), message: Text(localErrMsg), dismissButton: .default(Text("Ok")))
                         }
                     
+                    // name input
                     TextField("", text: $nameInput)
                         .placeholder(when: nameInput.isEmpty, placeholder: {
                             Text("Full Name")
@@ -51,6 +53,7 @@ struct SignUpView: View {
                         .cornerRadius(10)
                         .foregroundColor(Color("MintCream"))
                     
+                    // email input
                     TextField("", text: $emailInput)
                         .placeholder(when: emailInput.isEmpty, placeholder: {
                             Text("Email")
@@ -62,6 +65,7 @@ struct SignUpView: View {
                         .cornerRadius(10)
                         .foregroundColor(Color("MintCream"))
                     
+                    // password input
                     SecureField("", text: $passwordInput)
                         .placeholder(when: passwordInput.isEmpty, placeholder: {
                             Text("Password")
@@ -73,6 +77,7 @@ struct SignUpView: View {
                         .cornerRadius(10)
                         .foregroundColor(Color("MintCream"))
                     
+                    // password validation
                     SecureField("", text: $passwordConfirmInput)
                         .placeholder(when: passwordConfirmInput.isEmpty, placeholder: {
                             Text("Confirm Password")
@@ -84,6 +89,7 @@ struct SignUpView: View {
                         .cornerRadius(10)
                         .foregroundColor(Color("MintCream"))
                     
+                    // sign up button and input validation
                     Button {
                         if nameInput.isEmpty || nameInput == " " {
                             print("Empty name")
@@ -125,16 +131,6 @@ struct SignUpView: View {
                         .foregroundColor(Color("MintCream"))
                         .font(.system(size: 12, weight: .medium, design: .default))
                         .multilineTextAlignment(.center)
-                    
-//                    NavigationLink(
-//                        destination: SignInView(),
-//                        label: {
-//                            Text("Already have an account? Sign in")
-//                                .foregroundColor(Color("MintCream"))
-//                        }
-//                    )
-//                    .frame(width: 300, height: 60)
-//                    .cornerRadius(15)
                 }
                 .navigationBarHidden(true)
             }

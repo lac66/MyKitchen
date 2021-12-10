@@ -7,13 +7,9 @@
 
 import Foundation
 
+// model to hold user data each week
 struct WeeklyUserData {
     let startDate: Date
-//    var startDateStr: String {
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = "EEEE, dd 'of' MMMM"
-//        return formatter.string(from: startDate)
-//    }
     var personalList: [Ingredient]
     var recipesOfWeek: [DaysOfWeek:[Recipe]]
 }

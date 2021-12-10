@@ -7,6 +7,7 @@
 
 import Foundation
 
+// model for group-specific user info
 struct UserGroup : Codable {
     var id : String
     var email : String

@@ -7,6 +7,7 @@
 
 import Foundation
 
+// model to receive recipe api data
 struct RecipeApi : Codable {
     let uri : String?
     let label : String?

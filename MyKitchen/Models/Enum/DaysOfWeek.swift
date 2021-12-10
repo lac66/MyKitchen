@@ -7,6 +7,7 @@
 
 import Foundation
 
+// enumeration for tracking days of week
 enum DaysOfWeek : String, Codable, CaseIterable, Identifiable {//Hashable, CaseIterable {
     var id: String { self.rawValue }
 
@@ -30,6 +31,7 @@ enum DaysOfWeek : String, Codable, CaseIterable, Identifiable {//Hashable, CaseI
         case Saturday
     }
     
+    // displayable text
     var str : String {
         switch self {
             case .Unassigned : return "Unassigned"
@@ -42,17 +44,4 @@ enum DaysOfWeek : String, Codable, CaseIterable, Identifiable {//Hashable, CaseI
             case .Saturday : return "Saturday"
         }
     }
-//    
-//    func hash(into hasher: inout Hasher) {
-//        switch self {
-//            case .Unassigned : hasher.combine(Unassigned.str)
-//            case .Sunday : return "Sunday"
-//            case .Monday : return "Monday"
-//            case .Tuesday : return "Tuesday"
-//            case .Wednesday : return "Wednesday"
-//            case .Thursday : return "Thursday"
-//            case .Friday : return "Friday"
-//            case .Saturday : return "Saturday"
-//        }
-//    }
 }

@@ -7,6 +7,7 @@
 
 import Foundation
 
+// full model to retrieve api data
 struct RecipeApiResponse : Codable {
     let from : Int?
     let to : Int?
@@ -16,7 +17,6 @@ struct RecipeApiResponse : Codable {
 }
 
 struct Links : Codable {
-//    let `self` : SubLinks
     let next : SubLinks?
 }
 

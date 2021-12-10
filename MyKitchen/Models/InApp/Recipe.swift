@@ -8,8 +8,9 @@
 import Foundation
 import SwiftUI
 
+// Model for recipes
 struct Recipe : Equatable, Identifiable {
-    
+    // received from api
     let id : String
     let name: String
     let imgUrl : String?
@@ -21,6 +22,7 @@ struct Recipe : Equatable, Identifiable {
     let cuisineType : [String]?
     let mealType : [String]?
     
+    // for uploaded recipes
     let recipeInstructions: String?
     var img : UIImage?
     

@@ -7,6 +7,7 @@
 
 import Foundation
 
+// enumeration for quantifying measuring units
 enum CustomUnit : String, CaseIterable, Identifiable {
     case tsp
     case Tbsp
@@ -24,6 +25,7 @@ enum CustomUnit : String, CaseIterable, Identifiable {
     case kg
     case unit
     
+    // displayable text
     var str : String {
         switch self {
             case .tsp : return "tsp"
@@ -44,6 +46,7 @@ enum CustomUnit : String, CaseIterable, Identifiable {
         }
     }
     
+    // corresponding unit for Measurement classes
     var mnt : Unit {
         switch self {
             case .tsp : return UnitVolume.teaspoons
@@ -64,6 +67,7 @@ enum CustomUnit : String, CaseIterable, Identifiable {
         }
     }
     
+    // coefficient for converting units
     var coefficient : Double {
         switch self {
             case .tsp : return 0.00492892
@@ -86,6 +90,7 @@ enum CustomUnit : String, CaseIterable, Identifiable {
     
     var id: String { self.rawValue }
     
+    // method to convert Measurement to CustomUnit
     static func dimensionToCustomUnit(unit: Unit) -> CustomUnit? {
         for u in CustomUnit.allCases {
             if (u.mnt == unit) {

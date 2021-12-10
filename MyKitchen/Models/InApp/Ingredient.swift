@@ -8,7 +8,9 @@
 import Foundation
 import SwiftUI
 
+// model for ingredients
 struct Ingredient: Identifiable, Equatable {
+    // received from api
     let id : String
     let text : String
     var quantity : Double
@@ -18,6 +20,7 @@ struct Ingredient: Identifiable, Equatable {
     let foodCategory: String?
     let imgUrl: String?
     
+    // used for grouping and measures
     var unit: CustomUnit?
     var type: IngType?
     var img: UIImage?
@@ -40,6 +43,7 @@ struct Ingredient: Identifiable, Equatable {
         }
     }
     
+    // takes api string and assigns type case
     func getType(category: String) -> IngType {
         let tmp = category.lowercased()
         if tmp == "meats" || tmp == "poultry" || tmp == "eggs" || tmp == "cured meats" {
@@ -57,6 +61,7 @@ struct Ingredient: Identifiable, Equatable {
         }
     }
     
+    // takes api string and assigns unit case for conversions
     func getUnits(unitStr: String?) -> CustomUnit {
         if (unitStr == nil) {
             return CustomUnit.unit
@@ -100,27 +105,6 @@ struct Ingredient: Identifiable, Equatable {
         return (lhs.id == rhs.id) && (lhs.quantity == rhs.quantity) && (lhs.unit == rhs.unit) && (lhs.qty == rhs.qty)
     }
 }
-
-
-//extension Ingredient {
-//    static var data: [Ingredient] {
-//        [
-//            Ingredient(name: "Milk", type: IngType.dairy, qty: Quantity(amt: 1, unit: Unit.gal), img: Image("milk")),
-//            Ingredient(name: "Cheese", type: IngType.dairy, qty: Quantity(amt: 16, unit: Unit.oz), img: Image("milk")),
-//            Ingredient(name: "Lettuce", type: IngType.fnv, qty: Quantity(amt: 1, unit: Unit.unit), img: Image("milk")),
-//            Ingredient(name: "Pasta", type: IngType.grains, qty: Quantity(amt: 8, unit: Unit.oz), img: Image("milk")),
-//            Ingredient(name: "Apple", type: IngType.fnv, qty: Quantity(amt: 2, unit: Unit.unit), img: Image("milk")),
-//            Ingredient(name: "Ground Beef", type: IngType.protein, qty: Quantity(amt: 2, unit: Unit.lb), img: Image("milk"))
-//        ]
-//
-//
-//    }
-//    static func getIngredient() -> [Ingredient] {
-//        return Ingredient.data
-//    }
-//
-//
-//}
 
 
 

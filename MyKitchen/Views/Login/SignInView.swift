@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// sign in page
 struct SignInView: View {
     @EnvironmentObject var fbInterface : FirebaseInterface
     @State var emailInput : String = ""
@@ -34,6 +35,7 @@ struct SignInView: View {
                         .frame(width: 300, height: 120)
                         .padding(.bottom, 150)
                     
+                    // email input
                     TextField("", text: $emailInput)
                         .placeholder(when: emailInput.isEmpty, placeholder: {
                             Text("Email")
@@ -45,6 +47,7 @@ struct SignInView: View {
                         .cornerRadius(10)
                         .foregroundColor(Color("MintCream"))
                     
+                    // password input
                     SecureField("", text: $passwordInput)
                         .placeholder(when: passwordInput.isEmpty, placeholder: {
                             Text("Password")
@@ -56,6 +59,7 @@ struct SignInView: View {
                         .cornerRadius(10)
                         .foregroundColor(Color("MintCream"))
                     
+                    // signin button
                     Button {
                         fbInterface.signIn(email: emailInput, password: passwordInput)
                     } label: {

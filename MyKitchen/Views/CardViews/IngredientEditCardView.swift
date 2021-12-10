@@ -35,7 +35,6 @@ struct IngredientEditCardView: View {
         } else {
             imageLoader = ImageLoader(urlString: url!)
         }
-//        print("Updating ingredient card named \(ingredient.food) qty \(ingredient.qty!)")
     }
     
     var body: some View {

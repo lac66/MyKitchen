@@ -50,7 +50,7 @@ struct Ingredient: Identifiable, Equatable {
             return IngType.dairy
         } else if tmp == "grains" || tmp == "bread, rolls and tortillas" {
             return IngType.grains
-        } else if tmp == "cocktails and liquors" || tmp == "liquors and cocktails" || tmp == "water" || tmp == "non-dairy beverages" || tmp == "wines" {
+        } else if tmp == "cocktails and liquors" || tmp == "liquors and cocktails" || tmp == "water" || tmp == "non-dairy beverages" || tmp == "wines" || tmp == "sweetened beverages" {
             return IngType.drink
         } else {
             return IngType.misc

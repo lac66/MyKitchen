@@ -15,7 +15,7 @@ struct AddRecipeIngredientCardView: View {
     @State var image: UIImage = UIImage()
     
     @State var selectedUnit : Int
-    @State var amtTextInput : String = ""
+    @State var amtTextInput : String = "0"
     @State var tmpSelectedUnit: Int
     
     @State var errCheck : Bool = false
@@ -120,6 +120,10 @@ struct AddRecipeIngredientCardView: View {
                         })
                         .onChange(of: amtTextInput) { newValue in
                             let amt = Double(amtTextInput)
+                            if amtTextInput.isEmpty {
+                                return
+                            }
+                            
                             if amt == nil {
                                 errMsg = "Quantity is not a number"
                                 errCheck = true
@@ -186,6 +190,10 @@ struct AddRecipeIngredientCardView: View {
                     
                     Button {
                         let tmpAmt = Double(amtTextInput)
+                        if amtTextInput.isEmpty {
+                            return
+                        }
+                        
                         if tmpAmt == nil {
                             errMsg = "Quantity is not a number"
                             errCheck = true

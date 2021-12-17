@@ -1,0 +1,21 @@
+Open Xcode
+
+Choose "Open a project or file"
+
+Navigate to the highest level MyKitchen folder (the one in this directory)
+
+Choose and open the folder
+
+When Xcode opens, choose the simulator you would like to use in the top left of the window (where it says MyKitchen > <chosen simulator>)
+
+Click the play button to the left of the simulator selection
+
+You should see the login button upon running. 
+
+You can choose to login under:
+	Email: lac66@gmail.com
+	Password: abc123
+
+Or you can create your own account.
+
+Note: If you see the Home page upon first running, hit the logout button in the top right corner.
